@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-view-mode="responsive">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Traxpens — Intelligent & Modular Expense Tracker (Web & Android)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traxpens Web — Intelligent & Modular Salary Tracker (₹ INR)</title>
   
-  <!-- Premium Fonts: Plus Jakarta Sans (UI) & JetBrains Mono (Numbers) - Strict Ban on Inter -->
+  <!-- Premium Typography: Plus Jakarta Sans for Interface, JetBrains Mono for Indian Rupee Financials -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     /* ==========================================================================
-       1. TOKENS & THEMING ENGINE (Zero Purple/Violet Gradients · Single Emerald)
+       1. DESIGN SYSTEM VARIABLES (Zero Purple/Violet · Single Emerald Teal)
        ========================================================================== */
     :root {
-      /* DARK THEME (OLED Obsidian / Deep Space) */
-      --bg-canvas: #090A0E;
-      --bg-surface: #11131A;
-      --bg-surface-elevated: #181B24;
-      --bg-subtle: #1E222D;
-      --bg-input: #0D0E13;
+      /* Dark Theme (Default OLED Slate / Obsidian) */
+      --bg-body: #07090D;
+      --bg-sidebar: #0C0E14;
+      --bg-surface: #12151E;
+      --bg-surface-elevated: #191D2A;
+      --bg-subtle: #212636;
+      --bg-input: #0D0F15;
 
       --border-hairline: rgba(255, 255, 255, 0.08);
       --border-bezel: rgba(255, 255, 255, 0.04);
@@ -29,7 +30,7 @@
       --text-primary: #F8FAFC;
       --text-secondary: #94A3B8;
       --text-tertiary: #64748B;
-      --text-inverse: #090A0E;
+      --text-inverse: #07090D;
 
       /* Single Calibrated Accent: Precision Emerald Teal */
       --accent-primary: #14B8A6;
@@ -38,7 +39,7 @@
       --accent-border: rgba(20, 184, 166, 0.35);
       --accent-contrast: #042F2E;
 
-      /* 50/30/20 Categories + Custom */
+      /* 50/30/20 Categories */
       --cat-needs: #3B82F6;       /* Needs 50% */
       --cat-wants: #F59E0B;       /* Wants 30% */
       --cat-savings: #10B981;     /* Savings 20% */
@@ -48,21 +49,19 @@
       --status-warning: #F59E0B;
       --status-critical: #EF4444;
 
-      --shadow-ambient: 0 16px 40px -12px rgba(0, 0, 0, 0.65);
-      --shadow-bezel: inset 0 1px 1px rgba(255, 255, 255, 0.07);
-      
-      --radius-bezel: 20px;
-      --radius-core: 15px;
+      --radius-bezel: 18px;
+      --radius-core: 13px;
       --radius-pill: 9999px;
 
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --spring: all 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      --spring: all 0.28s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     [data-theme="light"] {
-      /* LIGHT THEME (Architectural Mist & Clean Canvas) */
-      --bg-canvas: #F4F6F9;
+      /* Light Theme (Clean Architectural White & Mist) */
+      --bg-body: #F4F6F9;
+      --bg-sidebar: #FFFFFF;
       --bg-surface: #FFFFFF;
       --bg-surface-elevated: #F8FAFC;
       --bg-subtle: #E6EBF2;
@@ -87,20 +86,16 @@
       --cat-wants: #D97706;
       --cat-savings: #059669;
       --cat-custom: #0891B2;
-
-      --shadow-ambient: 0 14px 34px -8px rgba(15, 23, 42, 0.09);
-      --shadow-bezel: inset 0 1px 1px rgba(255, 255, 255, 0.9);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: var(--bg-canvas);
+      background-color: var(--bg-body);
       color: var(--text-primary);
       font-family: var(--font-sans);
       font-size: 14px;
@@ -118,325 +113,431 @@
     }
 
     /* ==========================================================================
-       2. TOP GLOBAL ENVIRONMENT SWITCHER BAR
-       Seamlessly switches between:
-       - Auto Responsive (Adapts to actual screen width)
-       - Web Desktop View (Expanded 12-col dashboard)
-       - Android Mobile View (Hardware mockup with thumb zone)
+       2. AUTH GATE SCREEN (EMAIL LOGIN & ACCOUNT ISOLATION)
        ========================================================================== */
-    .env-bar {
+    .auth-overlay-backdrop {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+      transition: var(--spring);
+    }
+
+    .auth-card-enclosure {
+      width: 100%;
+      max-width: 440px;
       background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .auth-brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .auth-logo-badge {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-primary);
+      color: var(--accent-contrast);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 16px rgba(20, 184, 166, 0.4);
+    }
+
+    .auth-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .auth-caption {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .auth-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .auth-text-field {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text-primary);
+      outline: none;
+      transition: var(--spring);
+    }
+    .auth-text-field:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .auth-submit-btn {
+      background: var(--accent-primary);
+      color: var(--accent-contrast);
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--spring);
+    }
+    .auth-submit-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .demo-accounts-tray {
+      background: var(--bg-input);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .demo-tag-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-pill-btn {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      text-align: left;
+      cursor: pointer;
+      transition: var(--spring);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-pill-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+    }
+
+    /* ==========================================================================
+       3. DESKTOP APPLICATION SHELL LAYOUT
+       ========================================================================== */
+    .app-root-shell {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* DESKTOP SIDEBAR */
+    .desktop-sidebar {
+      width: 250px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-hairline);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      flex-shrink: 0;
+    }
+
+    .nav-brand-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px 24px 8px;
       border-bottom: 1px solid var(--border-hairline);
-      padding: 10px 24px;
+    }
+
+    .nav-items-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 20px;
+    }
+
+    .nav-link-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--spring);
+    }
+    .nav-link-btn:hover {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+    .nav-link-btn.active {
+      background: var(--accent-dim);
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-border);
+    }
+
+    .sidebar-user-footer {
+      padding-top: 16px;
+      border-top: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .user-session-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .user-info-text {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .user-email-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+
+    .logout-btn-minimal {
+      background: transparent;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      transition: var(--spring);
+    }
+    .logout-btn-minimal:hover {
+      color: var(--status-critical);
+    }
+
+    /* MAIN DESKTOP STAGE */
+    .desktop-main-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--bg-body);
+    }
+
+    /* DESKTOP TOP BAR */
+    .desktop-top-header {
+      height: 68px;
+      background: var(--bg-sidebar);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 0 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 50;
     }
 
-    .brand-cluster {
+    .topbar-left-meta {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
-    .brand-mark-pill {
-      width: 32px;
-      height: 32px;
-      background: var(--accent-primary);
-      color: var(--accent-contrast);
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 14px;
-      letter-spacing: -0.04em;
-      box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3);
-    }
-
-    .brand-title {
-      font-size: 16px;
+    .page-title-label {
+      font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
 
-    .brand-badge {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-tertiary);
-      background: var(--bg-subtle);
-      padding: 3px 8px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--border-hairline);
-    }
-
-    .view-mode-selector {
-      display: flex;
-      background: var(--bg-subtle);
-      padding: 3px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--border-hairline);
-    }
-
-    .mode-tab-btn {
-      background: transparent;
-      border: none;
-      padding: 6px 14px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-sans);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
+    .payday-cycle-pill {
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: var(--spring);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-hairline);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-primary);
     }
 
-    .mode-tab-btn.active {
-      background: var(--bg-surface);
-      color: var(--text-primary);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-
-    .env-actions {
+    .topbar-right-controls {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .icon-btn-circle {
-      width: 34px;
-      height: 34px;
+    .quick-log-btn-desktop {
+      background: var(--accent-primary);
+      color: var(--accent-contrast);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 8px 16px 8px 20px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.35);
+      transition: var(--spring);
+    }
+    .quick-log-btn-desktop:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 8px 24px rgba(20, 184, 166, 0.45);
+    }
+
+    .btn-key-badge {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .theme-icon-btn {
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: var(--bg-subtle);
       border: 1px solid var(--border-hairline);
       color: var(--text-primary);
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       transition: var(--spring);
     }
-    .icon-btn-circle:hover {
-      background: var(--bg-surface-elevated);
+    .theme-icon-btn:hover {
       border-color: var(--border-hover);
     }
 
-    /* ==========================================================================
-       3. SEAMLESS WORKSPACE STAGE & MODES
-       ========================================================================== */
-    .stage-wrapper {
-      flex: 1;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 24px;
-      transition: var(--spring);
-    }
-
-    /* MODE: MOBILE VIEW SIMULATOR */
-    [data-view-mode="mobile"] .stage-wrapper {
-      padding: 24px 12px;
-    }
-
-    [data-view-mode="mobile"] .app-viewport-container {
-      width: 100%;
-      max-width: 416px;
-      height: 870px;
-      background: var(--bg-surface);
-      border: 8px solid #232733;
-      border-radius: 46px;
-      box-shadow: 0 28px 70px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+    /* SCROLLABLE DESKTOP CONTENT */
+    .desktop-content-area {
+      padding: 32px;
       display: flex;
       flex-direction: column;
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"][data-view-mode="mobile"] .app-viewport-container {
-      border-color: #D6DAE2;
-      box-shadow: 0 25px 60px -12px rgba(15,23,42,0.18), 0 0 0 1px rgba(0,0,0,0.05);
-    }
-
-    /* ANDROID STATUS BAR (Mobile Only) */
-    .android-status-bar {
-      height: 38px;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      user-select: none;
-      z-index: 20;
-    }
-
-    .camera-cutout {
-      width: 11px;
-      height: 11px;
-      background: #000;
-      border-radius: 50%;
-    }
-
-    /* MODE: WEB VIEW DESKTOP CONTAINER */
-    [data-view-mode="web"] .app-viewport-container,
-    [data-view-mode="responsive"] .app-viewport-container {
+      gap: 24px;
+      max-width: 1440px;
       width: 100%;
-      max-width: 1380px;
-      min-height: 860px;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      border-radius: 0;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    [data-view-mode="web"] .android-status-bar,
-    [data-view-mode="responsive"] .android-status-bar {
-      display: none !important;
-    }
-
-    /* SCROLLABLE INNER APP REGION */
-    .app-scroll-body {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    [data-view-mode="web"] .app-scroll-body,
-    [data-view-mode="responsive"] .app-scroll-body {
-      padding: 0;
-      overflow-y: visible;
+      margin: 0 auto;
     }
 
     /* ==========================================================================
        4. DOUBLE-BEZEL (DOPPELRAND) HARDWARE CARDS
-       Machined hardware look: Outer tray + inner core plate + hairline highlight
        ========================================================================== */
     .bezel-tray {
       background: var(--bg-subtle);
       border: 1px solid var(--border-bezel);
       padding: 6px;
       border-radius: var(--radius-bezel);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
       transition: var(--spring);
     }
 
     .bezel-core {
       background: var(--bg-surface);
       border-radius: var(--radius-core);
-      padding: 20px;
+      padding: 22px;
       border: 1px solid var(--border-hairline);
-      box-shadow: var(--shadow-bezel);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
     /* ==========================================================================
-       5. WEB DESKTOP TOP BAR & APP NAVIGATION
+       5. 12-COLUMN ASYMMETRIC BENTO GRID
        ========================================================================== */
-    .web-header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-hairline);
-    }
-
-    .user-profile-badge {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .user-avatar-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border-hairline);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--accent-primary);
-      font-size: 15px;
-    }
-
-    .user-heading-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .user-cycle-caption {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .cycle-badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-hairline);
-      padding: 6px 14px;
-      border-radius: var(--radius-pill);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent-primary);
-    }
-
-    /* ==========================================================================
-       6. ASYMMETRIC BENTO GRID ARCHITECTURE (WEB & MOBILE)
-       On Web: Multi-column bento
-       On Mobile: Strict 1-column stack (<768px)
-       ========================================================================== */
-    .bento-master-grid {
+    .web-bento-grid {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
-      gap: 20px;
+      gap: 24px;
       width: 100%;
     }
 
-    [data-view-mode="mobile"] .bento-master-grid {
-      grid-template-columns: 1fr !important;
-      gap: 16px;
-    }
-
-    @media (max-width: 980px) {
-      .bento-master-grid {
+    @media (max-width: 1100px) {
+      .web-bento-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    .bento-col {
+    .bento-column {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
 
     /* ==========================================================================
-       7. SALARY HERO & DYNAMIC DAILY CAP ENGINE
+       6. SALARY HERO & DYNAMIC DAILY CAP (RUPEES ₹ ENGINE)
        ========================================================================== */
-    .salary-kpi-pair {
+    .salary-kpi-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 20px;
     }
 
     .kpi-cell {
@@ -445,7 +546,7 @@
       gap: 4px;
     }
 
-    .kpi-eyebrow {
+    .kpi-label {
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -453,67 +554,73 @@
       font-weight: 700;
     }
 
-    .kpi-big-number {
-      font-size: 30px;
+    .kpi-number-huge {
+      font-size: 32px;
       font-weight: 700;
       letter-spacing: -0.03em;
       display: flex;
       align-items: baseline;
-      gap: 3px;
+      gap: 4px;
     }
 
-    .kpi-tag-status {
+    .currency-symbol {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+    }
+
+    .kpi-badge-pill {
       font-size: 11px;
       font-weight: 600;
-      padding: 3px 8px;
+      padding: 3px 10px;
       border-radius: var(--radius-pill);
       width: fit-content;
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
-    .status-emerald {
+    .badge-safe {
       background: var(--accent-dim);
       color: var(--accent-primary);
       border: 1px solid var(--accent-border);
     }
 
-    /* DYNAMIC DAILY CAP GAUGE CARD */
-    .daily-cap-machined-box {
+    /* DYNAMIC DAILY CAP GAUGE BOX */
+    .daily-cap-card {
       background: var(--bg-input);
       border: 1px solid var(--border-hairline);
       border-radius: 14px;
-      padding: 16px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    .cap-box-top {
+    .cap-top-strip {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .cap-mode-select {
+    .period-dropdown {
       background: var(--bg-surface);
       border: 1px solid var(--border-hairline);
       color: var(--text-secondary);
       font-family: var(--font-sans);
       font-size: 12px;
       font-weight: 600;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 8px;
       outline: none;
       cursor: pointer;
       transition: var(--spring);
     }
-    .cap-mode-select:focus {
+    .period-dropdown:focus {
       border-color: var(--accent-primary);
     }
 
-    .cap-progress-container {
+    .cap-bar-track {
       width: 100%;
       height: 10px;
       background: var(--bg-subtle);
@@ -522,14 +629,14 @@
       position: relative;
     }
 
-    .cap-progress-fill {
+    .cap-bar-fill {
       height: 100%;
       background: var(--accent-primary);
       border-radius: var(--radius-pill);
-      transition: width 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+      transition: width 0.4s ease;
     }
 
-    .cap-metrics-substrip {
+    .cap-metrics-row {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
@@ -537,15 +644,15 @@
     }
 
     /* ==========================================================================
-       8. MODULAR 50/30/20 & CUSTOM CATEGORIES ENGINE
+       7. 50/30/20 MODULAR ALLOCATOR & CUSTOM CATEGORIES (RUPEES)
        ========================================================================== */
-    .card-title-row {
+    .card-heading-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .card-title-text {
+    .card-title {
       font-size: 15px;
       font-weight: 700;
       letter-spacing: -0.01em;
@@ -554,20 +661,17 @@
       gap: 8px;
     }
 
-    .btn-action-text {
-      background: none;
+    .link-action-btn {
+      background: transparent;
       border: none;
       color: var(--accent-primary);
       font-size: 12px;
       font-weight: 600;
       font-family: var(--font-sans);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
-    .ratio-composite-bar {
+    .composite-split-bar {
       display: flex;
       height: 12px;
       border-radius: var(--radius-pill);
@@ -576,7 +680,7 @@
       background: var(--bg-subtle);
     }
 
-    .ratio-slice {
+    .split-slice {
       height: 100%;
       transition: width 0.35s ease;
     }
@@ -586,66 +690,66 @@
     .slice-savings { background: var(--cat-savings); }
     .slice-custom { background: var(--cat-custom); }
 
-    .category-rows-stack {
+    .category-cards-stack {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .category-row-item {
+    .category-item-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 14px;
+      padding: 12px 16px;
       background: var(--bg-input);
       border: 1px solid var(--border-hairline);
       border-radius: 12px;
       transition: var(--spring);
     }
-    .category-row-item:hover {
+    .category-item-card:hover {
       border-color: var(--border-hover);
     }
 
-    .cat-item-left {
+    .cat-left-info {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .cat-color-dot {
+    .cat-color-chip {
       width: 12px;
       height: 12px;
       border-radius: 4px;
     }
 
-    .cat-item-name {
+    .cat-title-text {
       font-weight: 600;
       font-size: 13px;
     }
 
-    .cat-item-desc {
+    .cat-subtitle {
       font-size: 11px;
       color: var(--text-tertiary);
     }
 
-    .cat-item-right {
+    .cat-numbers-right {
       text-align: right;
     }
 
-    .cat-item-budget {
+    .cat-budget-rupees {
       font-size: 14px;
       font-weight: 700;
     }
 
-    .cat-item-spent {
+    .cat-spent-ratio {
       font-size: 11px;
       color: var(--text-secondary);
     }
 
-    /* CUSTOM CATEGORY CREATOR PANEL */
-    .custom-cat-form-tray {
+    /* SALARY & RATIO SLIDERS (EXPANDABLE) */
+    .slider-tuner-panel {
       background: var(--bg-surface-elevated);
-      border: 1px dashed var(--border-hover);
+      border: 1px solid var(--border-hairline);
       border-radius: 14px;
       padding: 16px;
       display: flex;
@@ -653,117 +757,111 @@
       gap: 12px;
     }
 
-    .form-grid-duo {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .range-control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .range-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .range-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 4px;
+      background: var(--bg-subtle);
+      outline: none;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      cursor: pointer;
+      border: 2px solid var(--accent-primary);
     }
 
     /* ==========================================================================
-       9. INTELLIGENT INSIGHTS & MACROECONOMIC GUIDES
+       8. TRANSACTION LEDGER TABLE (RUPEES ₹ DATA)
        ========================================================================== */
-    .insight-cards-stack {
+    .ledger-controls-row {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
     }
 
-    .insight-card-unit {
-      background: var(--bg-input);
-      border: 1px solid var(--border-hairline);
-      border-left: 3px solid var(--accent-primary);
-      border-radius: 12px;
-      padding: 14px 16px;
+    .filter-pills-cluster {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: var(--spring);
-    }
-    .insight-card-unit:hover {
-      border-color: var(--border-hover);
-      border-left-color: var(--accent-primary);
-    }
-
-    .insight-meta-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent-primary);
-    }
-
-    .insight-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .insight-desc {
-      font-size: 12px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* ==========================================================================
-       10. FULL TRANSACTION LEDGER & EXPENSE HISTORY
-       ========================================================================== */
-    .tx-filter-bar {
-      display: flex;
-      align-items: center;
       gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
     }
 
-    .filter-pill {
+    .filter-btn {
       background: var(--bg-input);
       border: 1px solid var(--border-hairline);
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: var(--radius-pill);
       font-size: 11px;
       font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
-      white-space: nowrap;
       transition: var(--spring);
     }
-    .filter-pill.active {
+    .filter-btn.active {
       background: var(--bg-surface-elevated);
       color: var(--text-primary);
       border-color: var(--accent-primary);
     }
 
-    .tx-table-container {
+    .ledger-table-wrap {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    .tx-row-item {
-      display: flex;
+    .ledger-table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+    }
+
+    .ledger-row-card {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
       align-items: center;
-      justify-content: space-between;
-      padding: 12px 14px;
+      padding: 14px 16px;
       background: var(--bg-input);
       border: 1px solid var(--border-hairline);
       border-radius: 12px;
       transition: var(--spring);
     }
-    .tx-row-item:hover {
+    .ledger-row-card:hover {
       border-color: var(--border-hover);
       transform: translateY(-1px);
     }
 
-    .tx-item-left {
+    .tx-primary-cell {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .tx-icon-box {
+    .tx-icon-tray {
       width: 36px;
       height: 36px;
       border-radius: 10px;
@@ -774,122 +872,57 @@
       color: var(--text-primary);
     }
 
-    .tx-name-text {
-      font-size: 13px;
-      font-weight: 600;
+    /* ==========================================================================
+       9. MACROECONOMIC GUIDES (INDIAN ECONOMY OCT 2026)
+       ========================================================================== */
+    .guides-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .tx-sub-info {
-      font-size: 11px;
-      color: var(--text-tertiary);
+    .guide-card-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border-hairline);
+      border-left: 3px solid var(--accent-primary);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: var(--spring);
+    }
+    .guide-card-item:hover {
+      border-color: var(--border-hover);
+      border-left-color: var(--accent-primary);
     }
 
-    .tx-amount-mono {
+    .guide-eyebrow {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-primary);
+    }
+
+    .guide-headline {
       font-size: 14px;
       font-weight: 700;
       color: var(--text-primary);
     }
 
-    /* ==========================================================================
-       11. PERSISTENT QUICK-LOG BUTTON (BUTTON-IN-BUTTON PATTERN)
-       ========================================================================== */
-    .floating-log-action {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--accent-primary);
-      color: var(--accent-contrast);
-      border: none;
-      border-radius: var(--radius-pill);
-      padding: 12px 16px 12px 22px;
-      font-size: 13px;
-      font-weight: 700;
-      font-family: var(--font-sans);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 10px 30px rgba(20, 184, 166, 0.4);
-      transition: var(--spring);
-      z-index: 90;
-    }
-
-    [data-view-mode="mobile"] .floating-log-action {
-      position: absolute;
-      bottom: 74px;
-      right: 50%;
-      transform: translateX(50%);
-    }
-
-    .floating-log-action:hover {
-      background: var(--accent-hover);
-      box-shadow: 0 14px 34px rgba(20, 184, 166, 0.5);
-    }
-
-    .button-inner-capsule {
-      width: 28px;
-      height: 28px;
-      background: rgba(0, 0, 0, 0.15);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: 800;
-      transition: transform 0.25s ease;
-    }
-
-    [data-theme="light"] .button-inner-capsule {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .floating-log-action:hover .button-inner-capsule {
-      transform: rotate(90deg);
+    .guide-body-copy {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
 
     /* ==========================================================================
-       12. ANDROID BOTTOM NAVIGATION BAR (Mobile Mode Only)
+       10. QUICK LOG EXPENSE MODAL (DESKTOP)
        ========================================================================== */
-    .android-bottom-dock {
-      height: 64px;
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-hairline);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: 0 8px;
-      z-index: 20;
-    }
-
-    [data-view-mode="web"] .android-bottom-dock,
-    [data-view-mode="responsive"] .android-bottom-dock {
-      display: none !important;
-    }
-
-    .dock-tab-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      background: none;
-      border: none;
-      color: var(--text-tertiary);
-      font-size: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 8px;
-      transition: var(--spring);
-    }
-
-    .dock-tab-btn.active {
-      color: var(--accent-primary);
-    }
-
-    /* ==========================================================================
-       13. 2-TAP QUICK EXPENSE MODAL & BOTTOM SHEET
-       ========================================================================== */
-    .modal-backdrop {
+    .modal-curtain {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.7);
@@ -897,58 +930,43 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 200;
+      z-index: 500;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.22s ease;
+      transition: opacity 0.2s ease;
     }
 
-    .modal-backdrop.active {
+    .modal-curtain.active {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .quick-sheet-panel {
+    .desktop-log-dialog {
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       background: var(--bg-surface);
       border: 1px solid var(--border-hairline);
       border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      padding: 28px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      transform: translateY(20px) scale(0.97);
+      gap: 20px;
+      transform: translateY(15px) scale(0.98);
       transition: var(--spring);
     }
 
-    .modal-backdrop.active .quick-sheet-panel {
+    .modal-curtain.active .desktop-log-dialog {
       transform: translateY(0) scale(1);
     }
 
-    [data-view-mode="mobile"] .modal-backdrop {
-      position: absolute;
-      align-items: flex-end;
-    }
-
-    [data-view-mode="mobile"] .quick-sheet-panel {
-      max-width: 100%;
-      border-radius: 28px 28px 0 0;
-      transform: translateY(100%);
-    }
-
-    [data-view-mode="mobile"] .modal-backdrop.active .quick-sheet-panel {
-      transform: translateY(0);
-    }
-
-    .sheet-title-row {
+    .dialog-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .amount-display-hero {
+    .rupee-input-hero {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -956,50 +974,55 @@
       padding: 10px 0;
     }
 
-    .hero-num-input {
+    .big-rupee-symbol {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+    }
+
+    .big-num-field {
       background: transparent;
       border: none;
       color: var(--text-primary);
-      font-size: 42px;
+      font-size: 44px;
       font-weight: 700;
       font-family: var(--font-mono);
-      width: 190px;
-      text-align: left;
+      width: 240px;
       outline: none;
     }
 
-    .form-field-group {
+    .form-group-unit {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
-    .clean-input {
+    .form-text-input {
       background: var(--bg-input);
       border: 1px solid var(--border-hairline);
       border-radius: 10px;
-      padding: 11px 14px;
+      padding: 12px 14px;
       font-family: var(--font-sans);
       font-size: 14px;
       color: var(--text-primary);
       outline: none;
       transition: var(--spring);
     }
-    .clean-input:focus {
+    .form-text-input:focus {
       border-color: var(--accent-primary);
     }
 
-    .preset-chip-list {
+    .quick-preset-chips {
       display: flex;
       gap: 6px;
       overflow-x: auto;
       padding-bottom: 2px;
     }
 
-    .preset-chip {
+    .preset-chip-btn {
       background: var(--bg-subtle);
       border: 1px solid var(--border-hairline);
-      padding: 5px 11px;
+      padding: 5px 12px;
       border-radius: var(--radius-pill);
       font-size: 11px;
       font-weight: 600;
@@ -1008,18 +1031,18 @@
       white-space: nowrap;
       transition: var(--spring);
     }
-    .preset-chip:hover {
-      background: var(--bg-surface-elevated);
+    .preset-chip-btn:hover {
       color: var(--text-primary);
+      border-color: var(--accent-primary);
     }
 
-    .cat-selector-grid {
+    .category-pick-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
     }
 
-    .cat-pick-pill {
+    .cat-btn-pill {
       background: var(--bg-input);
       border: 1px solid var(--border-hairline);
       border-radius: 10px;
@@ -1034,22 +1057,21 @@
       cursor: pointer;
       transition: var(--spring);
     }
-
-    .cat-pick-pill.selected {
+    .cat-btn-pill.selected {
       background: var(--accent-dim);
       border-color: var(--accent-primary);
       color: var(--accent-primary);
     }
 
-    .primary-action-btn {
+    .submit-record-btn {
       background: var(--accent-primary);
       color: var(--accent-contrast);
       border: none;
       border-radius: 12px;
       padding: 14px;
+      font-family: var(--font-sans);
       font-size: 14px;
       font-weight: 700;
-      font-family: var(--font-sans);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1057,7 +1079,7 @@
       gap: 8px;
       transition: var(--spring);
     }
-    .primary-action-btn:hover {
+    .submit-record-btn:hover {
       background: var(--accent-hover);
     }
 
@@ -1068,308 +1090,379 @@
 <body>
 
   <!-- ==========================================================================
-       ENVIRONMENT TOP BAR (SEAMLESS MULTI-PLATFORM TOGGLE)
+       EMAIL AUTHENTICATION GATE (Connected Data Isolation)
        ========================================================================== -->
-  <header class="env-bar">
-    <div class="brand-cluster">
-      <div class="brand-mark-pill">TX</div>
-      <div>
-        <span class="brand-title">Traxpens</span>
-        <span class="brand-badge">Modular Salary Tracker</span>
+  <div class="auth-overlay-backdrop" id="authGateOverlay">
+    <div class="auth-card-enclosure">
+      <div class="auth-brand-row">
+        <div class="auth-logo-badge">TX</div>
+        <div>
+          <div class="auth-title">Traxpens Web</div>
+          <div class="auth-caption">Secure, Email-Connected Financial Ledger</div>
+        </div>
+      </div>
+
+      <div style="font-size:13px; color:var(--text-secondary); line-height:1.5;">
+        Your expenses, monthly salary allocations, and custom categories are encrypted and isolated per email address. Sign in to view your ledger.
+      </div>
+
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="auth-input-group">
+          <label class="auth-label">Email Address</label>
+          <input type="email" class="auth-text-field" id="authEmailInput" placeholder="name@company.com or personal email" required autofocus>
+        </div>
+
+        <div class="auth-input-group" style="margin-top: 12px;">
+          <label class="auth-label">Password</label>
+          <input type="password" class="auth-text-field" id="authPasswordInput" placeholder="Minimum 6 characters" minlength="6" required>
+        </div>
+
+        <div id="authErrorMessage" class="hidden" style="margin-top: 10px; padding: 10px 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid var(--status-critical); border-radius: 10px; color: var(--status-critical); font-size: 12px;">
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="authSubmitBtn" style="margin-top: 18px; width: 100%;">
+          <span id="authBtnText">Sign In / Register</span>
+          <span class="font-mono">→</span>
+        </button>
+      </form>
+
+      <div style="font-size:12px; text-align:center; color:var(--text-secondary);">
+        <span id="authModeNotice">New to Traxpens? Just enter your email & password — your account is created automatically!</span>
+      </div>
+
+      <div style="font-size:11px; text-align:center; color:var(--text-tertiary);">
+        *Connected to live Firebase Auth & Cloud Firestore. Your financial data is securely linked to your account.
       </div>
     </div>
-
-    <!-- Mode Selector: Auto Responsive · Web Desktop · Android Mobile -->
-    <div class="view-mode-selector">
-      <button id="tabModeResponsive" class="mode-tab-btn active" onclick="switchViewMode('responsive')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        Auto Responsive
-      </button>
-      <button id="tabModeWeb" class="mode-tab-btn" onclick="switchViewMode('web')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-        Web Desktop
-      </button>
-      <button id="tabModeMobile" class="mode-tab-btn" onclick="switchViewMode('mobile')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-        Android Mobile
-      </button>
-    </div>
-
-    <!-- Theme & Quick Actions -->
-    <div class="env-actions">
-      <button class="icon-btn-circle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
-        <svg id="themeIconDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        <svg id="themeIconLight" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-      </button>
-    </div>
-  </header>
+  </div>
 
   <!-- ==========================================================================
-       MAIN APP STAGE (SEAMLESS RUNTIME)
+       DESKTOP APPLICATION SHELL
        ========================================================================== -->
-  <main class="stage-wrapper">
+  <div class="app-root-shell" id="appMainShell">
     
-    <div class="app-viewport-container" id="appViewportContainer">
-      
-      <!-- ANDROID STATUS BAR (Visible only in Android Mobile view) -->
-      <div class="android-status-bar">
-        <span class="font-mono">10:42</span>
-        <div class="camera-cutout"></div>
-        <div style="display:flex; gap:6px; align-items:center;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9z"/></svg>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.24 4.24 0 0 0-6 0zm-4-4l2 2a7.07 7.07 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-          <span class="font-mono" style="font-size:10px;">96%</span>
+    <!-- DESKTOP PERSISTENT SIDEBAR -->
+    <aside class="desktop-sidebar">
+      <div>
+        <div class="nav-brand-strip">
+          <div class="auth-logo-badge" style="width:32px; height:32px; font-size:14px;">TX</div>
+          <div>
+            <div style="font-weight:700; font-size:15px; letter-spacing:-0.02em;">Traxpens</div>
+            <div style="font-size:11px; color:var(--text-tertiary);">Web Edition (₹ INR)</div>
+          </div>
         </div>
+
+        <nav class="nav-items-menu">
+          <button class="nav-link-btn active" onclick="navigateTab('dashboard')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Overview</span>
+          </button>
+          <button class="nav-link-btn" onclick="toggleSalaryTuner()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
+            <span>50/30/20 Allocator</span>
+          </button>
+          <button class="nav-link-btn" onclick="openQuickLogModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            <span>Log Expense</span>
+          </button>
+          <button class="nav-link-btn" onclick="scrollToSection('guidesSection')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <span>Economic Intelligence</span>
+          </button>
+        </nav>
       </div>
 
-      <!-- INNER APP SCROLL CONTAINER -->
-      <div class="app-scroll-body">
-        
-        <!-- WEB / APP TOP STATUS HEADER -->
-        <div class="web-header-row">
-          <div class="user-profile-badge">
-            <div class="user-avatar-circle">TX</div>
-            <div>
-              <div class="user-heading-title">Alex Mercer's Financial Ledger</div>
-              <div class="user-cycle-caption">October 2026 Paycheck Cycle · Day 12 of 30</div>
-            </div>
+      <!-- ACTIVE USER EMAIL & LOGOUT -->
+      <div class="sidebar-user-footer">
+        <div class="user-session-card">
+          <div class="user-info-text">
+            <span style="font-size:10px; font-weight:700; text-transform:uppercase; color:var(--text-tertiary);">Logged in as:</span>
+            <span class="user-email-label" id="sidebarEmailDisplay">user@example.com</span>
           </div>
+          <button class="logout-btn-minimal" onclick="handleLogout()" title="Log Out & Switch Email">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
 
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="cycle-badge-pill">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              <span>18 Days Until Next Paycheck</span>
-            </div>
+        <div style="font-size:10px; color:var(--text-tertiary); text-align:center;">
+          Encrypted Session · Local Sandbox
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DESKTOP STAGE -->
+    <main class="desktop-main-viewport">
+      
+      <!-- DESKTOP TOP HEADER -->
+      <header class="desktop-top-header">
+        <div class="topbar-left-meta">
+          <div class="page-title-label">Monthly Financial Command</div>
+          <div class="payday-cycle-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>October Cycle: Day 12 of 30 · 18 Days Left</span>
           </div>
         </div>
 
+        <div class="topbar-right-controls">
+          <!-- Desktop Quick Log Button (Button-in-Button Pattern) -->
+          <button class="quick-log-btn-desktop" onclick="openQuickLogModal()">
+            <span>Record Expense</span>
+            <span class="btn-key-badge">N</span>
+          </button>
+
+          <!-- Theme Switcher -->
+          <button class="theme-icon-btn" onclick="toggleTheme()" title="Toggle Theme">
+            <svg id="themeIconDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg id="themeIconLight" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- DESKTOP SCROLL BODY -->
+      <div class="desktop-content-area">
+        
         <!-- ASYMMETRIC BENTO GRID -->
-        <div class="bento-master-grid">
+        <div class="web-bento-grid">
           
-          <!-- COLUMN 1: SALARY HERO, DYNAMIC DAILY CAP, AND TRANSACTIONS -->
-          <div class="bento-col">
+          <!-- COLUMN 1: SALARY HERO, DYNAMIC DAILY CAP & EXPENSE LEDGER -->
+          <div class="bento-column">
             
-            <!-- DOUBLE-BEZEL CARD: SALARY & SAFE POOL OVERVIEW -->
+            <!-- DOUBLE-BEZEL CARD: SALARY HERO & DAILY CAP ENGINE (RUPEES) -->
             <div class="bezel-tray">
               <div class="bezel-core">
-                <div class="salary-kpi-pair">
+                
+                <div class="salary-kpi-row">
                   <div class="kpi-cell">
-                    <span class="kpi-eyebrow">Monthly Net Salary</span>
-                    <div class="kpi-big-number font-mono">
-                      <span style="font-size:20px; color:var(--text-tertiary);">$</span>
-                      <span id="salaryNumDisplay">5,000</span>
+                    <span class="kpi-label">Monthly Salary (Net)</span>
+                    <div class="kpi-number-huge font-mono">
+                      <span class="currency-symbol">₹</span>
+                      <span id="salaryDisplayVal">75,000</span>
                     </div>
-                    <span class="kpi-tag-status status-emerald">Cycle Anchor: 1st</span>
+                    <span class="kpi-badge-pill badge-safe">Cycle: 1st - 30th</span>
                   </div>
 
                   <div class="kpi-cell">
-                    <span class="kpi-eyebrow">Remaining Safe Pool</span>
-                    <div class="kpi-big-number font-mono" style="color:var(--accent-primary);">
-                      <span style="font-size:20px; color:var(--text-tertiary);">$</span>
-                      <span id="safePoolDisplay">2,110</span>
+                    <span class="kpi-label">Remaining Safe Pool</span>
+                    <div class="kpi-number-huge font-mono" style="color:var(--accent-primary);">
+                      <span class="currency-symbol">₹</span>
+                      <span id="safePoolDisplayVal">34,250</span>
                     </div>
-                    <span class="kpi-tag-status status-emerald font-mono">Burn Rate: -4% (Favorable)</span>
+                    <span class="kpi-badge-pill badge-safe font-mono">Pace: +12% Healthy</span>
                   </div>
                 </div>
 
                 <!-- DYNAMIC DAILY SPENDING CAP ENGINE -->
-                <div class="daily-cap-machined-box">
-                  <div class="cap-box-top">
+                <div class="daily-cap-card">
+                  <div class="cap-top-strip">
                     <div>
-                      <span class="kpi-eyebrow">Dynamic Daily Spending Cap</span>
+                      <span class="kpi-label">Dynamic Daily Spending Cap</span>
                       <div style="display:flex; align-items:baseline; gap:6px; margin-top:2px;">
-                        <span class="font-mono" style="font-size:22px; font-weight:700;" id="dailyCapValue">$58.60</span>
-                        <span style="font-size:11px; color:var(--text-secondary);" id="capContextLabel">Today's Safe Limit</span>
+                        <span class="font-mono" style="font-size:24px; font-weight:700;" id="dailyCapDisplayVal">₹850.00</span>
+                        <span style="font-size:11px; color:var(--text-secondary);" id="capSubtextLabel">Safe Allowance</span>
                       </div>
                     </div>
 
-                    <!-- Time-Period Modifier -->
-                    <select class="cap-mode-select" id="capModeSelector" onchange="handleCapPeriodChange()">
+                    <!-- Custom Time Period Modifier -->
+                    <select class="period-dropdown" id="capPeriodSelect" onchange="updateCapPeriod()">
                       <option value="today">Standard (Today)</option>
                       <option value="weekend">Weekend Surge (1.5x)</option>
-                      <option value="rolling7">7-Day Smoothing</option>
-                      <option value="vacation3">3-Day Vacation Window</option>
+                      <option value="rolling7">7-Day Rolling Baseline</option>
+                      <option value="trip3">3-Day Vacation Window</option>
                     </select>
                   </div>
 
                   <!-- Visual Progress Meter -->
-                  <div class="cap-progress-container">
-                    <div class="cap-progress-fill" id="capProgressFill" style="width: 38%;"></div>
+                  <div class="cap-bar-track">
+                    <div class="cap-bar-fill" id="capBarFill" style="width: 32%;"></div>
                   </div>
 
-                  <div class="cap-metrics-substrip font-mono">
-                    <span>Spent Today: <strong id="spentTodayText">$22.40</strong></span>
-                    <span>Remaining Today: <strong style="color:var(--status-safe);" id="leftTodayText">$36.20</strong></span>
+                  <div class="cap-metrics-row font-mono">
+                    <span>Spent Today: <strong id="spentTodayDisplayVal">₹270.00</strong></span>
+                    <span>Left Today: <strong style="color:var(--status-safe);" id="leftTodayDisplayVal">₹580.00</strong></span>
                   </div>
                 </div>
+
               </div>
             </div>
 
-            <!-- DOUBLE-BEZEL CARD: RECENT TRANSACTION LEDGER & FILTER -->
+            <!-- DOUBLE-BEZEL CARD: FULL TRANSACTION LEDGER TABLE -->
             <div class="bezel-tray">
               <div class="bezel-core">
-                <div class="card-title-row">
-                  <div class="card-title-text">
+                <div class="ledger-controls-row">
+                  <div class="card-title">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                    <span>Expense Activity</span>
+                    <span>Transaction Ledger</span>
                   </div>
-                  <span class="font-mono" style="font-size:11px; color:var(--text-tertiary);" id="txCounterLabel">5 logged in cycle</span>
+
+                  <!-- Category Filter Pills -->
+                  <div class="filter-pills-cluster">
+                    <button class="filter-btn active" onclick="setLedgerFilter('all', this)">All</button>
+                    <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Needs (50%)</button>
+                    <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Wants (30%)</button>
+                    <button class="filter-btn" onclick="setLedgerFilter('savings', this)">Savings (20%)</button>
+                  </div>
                 </div>
 
-                <!-- Filter Chips -->
-                <div class="tx-filter-bar">
-                  <button class="filter-pill active" onclick="filterTransactions('all', this)">All</button>
-                  <button class="filter-pill" onclick="filterTransactions('needs', this)">Needs (50%)</button>
-                  <button class="filter-pill" onclick="filterTransactions('wants', this)">Wants (30%)</button>
-                  <button class="filter-pill" onclick="filterTransactions('savings', this)">Savings (20%)</button>
-                  <button class="filter-pill" onclick="filterTransactions('custom', this)">Custom</button>
-                </div>
-
-                <!-- Ledger Items -->
-                <div class="tx-table-container" id="txTableList">
-                  <!-- Injected via JavaScript -->
+                <!-- Ledger Rows -->
+                <div class="ledger-table-wrap" id="ledgerRowsContainer">
+                  <!-- Dynamically populated via JS -->
                 </div>
               </div>
             </div>
 
           </div>
 
-          <!-- COLUMN 2: MODULAR 50/30/20 ALLOCATOR & ECONOMIC GUIDES -->
-          <div class="bento-col">
+          <!-- COLUMN 2: MODULAR 50/30/20 ALLOCATOR & INDIAN MACROECONOMIC GUIDES -->
+          <div class="bento-column">
             
             <!-- DOUBLE-BEZEL CARD: MODULAR 50/30/20 & CUSTOM BUCKETS -->
             <div class="bezel-tray">
               <div class="bezel-core">
-                <div class="card-title-row">
-                  <div class="card-title-text">
+                <div class="card-heading-row">
+                  <div class="card-title">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                    <span>Salary Allocation</span>
+                    <span>Modular Salary Split</span>
                   </div>
-                  <button class="btn-action-text" onclick="toggleCustomCatCreator()">
-                    <span id="creatorToggleLabel">+ Add Custom Category</span>
+                  <button class="link-action-btn" onclick="toggleSalaryTuner()">
+                    <span id="tunerToggleText">Customize Proportions</span>
                   </button>
                 </div>
 
-                <!-- Composite Allocation Bar -->
-                <div class="ratio-composite-bar">
-                  <div class="ratio-slice slice-needs" id="sliceNeeds" style="width: 50%;" title="Needs (50%)"></div>
-                  <div class="ratio-slice slice-wants" id="sliceWants" style="width: 30%;" title="Wants (30%)"></div>
-                  <div class="ratio-slice slice-savings" id="sliceSavings" style="width: 20%;" title="Savings (20%)"></div>
-                  <div class="ratio-slice slice-custom hidden" id="sliceCustom" style="width: 0%;" title="Custom Category"></div>
+                <!-- Multi-Slice Allocation Bar -->
+                <div class="composite-split-bar">
+                  <div class="split-slice slice-needs" id="sliceNeedsBar" style="width: 50%;" title="Needs 50%"></div>
+                  <div class="split-slice slice-wants" id="sliceWantsBar" style="width: 30%;" title="Wants 30%"></div>
+                  <div class="split-slice slice-savings" id="sliceSavingsBar" style="width: 20%;" title="Savings 20%"></div>
                 </div>
 
-                <!-- Stack of Category Buckets -->
-                <div class="category-rows-stack" id="categoryRowsStack">
+                <!-- Category Stack -->
+                <div class="category-cards-stack" id="categoryCardsStack">
                   
-                  <!-- NEEDS (50%) -->
-                  <div class="category-row-item">
-                    <div class="cat-item-left">
-                      <div class="cat-color-dot" style="background:var(--cat-needs);"></div>
+                  <!-- NEEDS 50% -->
+                  <div class="category-item-card">
+                    <div class="cat-left-info">
+                      <div class="cat-color-chip" style="background:var(--cat-needs);"></div>
                       <div>
-                        <div class="cat-item-name">Needs (<span id="pctNeedsNum">50%</span>)</div>
-                        <div class="cat-item-desc">Rent, Utilities, Groceries, Commute</div>
+                        <div class="cat-title-text">Needs (<span id="pctNeedsLabel">50%</span>)</div>
+                        <div class="cat-subtitle">Rent, Electricity, Groceries, Commute</div>
                       </div>
                     </div>
-                    <div class="cat-item-right">
-                      <div class="cat-item-budget font-mono" id="budgetNeedsVal">$2,500</div>
-                      <div class="cat-item-spent font-mono">Spent $1,450 (58%)</div>
+                    <div class="cat-numbers-right">
+                      <div class="cat-budget-rupees font-mono" id="budgetNeedsRupees">₹37,500</div>
+                      <div class="cat-spent-ratio font-mono">Spent ₹18,400 (49%)</div>
                     </div>
                   </div>
 
-                  <!-- WANTS (30%) -->
-                  <div class="category-row-item">
-                    <div class="cat-item-left">
-                      <div class="cat-color-dot" style="background:var(--cat-wants);"></div>
+                  <!-- WANTS 30% -->
+                  <div class="category-item-card">
+                    <div class="cat-left-info">
+                      <div class="cat-color-chip" style="background:var(--cat-wants);"></div>
                       <div>
-                        <div class="cat-item-name">Wants (<span id="pctWantsNum">30%</span>)</div>
-                        <div class="cat-item-desc">Dining, Entertainment, Subscriptions</div>
+                        <div class="cat-title-text">Wants (<span id="pctWantsLabel">30%</span>)</div>
+                        <div class="cat-subtitle">Dining, Swiggy/Zomato, Streaming, Leisure</div>
                       </div>
                     </div>
-                    <div class="cat-item-right">
-                      <div class="cat-item-budget font-mono" id="budgetWantsVal">$1,500</div>
-                      <div class="cat-item-spent font-mono">Spent $440 (29%)</div>
+                    <div class="cat-numbers-right">
+                      <div class="cat-budget-rupees font-mono" id="budgetWantsRupees">₹22,500</div>
+                      <div class="cat-spent-ratio font-mono">Spent ₹7,350 (32%)</div>
                     </div>
                   </div>
 
-                  <!-- SAVINGS & INVESTMENTS (20%) -->
-                  <div class="category-row-item">
-                    <div class="cat-item-left">
-                      <div class="cat-color-dot" style="background:var(--cat-savings);"></div>
+                  <!-- SAVINGS 20% -->
+                  <div class="category-item-card">
+                    <div class="cat-left-info">
+                      <div class="cat-color-chip" style="background:var(--cat-savings);"></div>
                       <div>
-                        <div class="cat-item-name">Savings (<span id="pctSavingsNum">20%</span>)</div>
-                        <div class="cat-item-desc">Emergency Liquid Reserve, S&P 500</div>
+                        <div class="cat-title-text">Savings (<span id="pctSavingsLabel">20%</span>)</div>
+                        <div class="cat-subtitle">Emergency Cushion, Nifty 50 Index SIP</div>
                       </div>
                     </div>
-                    <div class="cat-item-right">
-                      <div class="cat-item-budget font-mono" id="budgetSavingsVal">$1,000</div>
-                      <div class="cat-item-spent font-mono" style="color:var(--status-safe);">Locked $1,000 (100%)</div>
+                    <div class="cat-numbers-right">
+                      <div class="cat-budget-rupees font-mono" id="budgetSavingsRupees">₹15,000</div>
+                      <div class="cat-spent-ratio font-mono" style="color:var(--status-safe);">Locked ₹15,000 (100%)</div>
                     </div>
                   </div>
 
                 </div>
 
-                <!-- MODULAR CUSTOM CATEGORY CREATOR (EXPANDABLE) -->
-                <div class="custom-cat-form-tray hidden" id="customCatPanel">
-                  <span style="font-size:12px; font-weight:700;">Create Custom Modular Category</span>
-                  <div class="form-grid-duo">
-                    <input type="text" class="clean-input" id="newCatNameInput" placeholder="Category Name (e.g. Pet Care, Vacation)">
-                    <input type="number" class="clean-input font-mono" id="newCatBudgetInput" placeholder="Allocation Amount ($)">
+                <!-- EXPANDABLE SALARY & RATIO SLIDERS -->
+                <div class="slider-tuner-panel hidden" id="salaryTunerBox">
+                  <span style="font-size:12px; font-weight:700;">Tuner: Adjust Paycheck & Allocation</span>
+                  
+                  <div class="range-control-group">
+                    <div class="range-label-row">
+                      <span>Monthly Salary (₹)</span>
+                      <span class="font-mono" id="sliderSalaryVal">₹75,000</span>
+                    </div>
+                    <input type="range" class="range-slider" min="20000" max="300000" step="5000" value="75000" id="salarySlider" oninput="handleSalarySlider(this.value)">
                   </div>
-                  <div style="display:flex; justify-content:flex-end; gap:8px;">
-                    <button class="filter-pill" onclick="toggleCustomCatCreator()">Cancel</button>
-                    <button class="filter-pill active" onclick="saveCustomCategory()">Create Bucket</button>
+
+                  <div class="range-control-group">
+                    <div class="range-label-row">
+                      <span>Needs %</span>
+                      <span class="font-mono" id="sliderNeedsVal">50%</span>
+                    </div>
+                    <input type="range" class="range-slider" min="30" max="70" step="5" value="50" id="needsSlider" oninput="handleRatioSliders()">
+                  </div>
+
+                  <div class="range-control-group">
+                    <div class="range-label-row">
+                      <span>Wants %</span>
+                      <span class="font-mono" id="sliderWantsVal">30%</span>
+                    </div>
+                    <input type="range" class="range-slider" min="10" max="50" step="5" value="30" id="wantsSlider" oninput="handleRatioSliders()">
                   </div>
                 </div>
 
               </div>
             </div>
 
-            <!-- DOUBLE-BEZEL CARD: INTELLIGENT INSIGHTS & MACROECONOMIC GUIDES -->
-            <div class="bezel-tray">
+            <!-- DOUBLE-BEZEL CARD: INDIAN MACROECONOMIC GUIDES (OCT 2026) -->
+            <div class="bezel-tray" id="guidesSection">
               <div class="bezel-core">
-                <div class="card-title-row">
-                  <div class="card-title-text">
+                <div class="card-heading-row">
+                  <div class="card-title">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                    <span>Economic Guides & Intelligence</span>
+                    <span>Economic Reality & Wealth Guides</span>
                   </div>
-                  <span class="cycle-badge-pill" style="font-size:11px; padding:3px 8px;">Macro Oct 2026</span>
+                  <span class="payday-cycle-pill" style="font-size:11px; padding:3px 8px;">RBI & Inflation Watch</span>
                 </div>
 
-                <div class="insight-cards-stack">
+                <div class="guides-stack">
                   
-                  <!-- GUIDE 1: LIQUIDITY BUFFER & YIELD -->
-                  <div class="insight-card-unit">
-                    <div class="insight-meta-row">
-                      <span>Liquidity Architecture</span>
-                      <span>Capital Protection</span>
+                  <!-- GUIDE 1: LIQUID DEBT & ARBITRAGE YIELD -->
+                  <div class="guide-card-item">
+                    <div class="guide-eyebrow">
+                      <span>Liquidity Engine</span>
+                      <span>Capital Safety</span>
                     </div>
-                    <div class="insight-title">4.3% Cash Cushion vs Index Allocation</div>
-                    <div class="insight-desc">
-                      Current short-duration sovereign yields remain elevated at ~4.3%. Maintain exactly 3 months of essential "Needs" ($7,500) in high-yield cash. Transfer your monthly $1,000 savings excess systematically into low-cost diversified index funds to hedge against long-term cost creep.
-                    </div>
-                  </div>
-
-                  <!-- GUIDE 2: SUBSCRIPTION BLEED AUDIT -->
-                  <div class="insight-card-unit" style="border-left-color: var(--cat-wants);">
-                    <div class="insight-meta-row" style="color:var(--cat-wants);">
-                      <span>Micro-Expense Audit</span>
-                      <span>Actionable</span>
-                    </div>
-                    <div class="insight-title">Silent Recurring Subscription Bleed</div>
-                    <div class="insight-desc">
-                      You have 4 active digital subscriptions totaling $62/mo ($744/year). This represents 14% of your discretionary Wants pool. Trimming 1 rarely watched media plan frees +$18/mo directly into your dynamic daily allowance.
+                    <div class="guide-headline">6.5%+ Arbitrage/Liquid Yield vs Index SIP</div>
+                    <div class="guide-body-copy">
+                      With RBI repo rates stabilizing high-yield savings and liquid arbitrage yields around 6.5–7.0%, maintain exactly 3 months of essential Needs (₹1,12,500) in high-liquidity instruments. Route your monthly ₹15,000 savings excess automatically into broad Indian Index SIPs (Nifty 50 / Nifty Next 50) on payday.
                     </div>
                   </div>
 
-                  <!-- GUIDE 3: DAILY SPENDING VELOCITY -->
-                  <div class="insight-card-unit" style="border-left-color: var(--cat-savings);">
-                    <div class="insight-meta-row" style="color:var(--cat-savings);">
-                      <span>Spending Velocity</span>
-                      <span>Positive Outlook</span>
+                  <!-- GUIDE 2: UPI MICRO-EXPENSE ACCUMULATION -->
+                  <div class="guide-card-item" style="border-left-color: var(--cat-wants);">
+                    <div class="guide-eyebrow" style="color:var(--cat-wants);">
+                      <span>Micro-Friction Audit</span>
+                      <span>High Impact</span>
                     </div>
-                    <div class="insight-title">Surplus Trajectory: +$280 on Day 30</div>
-                    <div class="insight-desc">
-                      At your current pace of $22.40/day against the $58.60 cap, you are accumulating safe margin. If maintained, you will finish the cycle with $280 in bonus investable capital.
+                    <div class="guide-headline">Silent UPI Micro-Transactions Leak</div>
+                    <div class="guide-body-copy">
+                      Frictionless UPI quick-scans (₹40 chai, ₹120 snacks, ₹250 fast delivery) aggregate to over ₹4,200/month in your ledger. That is nearly 19% of your total Wants budget. Logging every scan in Traxpens restores tactile mindfulness before the daily cap exhausts.
+                    </div>
+                  </div>
+
+                  <!-- GUIDE 3: CREDIT CARD CYCLE HACK -->
+                  <div class="guide-card-item" style="border-left-color: var(--cat-savings);">
+                    <div class="guide-eyebrow" style="color:var(--cat-savings);">
+                      <span>Credit Optimization</span>
+                      <span>Zero-Interest Float</span>
+                    </div>
+                    <div class="guide-headline">Align Statement Dates with Paycheck Day</div>
+                    <div class="guide-body-copy">
+                      Set all credit card statement due dates to 5 days after your salary credit (5th of each month). This guarantees automatic 100% full repayment without touching your emergency reserve, while securing 45 days of free float.
                     </div>
                   </div>
 
@@ -1381,224 +1474,370 @@
 
         </div>
 
-        <div style="height: 60px;"></div>
-
       </div>
 
-      <!-- PERSISTENT FLOATING QUICK-LOG BUTTON (BUTTON-IN-BUTTON) -->
-      <button class="floating-log-action" onclick="openExpenseSheet()">
-        <span>Log Expense</span>
-        <div class="button-inner-capsule">+</div>
-      </button>
-
-      <!-- ANDROID BOTTOM NAVIGATION (Mobile Dock) -->
-      <nav class="android-bottom-dock">
-        <button class="dock-tab-btn active">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          <span>Ledger</span>
-        </button>
-        <button class="dock-tab-btn" onclick="toggleCustomCatCreator()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
-          <span>50/30/20</span>
-        </button>
-        <button class="dock-tab-btn" onclick="openExpenseSheet()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-          <span>Add</span>
-        </button>
-        <button class="dock-tab-btn" onclick="alert('Traxpens Sync: Encrypted local storage synced seamlessly.')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          <span>Vault</span>
-        </button>
-      </nav>
-
-      <!-- ==========================================================================
-           14. 2-TAP EXPENSE LOGGER MODAL (Web Centered / Android Bottom Sheet)
-           ========================================================================== -->
-      <div class="modal-backdrop" id="expenseBackdrop" onclick="handleBackdropClick(event)">
-        <div class="quick-sheet-panel" id="expenseSheetPanel">
-          <div class="sheet-title-row">
-            <span style="font-size:16px; font-weight:700;">Record Expense</span>
-            <button class="icon-btn-circle" style="width:28px; height:28px;" onclick="closeExpenseSheet()">✕</button>
-          </div>
-
-          <!-- Big Monospace Numeric Field -->
-          <div class="amount-display-hero">
-            <span style="font-size:32px; font-weight:700; color:var(--text-tertiary);">$</span>
-            <input type="number" step="0.01" class="hero-num-input" id="expenseAmtInput" placeholder="0.00">
-          </div>
-
-          <!-- Description & Quick Chips -->
-          <div class="form-field-group">
-            <label style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary);">Expense Name</label>
-            <input type="text" class="clean-input" id="expenseTitleInput" placeholder="e.g. Matcha Latte, Fuel, Grocery run">
-            
-            <div class="preset-chip-list">
-              <span class="preset-chip" onclick="fillPreset('Artisan Coffee & Pastry', 'wants')">☕ Coffee</span>
-              <span class="preset-chip" onclick="fillPreset('Weekly Fresh Groceries', 'needs')">🛒 Groceries</span>
-              <span class="preset-chip" onclick="fillPreset('City Metro / Ride', 'needs')">🚕 Transit</span>
-              <span class="preset-chip" onclick="fillPreset('Dinner with Team', 'wants')">🍽️ Dining</span>
-              <span class="preset-chip" onclick="fillPreset('Investment Deposit', 'savings')">📈 S&P 500</span>
-            </div>
-          </div>
-
-          <!-- Modular Category Selector -->
-          <div class="form-field-group">
-            <label style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary);">Bucket (50/30/20 / Custom)</label>
-            <div class="cat-selector-grid">
-              <div class="cat-pick-pill selected" id="pickNeeds" onclick="pickCat('needs')">
-                <span style="font-size:16px;">🏠</span>
-                <span>Needs (50%)</span>
-              </div>
-              <div class="cat-pick-pill" id="pickWants" onclick="pickCat('wants')">
-                <span style="font-size:16px;">✨</span>
-                <span>Wants (30%)</span>
-              </div>
-              <div class="cat-pick-pill" id="pickSavings" onclick="pickCat('savings')">
-                <span style="font-size:16px;">📈</span>
-                <span>Savings (20%)</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <button class="primary-action-btn" onclick="submitNewExpense()">
-            <span>Record to Ledger</span>
-            <span class="font-mono">↵</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-  </main>
+    </main>
+  </div>
 
   <!-- ==========================================================================
-       JAVASCRIPT APPLICATION ENGINE
+       11. QUICK LOG EXPENSE MODAL (DESKTOP)
        ========================================================================== -->
-  <script>
-    // State Model
-    const store = {
-      salary: 5000,
+  <div class="modal-curtain" id="quickLogModal" onclick="handleCurtainClick(event)">
+    <div class="desktop-log-dialog">
+      <div class="dialog-header">
+        <span style="font-size:16px; font-weight:700;">Record Expense (₹ INR)</span>
+        <button class="logout-btn-minimal" onclick="closeQuickLogModal()" style="font-size:18px;">✕</button>
+      </div>
+
+      <!-- Rupee Input Field -->
+      <div class="rupee-input-hero">
+        <span class="big-rupee-symbol">₹</span>
+        <input type="number" step="1" class="big-num-field" id="txAmountInput" placeholder="0" autofocus>
+      </div>
+
+      <!-- Description & Quick Rupee Presets -->
+      <div class="form-group-unit">
+        <label style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em;">Expense Name</label>
+        <input type="text" class="form-text-input" id="txNameInput" placeholder="e.g. Swiggy Lunch, Auto Fare, DMart Groceries">
+        
+        <div class="quick-preset-chips">
+          <span class="preset-chip-btn" onclick="fillRupeePreset('Filter Coffee & Samosa', 120, 'wants')">☕ Chai/Coffee (₹120)</span>
+          <span class="preset-chip-btn" onclick="fillRupeePreset('Supermarket Groceries', 1450, 'needs')">🛒 Groceries (₹1,450)</span>
+          <span class="preset-chip-btn" onclick="fillRupeePreset('Metro / Auto Commute', 180, 'needs')">🛺 Transit (₹180)</span>
+          <span class="preset-chip-btn" onclick="fillRupeePreset('Swiggy / Zomato Dinner', 480, 'wants')">🍽️ Dining (₹480)</span>
+          <span class="preset-chip-btn" onclick="fillRupeePreset('Nifty 50 Index Fund SIP', 5000, 'savings')">📈 Index SIP (₹5,000)</span>
+        </div>
+      </div>
+
+      <!-- Category Selection (50/30/20) -->
+      <div class="form-group-unit">
+        <label style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-secondary); letter-spacing:0.05em;">Assign to Category</label>
+        <div class="category-pick-grid">
+          <div class="cat-btn-pill selected" id="pickNeedsBtn" onclick="selectModalCat('needs')">
+            <span style="font-size:16px;">🏠</span>
+            <span>Needs (50%)</span>
+          </div>
+          <div class="cat-btn-pill" id="pickWantsBtn" onclick="selectModalCat('wants')">
+            <span style="font-size:16px;">✨</span>
+            <span>Wants (30%)</span>
+          </div>
+          <div class="cat-btn-pill" id="pickSavingsBtn" onclick="selectModalCat('savings')">
+            <span style="font-size:16px;">📈</span>
+            <span>Savings (20%)</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="submit-record-btn" onclick="submitRecord()">
+        <span>Log to Ledger</span>
+        <span class="font-mono">↵</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT APPLICATION ENGINE (FIREBASE v10 MODULAR SDK + RUPEE ₹ ENGINE)
+       ========================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      collection, 
+      addDoc, 
+      query, 
+      orderBy, 
+      onSnapshot, 
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // 1. Live Firebase Project Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGIjxmE5ii0pgsbdAFE2gXsKAza3EXqm8",
+      authDomain: "traxpens.firebaseapp.com",
+      projectId: "traxpens",
+      storageBucket: "traxpens.firebasestorage.app",
+      messagingSenderId: "608169534946",
+      appId: "1:608169534946:web:a8277db0fb2fc4fa4145bb",
+      measurementId: "G-M1LW86V2V8"
+    };
+
+    // Initialize Firebase Services
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Format Currency Helper for Indian Numbering System (₹75,000 / ₹1,20,000)
+    const inrFormatter = new Intl.NumberFormat('en-IN', {
+      maximumFractionDigits: 0
+    });
+
+    // Default In-Memory Template for New Accounts
+    const defaultData = {
+      salary: 75000,
       daysInCycle: 30,
       daysLeft: 18,
       ratios: {
         needs: 0.50,
         wants: 0.30,
-        savings: 0.20,
-        custom: 0.00
+        savings: 0.20
       },
       spent: {
-        needs: 1450.00,
-        wants: 440.00,
-        savings: 1000.00,
-        custom: 0.00
+        needs: 0,
+        wants: 0,
+        savings: 0
       },
-      customCategory: null, // { name: 'Pet Care', budget: 200 }
-      spentToday: 22.40,
+      spentToday: 0,
       capMode: 'today',
       filter: 'all',
       chosenCat: 'needs',
-      transactions: [
-        { id: 1, name: 'Artisan Espresso', cat: 'wants', amount: 5.50, time: 'Today, 9:15 AM' },
-        { id: 2, name: 'Trader Market Groceries', cat: 'needs', amount: 16.90, time: 'Today, 1:20 PM' },
-        { id: 3, name: 'Subway Transit Pass', cat: 'needs', amount: 28.00, time: 'Yesterday' },
-        { id: 4, name: 'Cloud Storage Pro Subscription', cat: 'wants', amount: 9.99, time: '3 days ago' },
-        { id: 5, name: 'S&P 500 Index Automated DCA', cat: 'savings', amount: 250.00, time: 'Oct 1st' }
-      ]
+      transactions: []
     };
 
-    // Calculate Dynamic Daily Spending Cap
-    function getDailyCap() {
-      const wantsBudget = store.salary * store.ratios.wants;
-      const remainingWants = Math.max(0, wantsBudget - store.spent.wants);
-      let baseDaily = remainingWants / store.daysLeft;
+    let currentUser = null;
+    let userData = JSON.parse(JSON.stringify(defaultData));
+    let unsubscribeTx = null;
 
-      if (store.capMode === 'weekend') {
-        baseDaily = baseDaily * 1.5; // 50% weekend booster
-      } else if (store.capMode === 'vacation3') {
+    // 2. Firebase Auth State Listener
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('sidebarEmailDisplay').textContent = user.email;
+        document.getElementById('authGateOverlay').classList.add('hidden');
+        clearAuthError();
+
+        // Load or initialize User Settings from Firestore
+        await loadUserDataFromFirestore(user.uid, user.email);
+
+        // Listen for Real-Time Transactions
+        listenToUserTransactions(user.uid);
+      } else {
+        currentUser = null;
+        userData = JSON.parse(JSON.stringify(defaultData));
+        if (unsubscribeTx) unsubscribeTx();
+        document.getElementById('authGateOverlay').classList.remove('hidden');
+      }
+    });
+
+    // Load User Document from Firestore
+    async function loadUserDataFromFirestore(uid, email) {
+      try {
+        const userDocRef = doc(db, "users", uid);
+        const userSnap = await getDoc(userDocRef);
+
+        if (userSnap.exists()) {
+          const cloudData = userSnap.data();
+          userData.salary = cloudData.salary || 75000;
+          userData.ratios = cloudData.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 };
+          userData.capMode = cloudData.capMode || 'today';
+        } else {
+          // New User: Create Initial Cloud Profile
+          await setDoc(userDocRef, {
+            email: email,
+            salary: 75000,
+            ratios: { needs: 0.5, wants: 0.3, savings: 0.2 },
+            capMode: 'today',
+            createdAt: serverTimestamp()
+          });
+        }
+        refreshUI();
+      } catch (err) {
+        console.warn("Firestore access error (using local cache):", err);
+        refreshUI();
+      }
+    }
+
+    // Real-Time Transactions Listener from Firestore
+    function listenToUserTransactions(uid) {
+      if (unsubscribeTx) unsubscribeTx();
+
+      const txRef = collection(db, "users", uid, "transactions");
+      const q = query(txRef, orderBy("createdAt", "desc"));
+
+      unsubscribeTx = onSnapshot(q, (snapshot) => {
+        userData.transactions = [];
+        userData.spent = { needs: 0, wants: 0, savings: 0 };
+        userData.spentToday = 0;
+
+        snapshot.forEach((docItem) => {
+          const item = docItem.data();
+          const amt = parseFloat(item.amount) || 0;
+          const cat = item.cat || 'needs';
+
+          userData.transactions.push({
+            id: docItem.id,
+            name: item.name || 'Expense',
+            amount: amt,
+            cat: cat,
+            time: item.createdAt ? new Date(item.createdAt.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'
+          });
+
+          if (userData.spent[cat] !== undefined) {
+            userData.spent[cat] += amt;
+          }
+          userData.spentToday += amt;
+        });
+
+        refreshUI();
+      }, (err) => {
+        console.warn("Firestore transactions snapshot listener notice:", err);
+      });
+    }
+
+    // Auth Submission: Seamless Sign-In or Automatic Sign-Up
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      clearAuthError();
+
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value;
+      const submitBtn = document.getElementById('authSubmitBtn');
+
+      if (!email || !password) return;
+
+      submitBtn.disabled = true;
+      document.getElementById('authBtnText').textContent = "Authenticating...";
+
+      try {
+        // Try sign-in first
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        // If user not found, automatically register them
+        if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+          try {
+            await createUserWithEmailAndPassword(auth, email, password);
+          } catch (signUpErr) {
+            showAuthError(getFriendlyErrorMessage(signUpErr));
+          }
+        } else {
+          showAuthError(getFriendlyErrorMessage(err));
+        }
+      } finally {
+        submitBtn.disabled = false;
+        document.getElementById('authBtnText').textContent = "Sign In / Register";
+      }
+    }
+
+    function showAuthError(msg) {
+      const box = document.getElementById('authErrorMessage');
+      box.textContent = msg;
+      box.classList.remove('hidden');
+    }
+
+    function clearAuthError() {
+      const box = document.getElementById('authErrorMessage');
+      box.textContent = '';
+      box.classList.add('hidden');
+    }
+
+    function getFriendlyErrorMessage(err) {
+      if (err.code === 'auth/wrong-password') return "Incorrect password. Please verify and try again.";
+      if (err.code === 'auth/weak-password') return "Password must be at least 6 characters long.";
+      if (err.code === 'auth/invalid-email') return "Please enter a valid email address.";
+      if (err.code === 'auth/network-request-failed') return "Network error. Please check your internet connection.";
+      return err.message || "Authentication error. Please try again.";
+    }
+
+    async function handleLogout() {
+      if (unsubscribeTx) unsubscribeTx();
+      await signOut(auth);
+      document.getElementById('authEmailInput').value = '';
+      document.getElementById('authPasswordInput').value = '';
+      clearAuthError();
+    }
+
+    // Dynamic Daily Spending Cap Calculation
+    function getDailyCap() {
+      const wantsBudget = userData.salary * userData.ratios.wants;
+      const remainingWants = Math.max(0, wantsBudget - userData.spent.wants);
+      let baseDaily = remainingWants / userData.daysLeft;
+
+      if (userData.capMode === 'weekend') {
+        baseDaily = baseDaily * 1.5;
+      } else if (userData.capMode === 'trip3') {
         baseDaily = (remainingWants * 0.25) / 3;
-      } else if (store.capMode === 'rolling7') {
+      } else if (userData.capMode === 'rolling7') {
         baseDaily = baseDaily * 1.05;
       }
 
-      return Math.round(baseDaily * 100) / 100;
+      return Math.round(baseDaily);
     }
 
     // Refresh UI
     function refreshUI() {
-      // 1. Core KPIs
-      const needsBudget = store.salary * store.ratios.needs;
-      const wantsBudget = store.salary * store.ratios.wants;
-      const savingsBudget = store.salary * store.ratios.savings;
-      const safePool = store.salary - (store.spent.needs + store.spent.wants);
+      if (!userData) return;
 
-      document.getElementById('salaryNumDisplay').textContent = store.salary.toLocaleString();
-      document.getElementById('safePoolDisplay').textContent = safePool.toLocaleString();
+      const needsBudget = userData.salary * userData.ratios.needs;
+      const wantsBudget = userData.salary * userData.ratios.wants;
+      const savingsBudget = userData.salary * userData.ratios.savings;
+      const safePool = userData.salary - (userData.spent.needs + userData.spent.wants);
 
-      // Allocations
-      document.getElementById('budgetNeedsVal').textContent = '$' + needsBudget.toLocaleString();
-      document.getElementById('budgetWantsVal').textContent = '$' + wantsBudget.toLocaleString();
-      document.getElementById('budgetSavingsVal').textContent = '$' + savingsBudget.toLocaleString();
+      document.getElementById('salaryDisplayVal').textContent = inrFormatter.format(userData.salary);
+      document.getElementById('safePoolDisplayVal').textContent = inrFormatter.format(safePool);
 
-      document.getElementById('pctNeedsNum').textContent = (store.ratios.needs * 100).toFixed(0) + '%';
-      document.getElementById('pctWantsNum').textContent = (store.ratios.wants * 100).toFixed(0) + '%';
-      document.getElementById('pctSavingsNum').textContent = (store.ratios.savings * 100).toFixed(0) + '%';
+      document.getElementById('budgetNeedsRupees').textContent = '₹' + inrFormatter.format(needsBudget);
+      document.getElementById('budgetWantsRupees').textContent = '₹' + inrFormatter.format(wantsBudget);
+      document.getElementById('budgetSavingsRupees').textContent = '₹' + inrFormatter.format(savingsBudget);
 
-      // Bars
-      document.getElementById('sliceNeeds').style.width = (store.ratios.needs * 100) + '%';
-      document.getElementById('sliceWants').style.width = (store.ratios.wants * 100) + '%';
-      document.getElementById('sliceSavings').style.width = (store.ratios.savings * 100) + '%';
+      document.getElementById('pctNeedsLabel').textContent = (userData.ratios.needs * 100).toFixed(0) + '%';
+      document.getElementById('pctWantsLabel').textContent = (userData.ratios.wants * 100).toFixed(0) + '%';
+      document.getElementById('pctSavingsLabel').textContent = (userData.ratios.savings * 100).toFixed(0) + '%';
 
-      if (store.customCategory) {
-        const sliceCustom = document.getElementById('sliceCustom');
-        sliceCustom.classList.remove('hidden');
-        sliceCustom.style.width = (store.ratios.custom * 100) + '%';
-      }
+      document.getElementById('sliceNeedsBar').style.width = (userData.ratios.needs * 100) + '%';
+      document.getElementById('sliceWantsBar').style.width = (userData.ratios.wants * 100) + '%';
+      document.getElementById('sliceSavingsBar').style.width = (userData.ratios.savings * 100) + '%';
 
-      // 2. Daily Cap
       const dailyCap = getDailyCap();
-      document.getElementById('dailyCapValue').textContent = '$' + dailyCap.toFixed(2);
-      document.getElementById('spentTodayText').textContent = '$' + store.spentToday.toFixed(2);
-      
-      const leftToday = Math.max(0, dailyCap - store.spentToday);
-      document.getElementById('leftTodayText').textContent = '$' + leftToday.toFixed(2);
+      document.getElementById('dailyCapDisplayVal').textContent = '₹' + inrFormatter.format(dailyCap);
+      document.getElementById('spentTodayDisplayVal').textContent = '₹' + inrFormatter.format(userData.spentToday);
 
-      const capProgress = Math.min(100, (store.spentToday / dailyCap) * 100);
-      const capBar = document.getElementById('capProgressFill');
+      const leftToday = Math.max(0, dailyCap - userData.spentToday);
+      document.getElementById('leftTodayDisplayVal').textContent = '₹' + inrFormatter.format(leftToday);
+
+      const capProgress = Math.min(100, (userData.spentToday / Math.max(1, dailyCap)) * 100);
+      const capBar = document.getElementById('capBarFill');
       capBar.style.width = capProgress + '%';
 
       if (capProgress > 90) {
         capBar.style.backgroundColor = 'var(--status-critical)';
-        document.getElementById('leftTodayText').style.color = 'var(--status-critical)';
+        document.getElementById('leftTodayDisplayVal').style.color = 'var(--status-critical)';
       } else if (capProgress > 70) {
         capBar.style.backgroundColor = 'var(--status-warning)';
-        document.getElementById('leftTodayText').style.color = 'var(--status-warning)';
+        document.getElementById('leftTodayDisplayVal').style.color = 'var(--status-warning)';
       } else {
         capBar.style.backgroundColor = 'var(--accent-primary)';
-        document.getElementById('leftTodayText').style.color = 'var(--status-safe)';
+        document.getElementById('leftTodayDisplayVal').style.color = 'var(--status-safe)';
       }
 
-      // 3. Transactions
-      renderTransactionList();
+      renderLedger();
     }
 
-    function renderTransactionList() {
-      const container = document.getElementById('txTableList');
+    function renderLedger() {
+      const container = document.getElementById('ledgerRowsContainer');
       container.innerHTML = '';
 
-      const filtered = store.transactions.filter(item => {
-        if (store.filter === 'all') return true;
-        return item.cat === store.filter;
+      const filtered = userData.transactions.filter(item => {
+        if (userData.filter === 'all') return true;
+        return item.cat === userData.filter;
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-tertiary);">No transactions found in this category.</div>';
+        container.innerHTML = '<div style="padding:24px; text-align:center; color:var(--text-tertiary);">No transactions recorded in this category yet. Press [N] to log one!</div>';
         return;
       }
 
       filtered.forEach(tx => {
         const row = document.createElement('div');
-        row.className = 'tx-row-item';
+        row.className = 'ledger-row-card';
 
         let color = 'var(--cat-needs)';
         let label = 'Needs (50%)';
@@ -1608,192 +1847,201 @@
         } else if (tx.cat === 'savings') {
           color = 'var(--cat-savings)';
           label = 'Savings (20%)';
-        } else if (tx.cat === 'custom') {
-          color = 'var(--cat-custom)';
-          label = store.customCategory ? store.customCategory.name : 'Custom';
         }
 
         row.innerHTML = `
-          <div class="tx-item-left">
-            <div class="tx-icon-box">
+          <div class="tx-primary-cell">
+            <div class="tx-icon-tray">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
             </div>
             <div>
-              <div class="tx-name-text">${escapeHtml(tx.name)}</div>
-              <div class="tx-sub-info">${tx.time} · <span style="color:${color}; font-weight:600;">${label}</span></div>
+              <div style="font-weight:600; font-size:13px;">${escapeHtml(tx.name)}</div>
+              <div style="font-size:11px; color:var(--text-tertiary);">${tx.time}</div>
             </div>
           </div>
-          <div class="tx-amount-mono font-mono">-$${tx.amount.toFixed(2)}</div>
+          <div>
+            <span style="font-size:11px; font-weight:600; color:${color}; background:var(--bg-subtle); padding:3px 8px; border-radius:var(--radius-pill); border:1px solid var(--border-hairline);">
+              ${label}
+            </span>
+          </div>
+          <div class="font-mono" style="font-size:12px; color:var(--text-secondary);">
+            Cloud Synced
+          </div>
+          <div style="text-align:right;">
+            <span class="font-mono" style="font-size:14px; font-weight:700; color:var(--text-primary);">-₹${inrFormatter.format(tx.amount)}</span>
+          </div>
         `;
         container.appendChild(row);
       });
-
-      document.getElementById('txCounterLabel').textContent = `${store.transactions.length} logged in cycle`;
     }
 
-    function filterTransactions(cat, btn) {
-      store.filter = cat;
-      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    // Category Filter
+    function setLedgerFilter(cat, btn) {
+      userData.filter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
-      renderTransactionList();
+      renderLedger();
     }
 
-    function handleCapPeriodChange() {
-      store.capMode = document.getElementById('capModeSelector').value;
-      const lbl = document.getElementById('capContextLabel');
-      if (store.capMode === 'weekend') lbl.textContent = 'Weekend Surge Active (1.5x)';
-      else if (store.capMode === 'vacation3') lbl.textContent = '3-Day Vacation Locked';
-      else if (store.capMode === 'rolling7') lbl.textContent = '7-Day Rolling Baseline';
-      else lbl.textContent = "Today's Safe Limit";
+    // Cap Period Switcher
+    async function updateCapPeriod() {
+      userData.capMode = document.getElementById('capPeriodSelect').value;
+      const sub = document.getElementById('capSubtextLabel');
+      if (userData.capMode === 'weekend') sub.textContent = 'Weekend Surge Active (1.5x)';
+      else if (userData.capMode === 'trip3') sub.textContent = '3-Day Vacation Window';
+      else if (userData.capMode === 'rolling7') sub.textContent = '7-Day Rolling Baseline';
+      else sub.textContent = 'Safe Allowance';
+
+      if (currentUser) {
+        await setDoc(doc(db, "users", currentUser.uid), { capMode: userData.capMode }, { merge: true });
+      }
       refreshUI();
     }
 
-    // Custom Category Creator
-    function toggleCustomCatCreator() {
-      const panel = document.getElementById('customCatPanel');
-      const label = document.getElementById('creatorToggleLabel');
-      if (panel.classList.contains('hidden')) {
-        panel.classList.remove('hidden');
-        label.textContent = 'Cancel';
-        document.getElementById('newCatNameInput').focus();
+    function toggleSalaryTuner() {
+      const box = document.getElementById('salaryTunerBox');
+      const text = document.getElementById('tunerToggleText');
+      if (box.classList.contains('hidden')) {
+        box.classList.remove('hidden');
+        text.textContent = 'Hide Tuner';
       } else {
-        panel.classList.add('hidden');
-        label.textContent = '+ Add Custom Category';
+        box.classList.add('hidden');
+        text.textContent = 'Customize Proportions';
       }
     }
 
-    function saveCustomCategory() {
-      const name = document.getElementById('newCatNameInput').value.trim();
-      const budget = parseFloat(document.getElementById('newCatBudgetInput').value);
-
-      if (!name || isNaN(budget) || budget <= 0) {
-        alert('Please enter a valid custom category name and budget.');
-        return;
+    async function handleSalarySlider(val) {
+      userData.salary = parseInt(val, 10);
+      document.getElementById('sliderSalaryVal').textContent = '₹' + inrFormatter.format(userData.salary);
+      if (currentUser) {
+        await setDoc(doc(db, "users", currentUser.uid), { salary: userData.salary }, { merge: true });
       }
-
-      store.customCategory = { name: name, budget: budget };
-      const customRatio = budget / store.salary;
-      store.ratios.custom = customRatio;
-
-      // Adjust wants ratio slightly to accommodate custom category
-      store.ratios.wants = Math.max(0.10, store.ratios.wants - customRatio);
-
-      // Add row to category list
-      const stack = document.getElementById('categoryRowsStack');
-      const customRow = document.createElement('div');
-      customRow.className = 'category-row-item';
-      customRow.innerHTML = `
-        <div class="cat-item-left">
-          <div class="cat-color-dot" style="background:var(--cat-custom);"></div>
-          <div>
-            <div class="cat-item-name">${escapeHtml(name)} (Custom)</div>
-            <div class="cat-item-desc">User-defined modular bucket</div>
-          </div>
-        </div>
-        <div class="cat-item-right">
-          <div class="cat-item-budget font-mono">$${budget.toLocaleString()}</div>
-          <div class="cat-item-spent font-mono">Spent $0 (0%)</div>
-        </div>
-      `;
-      stack.appendChild(customRow);
-
-      toggleCustomCatCreator();
       refreshUI();
     }
 
-    // Quick Expense Logging (2-Tap Flow)
-    function openExpenseSheet() {
-      document.getElementById('expenseBackdrop').classList.add('active');
-      const amtInput = document.getElementById('expenseAmtInput');
-      amtInput.value = '';
-      document.getElementById('expenseTitleInput').value = '';
-      setTimeout(() => amtInput.focus(), 150);
+    async function handleRatioSliders() {
+      const needs = parseInt(document.getElementById('needsSlider').value, 10);
+      const wants = parseInt(document.getElementById('wantsSlider').value, 10);
+      let savings = 100 - (needs + wants);
+      if (savings < 0) savings = 0;
+
+      userData.ratios.needs = needs / 100;
+      userData.ratios.wants = wants / 100;
+      userData.ratios.savings = savings / 100;
+
+      document.getElementById('sliderNeedsVal').textContent = needs + '%';
+      document.getElementById('sliderWantsVal').textContent = wants + '%';
+
+      if (currentUser) {
+        await setDoc(doc(db, "users", currentUser.uid), { ratios: userData.ratios }, { merge: true });
+      }
+      refreshUI();
     }
 
-    function closeExpenseSheet() {
-      document.getElementById('expenseBackdrop').classList.remove('active');
+    // Quick Expense Modal Controls
+    function openQuickLogModal() {
+      document.getElementById('quickLogModal').classList.add('active');
+      const amt = document.getElementById('txAmountInput');
+      amt.value = '';
+      document.getElementById('txNameInput').value = '';
+      setTimeout(() => amt.focus(), 150);
     }
 
-    function handleBackdropClick(e) {
-      if (e.target.id === 'expenseBackdrop') {
-        closeExpenseSheet();
+    function closeQuickLogModal() {
+      document.getElementById('quickLogModal').classList.remove('active');
+    }
+
+    function handleCurtainClick(e) {
+      if (e.target.id === 'quickLogModal') {
+        closeQuickLogModal();
       }
     }
 
-    function pickCat(cat) {
-      store.chosenCat = cat;
-      document.getElementById('pickNeeds').classList.toggle('selected', cat === 'needs');
-      document.getElementById('pickWants').classList.toggle('selected', cat === 'wants');
-      document.getElementById('pickSavings').classList.toggle('selected', cat === 'savings');
+    function selectModalCat(cat) {
+      userData.chosenCat = cat;
+      document.getElementById('pickNeedsBtn').classList.toggle('selected', cat === 'needs');
+      document.getElementById('pickWantsBtn').classList.toggle('selected', cat === 'wants');
+      document.getElementById('pickSavingsBtn').classList.toggle('selected', cat === 'savings');
     }
 
-    function fillPreset(title, cat) {
-      document.getElementById('expenseTitleInput').value = title;
-      pickCat(cat);
+    function fillRupeePreset(name, amt, cat) {
+      document.getElementById('txNameInput').value = name;
+      document.getElementById('txAmountInput').value = amt;
+      selectModalCat(cat);
     }
 
-    function submitNewExpense() {
-      const amt = parseFloat(document.getElementById('expenseAmtInput').value);
-      const title = document.getElementById('expenseTitleInput').value.trim() || 'Manual Expense';
+    // Record Expense directly to Firestore
+    async function submitRecord() {
+      const amt = parseFloat(document.getElementById('txAmountInput').value);
+      const name = document.getElementById('txNameInput').value.trim() || 'Quick Expense';
 
       if (!amt || isNaN(amt) || amt <= 0) {
-        alert('Please specify a valid expense amount.');
+        alert('Please specify a valid Rupee amount.');
         return;
       }
 
-      // Update state
-      store.spent[store.chosenCat] += amt;
-      store.spentToday += amt;
-      store.transactions.unshift({
-        id: Date.now(),
-        name: title,
-        cat: store.chosenCat,
-        amount: amt,
-        time: 'Just now'
-      });
+      closeQuickLogModal();
 
-      closeExpenseSheet();
-      refreshUI();
+      if (currentUser) {
+        try {
+          const txCollection = collection(db, "users", currentUser.uid, "transactions");
+          await addDoc(txCollection, {
+            name: name,
+            amount: amt,
+            cat: userData.chosenCat,
+            createdAt: serverTimestamp()
+          });
+        } catch (err) {
+          console.error("Error writing to Firestore:", err);
+        }
+      }
     }
 
-    // Viewport Mode Switcher (Seamless Web vs Mobile vs Auto)
-    function switchViewMode(mode) {
-      document.documentElement.setAttribute('data-view-mode', mode);
-      
-      document.getElementById('tabModeResponsive').classList.toggle('active', mode === 'responsive');
-      document.getElementById('tabModeWeb').classList.toggle('active', mode === 'web');
-      document.getElementById('tabModeMobile').classList.toggle('active', mode === 'mobile');
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Light / Dark Theme Switcher
     function toggleTheme() {
       const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      const target = isDark ? 'light' : 'dark';
+      const target = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', target);
 
       document.getElementById('themeIconDark').classList.toggle('hidden', target === 'light');
       document.getElementById('themeIconLight').classList.toggle('hidden', target === 'dark');
     }
 
-    // Security sanitization helper
-    function escapeHtml(text) {
-      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Global Keyboard Shortcuts (N to open quick-log, Esc to close)
+    // Expose functions to window for HTML attribute triggers
+    window.handleAuthSubmit = handleAuthSubmit;
+    window.handleLogout = handleLogout;
+    window.setLedgerFilter = setLedgerFilter;
+    window.updateCapPeriod = updateCapPeriod;
+    window.toggleSalaryTuner = toggleSalaryTuner;
+    window.handleSalarySlider = handleSalarySlider;
+    window.handleRatioSliders = handleRatioSliders;
+    window.openQuickLogModal = openQuickLogModal;
+    window.closeQuickLogModal = closeQuickLogModal;
+    window.handleCurtainClick = handleCurtainClick;
+    window.selectModalCat = selectModalCat;
+    window.fillRupeePreset = fillRupeePreset;
+    window.submitRecord = submitRecord;
+    window.scrollToSection = scrollToSection;
+    window.toggleTheme = toggleTheme;
+
+    // Keyboard Shortcuts (N for log, Esc to close)
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
         e.preventDefault();
-        openExpenseSheet();
+        openQuickLogModal();
       }
       if (e.key === 'Escape') {
-        closeExpenseSheet();
+        closeQuickLogModal();
       }
     });
-
-    // Bootstrapping
-    refreshUI();
   </script>
 </body>
 </html>
