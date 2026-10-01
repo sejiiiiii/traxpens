@@ -2525,6 +2525,10 @@
     loadLocalState();
 
     // Helper: Calculate Custom Payday Cycle (Strictly synchronized to Indian Standard Time - Asia/Kolkata)
+    // RULE:
+    //   • If today >= payday this month  → salary was received this month; cycle = payday(this month) → payday(next month)
+    //   • If today <  payday this month  → salary not yet received; cycle = 1st of this month → payday(this month)
+    //     This means: "My payday is the 7th" on Oct 1 shows Day 1 of 7 (6 days to go until Oct 7).
     function getCycleDates(paydayDay = 1) {
       // 1. Resolve current date & time in Indian Standard Time (IST, UTC+5:30)
       const now = new Date();
@@ -2547,34 +2551,32 @@
       let cycleStart, nextPayday;
 
       if (currentDay >= pDay) {
-        // Today is on or after payday this month -> Cycle started this month on pDay
+        // ── Salary already received this month ──────────────────────────────
+        // Cycle: payday(this month) → payday(next month)
         const startDay = Math.min(pDay, getDaysInMonth(currentYear, currentMonth));
         cycleStart = new Date(currentYear, currentMonth, startDay, 0, 0, 0, 0);
 
-        // Next payday is in next month
         const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-        const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
-        const endDay = Math.min(pDay, getDaysInMonth(nextMonthYear, nextMonth));
+        const nextMonth     = currentMonth === 11 ? 0 : currentMonth + 1;
+        const endDay        = Math.min(pDay, getDaysInMonth(nextMonthYear, nextMonth));
         nextPayday = new Date(nextMonthYear, nextMonth, endDay, 0, 0, 0, 0);
       } else {
-        // Today is before payday this month -> Cycle started last month on pDay
-        const prevMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-        const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-        const startDay = Math.min(pDay, getDaysInMonth(prevMonthYear, prevMonth));
-        cycleStart = new Date(prevMonthYear, prevMonth, startDay, 0, 0, 0, 0);
+        // ── Salary not yet received (before payday this month) ──────────────
+        // Cycle: 1st of this month → payday(this month)
+        // e.g. Oct 1, payday = 7 → Day 1 of 7 (1 Oct to 7 Oct)
+        cycleStart = new Date(currentYear, currentMonth, 1, 0, 0, 0, 0);
 
-        // Next payday is this month on pDay
         const endDay = Math.min(pDay, getDaysInMonth(currentYear, currentMonth));
-        nextPayday = new Date(currentYear, currentMonth, endDay, 0, 0, 0, 0);
+        nextPayday   = new Date(currentYear, currentMonth, endDay, 0, 0, 0, 0);
       }
 
-      const msPerDay = 1000 * 60 * 60 * 24;
-      const totalDays = Math.max(1, Math.round((nextPayday - cycleStart) / msPerDay));
+      const msPerDay    = 1000 * 60 * 60 * 24;
+      const totalDays   = Math.max(1, Math.round((nextPayday - cycleStart) / msPerDay));
 
-      // Elapsed days: On payday itself, it is Day 1 of the cycle.
+      // Elapsed days: On the very first day of the cycle it is Day 1.
       const todayMidnight = new Date(currentYear, currentMonth, currentDay, 0, 0, 0, 0);
-      const elapsedDays = Math.min(totalDays, Math.max(1, Math.round((todayMidnight - cycleStart) / msPerDay) + 1));
-      const daysLeft = Math.max(0, Math.round((nextPayday - todayMidnight) / msPerDay));
+      const elapsedDays   = Math.min(totalDays, Math.max(1, Math.round((todayMidnight - cycleStart) / msPerDay) + 1));
+      const daysLeft      = Math.max(0, Math.round((nextPayday - todayMidnight) / msPerDay));
 
       const istFormatted = istDate.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", year: "numeric" });
 
