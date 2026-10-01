@@ -7,14 +7,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Traxpens — Minimal & Lightweight Expense Tracker (₹ INR)</title>
+  <title>Traxpens — Smart, Modular & Lightweight Expense & Investment Hub (₹ INR)</title>
 
   <style>
     /* ==========================================================================
        1. ULTRA-LIGHTWEIGHT DESIGN SYSTEM (Zero CPU Blurs · High Performance)
        ========================================================================== */
     :root {
-      /* Dark Theme (Minimal Slate & Emerald Accent) */
       --bg-canvas: #090C10;
       --bg-surface: #0E131B;
       --bg-elevated: #161D29;
@@ -37,6 +36,8 @@
       --cat-savings: #10B981;
       --danger: #EF4444;
       --danger-soft: rgba(239, 68, 68, 0.12);
+      --purple: #8B5CF6;
+      --purple-soft: rgba(139, 92, 246, 0.12);
 
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
@@ -68,6 +69,8 @@
       --cat-savings: #059669;
       --danger: #DC2626;
       --danger-soft: rgba(220, 38, 38, 0.1);
+      --purple: #7C3AED;
+      --purple-soft: rgba(124, 58, 237, 0.1);
     }
 
     * {
@@ -84,6 +87,13 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      padding-bottom: 70px; /* Space for mobile navbar */
+    }
+
+    @media (min-width: 769px) {
+      body {
+        padding-bottom: 2rem;
+      }
     }
 
     .font-mono {
@@ -122,6 +132,11 @@
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
     }
 
     .btn-primary {
@@ -194,101 +209,21 @@
     }
 
     /* ==========================================================================
-       2. AUTH OVERLAY & MODAL (Fast, Blur-free)
-       ========================================================================== */
-    .auth-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
-      z-index: 999;
-      overflow-y: auto;
-    }
-
-    .auth-box {
-      width: 100%;
-      max-width: 400px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-main);
-      border-radius: var(--radius);
-      padding: 2rem 1.75rem;
-    }
-
-    .auth-header {
-      margin-bottom: 1.5rem;
-    }
-    .auth-tag {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 0.35rem;
-    }
-    .auth-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    .auth-subtitle {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
-    }
-
-    .auth-error {
-      background: var(--danger-soft);
-      border: 1px solid var(--danger);
-      color: var(--danger);
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      line-height: 1.4;
-      margin-bottom: 1.25rem;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    .form-label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-    }
-
-    .auth-toggle-row {
-      margin-top: 1.25rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border-subtle);
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    /* ==========================================================================
-       3. APP SHELL & LAYOUT
+       2. TOP BAR & WEB/DESKTOP NAVIGATION
        ========================================================================== */
     .app-shell {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 1.5rem 1rem 5rem;
+      padding: 1.25rem 1rem;
     }
 
-    /* Minimal Header */
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      padding-bottom: 1.25rem;
-      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
       border-bottom: 1px solid var(--border-main);
       flex-wrap: wrap;
     }
@@ -301,6 +236,7 @@
       align-items: center;
       gap: 0.5rem;
     }
+
     .brand-badge {
       font-size: 0.7rem;
       padding: 0.15rem 0.45rem;
@@ -312,25 +248,162 @@
       font-weight: 600;
     }
 
-    .header-user-info {
-      font-size: 0.8rem;
+    .cycle-badge {
+      font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 0.2rem;
-    }
-
-    .header-controls {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       flex-wrap: wrap;
     }
 
-    /* Stats Grid */
+    .payday-tag {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-main);
+      padding: 1px 7px;
+      border-radius: var(--radius-pill);
+      color: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Desktop Navigation Tabs */
+    .desktop-nav {
+      display: none;
+      gap: 0.35rem;
+      background: var(--bg-elevated);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-main);
+    }
+
+    @media (min-width: 769px) {
+      .desktop-nav {
+        display: flex;
+      }
+    }
+
+    .nav-tab-btn {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+
+    .nav-tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .nav-tab-btn.active {
+      background: var(--bg-surface);
+      color: var(--accent);
+      border: 1px solid var(--border-main);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ==========================================================================
+       3. MOBILE BOTTOM NAVBAR
+       ========================================================================== */
+    .mobile-navbar {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-main);
+      z-index: 400;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 0.5rem;
+    }
+
+    @media (min-width: 769px) {
+      .mobile-navbar {
+        display: none;
+      }
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      flex: 1;
+      height: 100%;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .mobile-nav-item svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+    }
+
+    .mobile-nav-item.active {
+      color: var(--accent);
+    }
+
+    /* Mobile Floating Action Button */
+    .mobile-fab {
+      display: none;
+      position: fixed;
+      bottom: 4.8rem;
+      right: 1.25rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      border: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 350;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-fab {
+        display: flex;
+      }
+      .hide-mobile {
+        display: none !important;
+      }
+    }
+
+    /* ==========================================================================
+       4. STATS GRID & SUMMARY CARDS
+       ========================================================================== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .stat-label-row {
@@ -361,7 +434,6 @@
       justify-content: space-between;
     }
 
-    /* Simple Progress Bars */
     .progress-track {
       height: 6px;
       background: var(--bg-elevated);
@@ -369,6 +441,7 @@
       overflow: hidden;
       margin-top: 0.6rem;
     }
+
     .progress-bar {
       height: 100%;
       border-radius: var(--radius-pill);
@@ -385,6 +458,7 @@
       background: var(--bg-elevated);
       gap: 2px;
     }
+
     .bar-slice {
       height: 100%;
       transition: width 0.3s ease;
@@ -525,6 +599,165 @@
       background: var(--danger-soft);
     }
 
+    /* ==========================================================================
+       5. INSIGHTS SECTION STYLES
+       ========================================================================== */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .health-gauge-box {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1rem;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .health-score-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface);
+      border: 3px solid var(--accent);
+      flex-shrink: 0;
+    }
+
+    .health-score-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .insights-metrics-table {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .metric-row:last-child {
+      border-bottom: none;
+    }
+
+    .smart-tip-card {
+      background: var(--bg-elevated);
+      border-left: 3px solid var(--accent);
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-top: 0.75rem;
+    }
+
+    /* Sparkline bars */
+    .spark-bars {
+      display: flex;
+      align-items: flex-end;
+      height: 48px;
+      gap: 6px;
+      margin-top: 0.75rem;
+    }
+    .spark-bar {
+      flex: 1;
+      background: var(--accent);
+      border-radius: 3px 3px 0 0;
+      min-height: 4px;
+    }
+
+    /* ==========================================================================
+       6. SMART INVESTMENTS SECTION STYLES
+       ========================================================================== */
+    .market-ticker-strip {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.25rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ticker-card {
+      flex: 0 0 auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.9rem;
+      min-width: 145px;
+    }
+    .ticker-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .ticker-price {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .ticker-change {
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .up { color: var(--accent); }
+    .down { color: var(--danger); }
+
+    .invest-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .invest-opportunity-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .invest-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-alpha { background: var(--purple-soft); color: var(--purple); border: 1px solid var(--purple); }
+    .badge-core { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+    .badge-safe { background: rgba(59, 130, 246, 0.1); color: var(--cat-needs); border: 1px solid var(--cat-needs); }
+
+    .sip-allocator-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
     /* Modal (Blur-free, Snappy) */
     .modal-backdrop {
       position: fixed;
@@ -588,50 +821,68 @@
       color: var(--accent);
     }
 
-    /* Mobile Quick Log FAB */
-    .mobile-fab {
-      display: none;
+    /* Auth Box */
+    .auth-overlay {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: var(--accent-contrast);
-      border: none;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 100;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
       align-items: center;
       justify-content: center;
+      padding: 1.25rem;
+      z-index: 999;
+      overflow-y: auto;
     }
 
-    @media (max-width: 768px) {
-      .mobile-fab {
-        display: flex;
-      }
-      .header-controls .hide-on-mobile {
-        display: none;
-      }
-      .app-shell {
-        padding: 1rem 0.75rem 5rem;
-      }
+    .auth-box {
+      width: 100%;
+      max-width: 400px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
+    }
+
+    .auth-error {
+      background: var(--danger-soft);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
     }
   </style>
 </head>
 <body>
 
   <!-- ==========================================================================
-       1. AUTH GATEWAY MODAL
+       1. AUTH OVERLAY
        ========================================================================== -->
   <div class="auth-overlay hidden" id="authGateOverlay">
     <div class="auth-box">
-      <div class="auth-header">
-        <div class="auth-tag">Authentication</div>
-        <h2 class="auth-title" id="authHeading">Access Ledger</h2>
-        <p class="auth-subtitle" id="authSubtitle">Sign in to manage your modular allocations.</p>
+      <div style="margin-bottom: 1.5rem;">
+        <div style="font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.35rem;">
+          Authentication
+        </div>
+        <h2 style="font-size:1.5rem; font-weight:700;" id="authHeading">Access Ledger</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;" id="authSubtitle">
+          Sign in to view your salary allocations and live investments.
+        </p>
       </div>
 
       <div id="authErrorMessage" class="auth-error hidden"></div>
@@ -648,7 +899,6 @@
         or with email
       </div>
 
-      <!-- Email / Password Form -->
       <form onsubmit="handleAuthSubmit(event)">
         <div class="form-group">
           <label class="form-label">Email Address</label>
@@ -665,7 +915,7 @@
         </button>
       </form>
 
-      <div class="auth-toggle-row">
+      <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); text-align: center; font-size: 0.85rem; color: var(--text-muted);">
         <span id="authToggleQuestion">No account yet?</span>
         <button class="btn-text" style="margin-left: 0.4rem;" id="authToggleBtn" onclick="toggleAuthMode()">Initialize Here</button>
       </div>
@@ -673,24 +923,46 @@
   </div>
 
   <!-- ==========================================================================
-       2. MAIN APPLICATION WORKSPACE
+       2. MAIN APPLICATION SHELL
        ========================================================================== -->
   <div class="app-shell" id="appMainShell">
     
-    <!-- Top Nav -->
+    <!-- Header with Desktop Navigation Tabs -->
     <header class="header">
       <div>
         <div class="brand-title">
           <span>Traxpens</span>
           <span class="brand-badge">₹ INR</span>
         </div>
-        <div class="header-user-info">
-          <span id="headerEmailDisplay">Connecting...</span> · 30-Day Payday Cycle
+        <div class="cycle-badge">
+          <span id="headerEmailDisplay">Connecting...</span> ·
+          <span id="cycleStatusBadge">Day 1 of 30</span> ·
+          <span class="payday-tag" onclick="openPaydayModal()" title="Click to customize payday date">Payday: <strong id="paydayBadgeDate">28th</strong> ✎</span>
         </div>
       </div>
 
-      <div class="header-controls">
-        <button class="btn btn-primary hide-on-mobile" onclick="openQuickLogModal()">
+      <!-- Desktop Tab Bar -->
+      <nav class="desktop-nav" aria-label="Desktop Navigation">
+        <button class="nav-tab-btn active" id="deskTabLedger" onclick="switchTab('ledger')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <span>Ledger</span>
+        </button>
+        <button class="nav-tab-btn" id="deskTabInsights" onclick="switchTab('insights')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          <span>Insights</span>
+        </button>
+        <button class="nav-tab-btn" id="deskTabInvest" onclick="switchTab('invest')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+          <span>Smart Investments</span>
+        </button>
+        <button class="nav-tab-btn" id="deskTabSettings" onclick="switchTab('settings')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Cycle & Tuner</span>
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-primary hide-mobile" onclick="openQuickLogModal()">
           <span>+ Record Expense</span>
         </button>
         <button class="btn btn-outline" onclick="toggleTheme()" title="Toggle Theme">
@@ -702,175 +974,497 @@
       </div>
     </header>
 
-    <!-- Top KPI Cards -->
-    <div class="stats-grid">
+    <!-- ========================================================================
+         VIEW 1: LEDGER / DASHBOARD (Active by Default)
+         ======================================================================== -->
+    <div id="viewTabLedger">
       
-      <!-- Card 1: Net Salary & Pool -->
-      <div class="card">
-        <div class="stat-label-row">
-          <span>Monthly Net Paycheck</span>
-          <button class="btn-text" onclick="toggleSalaryTuner()" id="tunerToggleText" style="font-size:0.75rem;">Edit</button>
+      <!-- Top 3 KPI Cards -->
+      <div class="stats-grid">
+        
+        <!-- CARD 1: Monthly Paycheck & Safe Pool -->
+        <div class="card">
+          <div class="stat-label-row">
+            <span>Monthly Net Paycheck</span>
+            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Configure</button>
+          </div>
+          <div class="stat-number font-mono">
+            <span>₹</span><span id="salaryDisplayVal">75,000</span>
+          </div>
+          <div class="stat-footer font-mono">
+            <span>Remaining Safe Pool:</span>
+            <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">34,250</span></strong>
+          </div>
         </div>
-        <div class="stat-number font-mono">
-          <span>₹</span><span id="salaryDisplayVal">75,000</span>
+
+        <!-- CARD 2: Daily Spending Cap (with Manual Edit Option) -->
+        <div class="card">
+          <div class="stat-label-row">
+            <span>
+              Expense Cap 
+              <span id="capModeBadge" style="font-size:0.65rem; padding:1px 5px; border-radius:4px; background:var(--bg-elevated); color:var(--accent);">Dynamic</span>
+            </span>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <select id="capPeriodSelect" onchange="updateCapPeriod()" style="background:var(--bg-elevated); border:1px solid var(--border-main); color:var(--text-muted); font-size:0.72rem; border-radius:4px; padding:2px 4px; outline:none;">
+                <option value="today">Today</option>
+                <option value="weekend">Weekend (1.5x)</option>
+                <option value="rolling7">7-Day Rolling</option>
+                <option value="trip3">3-Day Vacation</option>
+              </select>
+              <button class="btn-text font-mono" onclick="openCapEditModal()" title="Edit or manually set daily cap" style="font-size:0.75rem;">✎ Edit</button>
+            </div>
+          </div>
+          
+          <div class="stat-number font-mono" id="dailyCapDisplayVal">₹850</div>
+          
+          <div class="progress-track">
+            <div class="progress-bar" id="capBarFill" style="width: 32%;"></div>
+          </div>
+
+          <div class="stat-footer font-mono">
+            <span>Spent Today: <strong id="spentTodayDisplayVal">₹270</strong></span>
+            <span>Left Today: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹580</strong></span>
+          </div>
         </div>
-        <div class="stat-footer font-mono">
-          <span>Remaining Safe Pool:</span>
-          <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">34,250</span></strong>
+
+        <!-- CARD 3: 50/30/20 Allocation -->
+        <div class="card">
+          <div class="stat-label-row">
+            <span>50/30/20 Rule Ratio</span>
+            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Tune %</button>
+          </div>
+          
+          <div class="stacked-bar">
+            <div class="bar-slice" id="sliceNeedsBar" style="width: 50%; background: var(--cat-needs);" title="Needs"></div>
+            <div class="bar-slice" id="sliceWantsBar" style="width: 30%; background: var(--cat-wants);" title="Wants"></div>
+            <div class="bar-slice" id="sliceSavingsBar" style="width: 20%; background: var(--cat-savings);" title="Savings"></div>
+          </div>
+
+          <div class="stat-footer font-mono" style="margin-top:0.4rem;">
+            <span style="color:var(--cat-needs);">Needs: <strong id="pctNeedsLabel">50%</strong></span>
+            <span style="color:var(--cat-wants);">Wants: <strong id="pctWantsLabel">30%</strong></span>
+            <span style="color:var(--cat-savings);">Savings: <strong id="pctSavingsLabel">20%</strong></span>
+          </div>
         </div>
+
       </div>
 
-      <!-- Card 2: Daily Spending Cap -->
-      <div class="card">
-        <div class="stat-label-row">
-          <span>Daily Spending Cap</span>
-          <select id="capPeriodSelect" onchange="updateCapPeriod()" style="background:var(--bg-elevated); border:1px solid var(--border-main); color:var(--text-muted); font-size:0.75rem; border-radius:4px; padding:2px 6px; outline:none;">
-            <option value="today">Standard (Today)</option>
-            <option value="weekend">Weekend Surge (1.5x)</option>
-            <option value="rolling7">7-Day Rolling</option>
-            <option value="trip3">3-Day Vacation</option>
-          </select>
-        </div>
-        <div class="stat-number font-mono" id="dailyCapDisplayVal">₹850</div>
+      <!-- Main 2-Column Grid: Buckets + Ledger -->
+      <div class="content-grid">
         
-        <div class="progress-track">
-          <div class="progress-bar" id="capBarFill" style="width: 32%;"></div>
+        <!-- Left: Buckets Breakdown -->
+        <div>
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight: 700; font-size: 0.95rem;">Modular Paycheck Buckets</span>
+              <span class="font-mono text-dim" style="font-size:0.75rem;" id="cycleDaysLeftLabel">18 days left</span>
+            </div>
+            
+            <div class="cat-stack">
+              <div class="cat-row">
+                <div style="display: flex; align-items: center;">
+                  <div class="cat-dot" style="background: var(--cat-needs);"></div>
+                  <div>
+                    <div class="cat-name">Needs (<span id="catNeedsPct">50%</span>)</div>
+                    <div class="cat-sub">Rent, bills, groceries, commute</div>
+                  </div>
+                </div>
+                <div class="cat-amt">
+                  <div class="cat-rupee font-mono" id="budgetNeedsRupees">₹37,500</div>
+                  <div class="cat-spent font-mono" id="spentNeedsRatio">Spent ₹0 (0%)</div>
+                </div>
+              </div>
+
+              <div class="cat-row">
+                <div style="display: flex; align-items: center;">
+                  <div class="cat-dot" style="background: var(--cat-wants);"></div>
+                  <div>
+                    <div class="cat-name">Wants (<span id="catWantsPct">30%</span>)</div>
+                    <div class="cat-sub">Dining, Swiggy, leisure, movies</div>
+                  </div>
+                </div>
+                <div class="cat-amt">
+                  <div class="cat-rupee font-mono" id="budgetWantsRupees">₹22,500</div>
+                  <div class="cat-spent font-mono" id="spentWantsRatio">Spent ₹0 (0%)</div>
+                </div>
+              </div>
+
+              <div class="cat-row">
+                <div style="display: flex; align-items: center;">
+                  <div class="cat-dot" style="background: var(--cat-savings);"></div>
+                  <div>
+                    <div class="cat-name">Savings & Investments (<span id="catSavingsPct">20%</span>)</div>
+                    <div class="cat-sub">Emergency fund, Mutual funds, SIP</div>
+                  </div>
+                </div>
+                <div class="cat-amt">
+                  <div class="cat-rupee font-mono" id="budgetSavingsRupees">₹15,000</div>
+                  <button class="btn-text font-mono" onclick="switchTab('invest')" style="font-size:0.75rem;">Deploy SIP →</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="stat-footer font-mono">
-          <span>Spent: <strong id="spentTodayDisplayVal">₹270</strong></span>
-          <span>Left: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹580</strong></span>
-        </div>
-      </div>
+        <!-- Right: Ledger -->
+        <div>
+          <div class="card">
+            <div class="ledger-top">
+              <div style="font-weight: 700; font-size: 0.95rem;">Transaction Ledger</div>
+              
+              <div class="filters-wrap">
+                <button class="filter-btn active" onclick="setLedgerFilter('all', this)">All</button>
+                <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Needs</button>
+                <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Wants</button>
+                <button class="filter-btn" onclick="setLedgerFilter('savings', this)">Savings</button>
+              </div>
+            </div>
 
-      <!-- Card 3: 50/30/20 Allocation -->
-      <div class="card">
-        <div class="stat-label-row">
-          <span>50/30/20 Rule Ratio</span>
-          <span class="font-mono" style="font-size:0.75rem; color:var(--text-dim);">Auto Allocated</span>
-        </div>
-        
-        <div class="stacked-bar">
-          <div class="bar-slice" id="sliceNeedsBar" style="width: 50%; background: var(--cat-needs);" title="Needs"></div>
-          <div class="bar-slice" id="sliceWantsBar" style="width: 30%; background: var(--cat-wants);" title="Wants"></div>
-          <div class="bar-slice" id="sliceSavingsBar" style="width: 20%; background: var(--cat-savings);" title="Savings"></div>
+            <div class="tx-list" id="ledgerRowsContainer">
+              <div style="padding: 2rem 1rem; text-align: center; color: var(--text-dim); font-size: 0.85rem;">
+                No transactions recorded yet. Tap "+ Record Expense" to log one.
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="stat-footer font-mono" style="margin-top:0.4rem;">
-          <span style="color:var(--cat-needs);">Needs: <strong id="pctNeedsLabel">50%</strong></span>
-          <span style="color:var(--cat-wants);">Wants: <strong id="pctWantsLabel">30%</strong></span>
-          <span style="color:var(--cat-savings);">Savings: <strong id="pctSavingsLabel">20%</strong></span>
-        </div>
       </div>
 
     </div>
 
-    <!-- Modular Salary Tuner Box (Expandable) -->
-    <div id="salaryTunerBox" class="card hidden" style="margin-bottom: 1.5rem; background: var(--bg-elevated);">
-      <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem;">Modular Budget Configuration</div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+    <!-- ========================================================================
+         VIEW 2: SMART INSIGHTS SECTION (Trends & Projections)
+         ======================================================================== -->
+    <div id="viewTabInsights" class="hidden">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
         <div>
-          <label class="form-label">Monthly Take-Home: <span id="sliderSalaryVal" class="font-mono">₹75,000</span></label>
-          <input type="range" id="salarySlider" min="15000" max="500000" step="1000" value="75000" oninput="handleSalarySlider(this.value)" style="width:100%;">
+          <h2 style="font-size:1.35rem; font-weight:700;">Financial Intelligence & Trends</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Real-time projections calculated from your current payday velocity.</p>
         </div>
-        <div>
-          <label class="form-label">Needs Target: <span id="sliderNeedsVal" class="font-mono">50%</span></label>
-          <input type="range" id="needsSlider" min="20" max="70" step="5" value="50" oninput="handleRatioSliders()" style="width:100%;">
-        </div>
-        <div>
-          <label class="form-label">Wants Target: <span id="sliderWantsVal" class="font-mono">30%</span></label>
-          <input type="range" id="wantsSlider" min="10" max="50" step="5" value="30" oninput="handleRatioSliders()" style="width:100%;">
-        </div>
+        <button class="btn btn-outline btn-sm" onclick="refreshUI()">Refresh Projections</button>
       </div>
+
+      <div class="insights-grid">
+        
+        <!-- Health Score & Burn Rate -->
+        <div class="card">
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">Cycle Health & Velocity</div>
+          
+          <div class="health-gauge-box">
+            <div class="health-score-circle">
+              <span class="health-score-val font-mono" id="insightHealthScore">88</span>
+              <span style="font-size:0.58rem; color:var(--text-dim); text-transform:uppercase;">/ 100</span>
+            </div>
+            <div>
+              <div style="font-weight:700; font-size:1rem;" id="insightHealthLabel">Optimal Pacing</div>
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;" id="insightHealthDesc">
+                Spending velocity is comfortably below your dynamic daily limit.
+              </div>
+            </div>
+          </div>
+
+          <div class="insights-metrics-table">
+            <div class="metric-row">
+              <span class="text-muted">Average Daily Spend:</span>
+              <strong class="font-mono" id="insightAvgDailySpend">₹0 / day</strong>
+            </div>
+            <div class="metric-row">
+              <span class="text-muted">Target Safe Daily Cap:</span>
+              <strong class="font-mono" id="insightTargetDailyCap">₹850 / day</strong>
+            </div>
+            <div class="metric-row">
+              <span class="text-muted">Cycle Burn Rate Velocity:</span>
+              <strong class="font-mono" id="insightBurnVelocity" style="color:var(--accent);">0.82x (Safe)</strong>
+            </div>
+            <div class="metric-row">
+              <span class="text-muted">Cycle Days Progress:</span>
+              <strong class="font-mono" id="insightCycleProgress">Day 12 of 30 (40%)</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month-End Projections -->
+        <div class="card">
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">Month-End Projections</div>
+          
+          <div class="insights-metrics-table">
+            <div class="metric-row">
+              <span class="text-muted">Current Total Spent:</span>
+              <strong class="font-mono" id="insightTotalSpent">₹0</strong>
+            </div>
+            <div class="metric-row">
+              <span class="text-muted">Projected Total Outflow:</span>
+              <strong class="font-mono" id="insightProjectedOutflow">₹0</strong>
+            </div>
+            <div class="metric-row">
+              <span class="text-muted">Projected Surplus at Payday:</span>
+              <strong class="font-mono" style="color:var(--accent); font-size:1.05rem;" id="insightProjectedSurplus">₹0</strong>
+            </div>
+            <div class="metric-row">
+              <span class="text-muted">Target 20% Capital Preserved:</span>
+              <strong class="font-mono" id="insightSavingsTargetPreserved">100% Intact</strong>
+            </div>
+          </div>
+
+          <!-- Dynamic AI Smart Advice -->
+          <div class="smart-tip-card" id="insightSmartAdvice">
+            💡 <strong>Smart Observation:</strong> Your current burn velocity will leave you with an estimated surplus at payday. Consider routing ₹2,500 into this month's Smart Flexi-Cap SIP.
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
-    <!-- Main Workspace -->
-    <div class="content-grid">
+    <!-- ========================================================================
+         VIEW 3: SMART INVESTMENTS HUB (Real-Time Market Pulse & Allocations)
+         ======================================================================== -->
+    <div id="viewTabInvest" class="hidden">
       
-      <!-- Left Column: Allocations & Guidelines -->
-      <div>
-        <div class="card">
-          <div style="font-weight: 700; font-size: 0.95rem;">Modular Paycheck Buckets</div>
-          <div class="cat-stack">
-            
-            <div class="cat-row">
-              <div style="display: flex; align-items: center;">
-                <div class="cat-dot" style="background: var(--cat-needs);"></div>
-                <div>
-                  <div class="cat-name">Needs (<span id="catNeedsPct">50%</span>)</div>
-                  <div class="cat-sub">Rent, bills, groceries, commute</div>
-                </div>
-              </div>
-              <div class="cat-amt">
-                <div class="cat-rupee font-mono" id="budgetNeedsRupees">₹37,500</div>
-                <div class="cat-spent font-mono" id="spentNeedsRatio">Spent ₹0 (0%)</div>
-              </div>
-            </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="font-size:1.35rem; font-weight:700;">Smart Investments & Real-Time Pulse</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Intelligently selected profitable asset routes updating with live market shifts.</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span class="font-mono" style="font-size:0.75rem; color:var(--accent); display:flex; align-items:center; gap:4px;">
+            <span style="width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block;"></span>
+            Live Feed Active
+          </span>
+          <button class="btn btn-outline btn-sm" onclick="tickMarketSimulation()">Refresh Rates</button>
+        </div>
+      </div>
 
-            <div class="cat-row">
-              <div style="display: flex; align-items: center;">
-                <div class="cat-dot" style="background: var(--cat-wants);"></div>
-                <div>
-                  <div class="cat-name">Wants (<span id="catWantsPct">30%</span>)</div>
-                  <div class="cat-sub">Dining, Swiggy, leisure, shopping</div>
-                </div>
-              </div>
-              <div class="cat-amt">
-                <div class="cat-rupee font-mono" id="budgetWantsRupees">₹22,500</div>
-                <div class="cat-spent font-mono" id="spentWantsRatio">Spent ₹0 (0%)</div>
-              </div>
-            </div>
+      <!-- Real-Time Market Ticker Strip -->
+      <div class="market-ticker-strip">
+        <div class="ticker-card">
+          <div class="ticker-name">NIFTY 50</div>
+          <div class="ticker-price font-mono" id="tickerNiftyPrice">25,824.50</div>
+          <div class="ticker-change font-mono up" id="tickerNiftyChange">+0.68% ▲</div>
+        </div>
+        <div class="ticker-card">
+          <div class="ticker-name">SENSEX</div>
+          <div class="ticker-price font-mono" id="tickerSensexPrice">84,310.20</div>
+          <div class="ticker-change font-mono up" id="tickerSensexChange">+0.54% ▲</div>
+        </div>
+        <div class="ticker-card">
+          <div class="ticker-name">GOLD 24K (10g)</div>
+          <div class="ticker-price font-mono" id="tickerGoldPrice">₹76,520</div>
+          <div class="ticker-change font-mono up" id="tickerGoldChange">+0.35% ▲</div>
+        </div>
+        <div class="ticker-card">
+          <div class="ticker-name">US S&P 500 ETF</div>
+          <div class="ticker-price font-mono" id="tickerSpPrice">₹464.20</div>
+          <div class="ticker-change font-mono up" id="tickerSpChange">+0.91% ▲</div>
+        </div>
+        <div class="ticker-card">
+          <div class="ticker-name">10Y G-SEC YTM</div>
+          <div class="ticker-price font-mono" id="tickerGsecPrice">6.82%</div>
+          <div class="ticker-change font-mono" style="color:var(--cat-needs);">Safe Benchmark</div>
+        </div>
+      </div>
 
-            <div class="cat-row">
-              <div style="display: flex; align-items: center;">
-                <div class="cat-dot" style="background: var(--cat-savings);"></div>
-                <div>
-                  <div class="cat-name">Savings & SIP (<span id="catSavingsPct">20%</span>)</div>
-                  <div class="cat-sub">Emergency fund, Mutual funds, PPF</div>
-                </div>
-              </div>
-              <div class="cat-amt">
-                <div class="cat-rupee font-mono" id="budgetSavingsRupees">₹15,000</div>
-                <div class="cat-spent font-mono" style="color:var(--accent);">Protected Capital</div>
-              </div>
+      <!-- Personalized SIP Split Banner -->
+      <div class="card" style="margin-bottom: 1.25rem; background: var(--bg-elevated);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <div>
+            <div style="font-weight:700; font-size:1.05rem;">Automated Smart SIP Allocator</div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
+              Based on your monthly 20% savings capacity: <strong class="font-mono" style="color:var(--accent);" id="investSavingsPoolRupees">₹15,000 / month</strong>
             </div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="copySIPDistribution()">Copy Allocation Plan</button>
+        </div>
 
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem; margin-top:1rem;">
+          <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Core Index (45%)</div>
+            <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--cat-needs);" id="sipAllocNifty">₹6,750</div>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">UTI / HDFC Nifty 50 Index</div>
+          </div>
+          <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Alpha Momentum (35%)</div>
+            <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--purple);" id="sipAllocFlexi">₹5,250</div>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Parag Parikh / Quant Flexi</div>
+          </div>
+          <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Gold & Hedge (20%)</div>
+            <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--cat-wants);" id="sipAllocGold">₹3,000</div>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Sovereign Gold / Arbitrage</div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Ledger -->
-      <div>
+      <!-- Intelligently Selected Opportunities Grid -->
+      <div class="invest-card-grid">
+        
+        <!-- Strategy 1 -->
+        <div class="invest-opportunity-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <span class="invest-badge badge-core">Core Wealth · Low Expense</span>
+              <span class="font-mono up" style="font-weight:700; font-size:0.85rem;">14.2% 3Y CAGR</span>
+            </div>
+            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Nifty 50 / Large-Cap Index</div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
+              Passively mirrors India's top 50 blue chips with 0.08% expense ratio. The foundational engine for steady compounding.
+            </p>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle); padding-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.75rem; color:var(--text-dim);">Suggested Horizon: 3+ Yrs</span>
+            <span class="font-mono text-success" style="font-weight:700; font-size:0.85rem;">Rank #1 Safe</span>
+          </div>
+        </div>
+
+        <!-- Strategy 2 -->
+        <div class="invest-opportunity-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <span class="invest-badge badge-alpha">Alpha Momentum · Smart Flexi</span>
+              <span class="font-mono up" style="font-weight:700; font-size:0.85rem;">19.8% 3Y CAGR</span>
+            </div>
+            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Flexi-Cap & Quant Alpha</div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
+              Dynamically allocates between high-growth mid-caps and global leaders to outperform broad market indexes during bullish expansions.
+            </p>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle); padding-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.75rem; color:var(--text-dim);">Suggested Horizon: 5+ Yrs</span>
+            <span class="font-mono" style="font-weight:700; font-size:0.85rem; color:var(--purple);">Rank #1 Alpha</span>
+          </div>
+        </div>
+
+        <!-- Strategy 3 -->
+        <div class="invest-opportunity-card">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <span class="invest-badge badge-safe">Capital Defense · 0% Tax Gain</span>
+              <span class="font-mono" style="font-weight:700; font-size:0.85rem; color:var(--cat-wants);">8.5% + Capital Gain</span>
+            </div>
+            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Sovereign Gold & Arbitrage</div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
+              Hedges against currency inflation with sovereign government backing and zero capital gains tax when held to maturity.
+            </p>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle); padding-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.75rem; color:var(--text-dim);">Suggested Horizon: Anytime</span>
+            <span class="font-mono" style="font-weight:700; font-size:0.85rem; color:var(--cat-wants);">Inflation Hedge</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================================================
+         VIEW 4: SETTINGS, CYCLE CONFIGURATION & SALARY TUNER
+         ======================================================================== -->
+    <div id="viewTabSettings" class="hidden">
+      
+      <div style="margin-bottom:1.25rem;">
+        <h2 style="font-size:1.35rem; font-weight:700;">Payday Cycle & Budget Configuration</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Adjust your salary cycle, expense limits, and 50/30/20 proportions.</p>
+      </div>
+
+      <div class="content-grid">
+        
+        <!-- Payday Date & Cap Settings -->
         <div class="card">
-          <div class="ledger-top">
-            <div style="font-weight: 700; font-size: 0.95rem;">Transaction Ledger</div>
-            
-            <div class="filters-wrap">
-              <button class="filter-btn active" onclick="setLedgerFilter('all', this)">All</button>
-              <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Needs</button>
-              <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Wants</button>
-              <button class="filter-btn" onclick="setLedgerFilter('savings', this)">Savings</button>
+          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Paycheck Cycle Date</div>
+          
+          <div class="form-group">
+            <label class="form-label">Payday Day of the Month (1 - 31)</label>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="28" style="font-size:1.1rem; font-weight:700; width:120px;" />
+              <button class="btn btn-primary" onclick="savePaydayDate()">Update Cycle</button>
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;" id="paydayCycleHelpText">
+              Your cycle will automatically calculate elapsed days and days left based on this date.
             </div>
           </div>
 
-          <div class="tx-list" id="ledgerRowsContainer">
-            <div style="padding: 2rem 1rem; text-align: center; color: var(--text-dim); font-size: 0.85rem;">
-              No transactions recorded yet. Tap "+ Record Expense" to add your first expense.
+          <div style="border-top:1px solid var(--border-subtle); padding-top:1.25rem; margin-top:1.25rem;">
+            <div style="font-weight:700; font-size:1rem; margin-bottom:0.75rem;">Daily Expense Cap Mode</div>
+            
+            <div style="display:flex; flex-direction:column; gap:0.6rem;">
+              <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="capModeRadio" id="radioCapAuto" checked onchange="toggleManualCap(false)" />
+                <span><strong>Dynamic Auto-Cap:</strong> Calculated automatically from remaining Wants budget ÷ days left.</span>
+              </label>
+
+              <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="capModeRadio" id="radioCapManual" onchange="toggleManualCap(true)" />
+                <span><strong>Manual Fixed Cap:</strong> Fixed custom daily allowance regardless of balance.</span>
+              </label>
+            </div>
+
+            <div id="manualCapInputWrap" class="hidden" style="margin-top:0.85rem; display:flex; gap:0.5rem;">
+              <input type="number" id="manualCapAmtInput" class="input font-mono" placeholder="₹ Enter daily limit" min="50" step="50" style="width:180px;" />
+              <button class="btn btn-primary btn-sm" onclick="saveManualCap()">Save Limit</button>
             </div>
           </div>
         </div>
+
+        <!-- Salary & 50/30/20 Sliders -->
+        <div class="card">
+          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Monthly Salary & Targets</div>
+          
+          <div class="form-group">
+            <label class="form-label">Monthly Take-Home Pay: <span id="sliderSalaryVal" class="font-mono" style="color:var(--accent);">₹75,000</span></label>
+            <input type="range" id="salarySlider" min="15000" max="500000" step="1000" value="75000" oninput="handleSalarySlider(this.value)" style="width:100%;" />
+          </div>
+
+          <div class="form-group" style="margin-top:1.25rem;">
+            <label class="form-label">Needs Target: <span id="sliderNeedsVal" class="font-mono">50%</span></label>
+            <input type="range" id="needsSlider" min="20" max="70" step="5" value="50" oninput="handleRatioSliders()" style="width:100%;" />
+          </div>
+
+          <div class="form-group" style="margin-top:1.25rem;">
+            <label class="form-label">Wants Target: <span id="sliderWantsVal" class="font-mono">30%</span></label>
+            <input type="range" id="wantsSlider" min="10" max="50" step="5" value="30" oninput="handleRatioSliders()" style="width:100%;" />
+          </div>
+
+          <div style="font-size:0.75rem; color:var(--text-dim); margin-top:0.5rem;">
+            * Savings target automatically balances to make the total 100%.
+          </div>
+        </div>
+
       </div>
 
     </div>
 
   </div>
 
-  <!-- Mobile Floating Action Button -->
+  <!-- ==========================================================================
+       3. MOBILE BOTTOM NAVBAR
+       ========================================================================== -->
+  <nav class="mobile-navbar" aria-label="Mobile Navigation">
+    <button class="mobile-nav-item active" id="mobTabLedger" onclick="switchTab('ledger')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span>Ledger</span>
+    </button>
+    <button class="mobile-nav-item" id="mobTabInsights" onclick="switchTab('insights')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      <span>Insights</span>
+    </button>
+    <button class="mobile-nav-item" id="mobTabInvest" onclick="switchTab('invest')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+      <span>Invest</span>
+    </button>
+    <button class="mobile-nav-item" id="mobTabSettings" onclick="switchTab('settings')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <!-- Mobile Floating Action Button (Record Expense) -->
   <button class="mobile-fab" onclick="openQuickLogModal()" title="Record Expense">+</button>
 
   <!-- ==========================================================================
-       3. MODULAR RECORD EXPENSE MODAL
+       4. MODALS (Quick Log, Payday Date & Custom Cap)
        ========================================================================== -->
+  <!-- Record Transaction Modal -->
   <div class="modal-backdrop hidden" id="quickLogModal" onclick="handleCurtainClick(event)">
     <div class="modal-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
@@ -919,8 +1513,63 @@
     </div>
   </div>
 
+  <!-- Payday Date Modal -->
+  <div class="modal-backdrop hidden" id="paydayModal" onclick="handlePaydayCurtainClick(event)">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Edit Paycheck Date</h3>
+        <button class="btn-text" onclick="closePaydayModal()" style="font-size: 1.25rem;">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Select the day of the month when your salary is credited. Your 30-day budget cycle will recalculate automatically.
+      </p>
+      <div class="form-group">
+        <label class="form-label">Day of Month (1 - 31)</label>
+        <input type="number" id="modalPaydayInput" class="input font-mono" min="1" max="31" value="28" style="font-size: 1.2rem; font-weight:700;" />
+      </div>
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+        <button type="button" class="btn btn-outline" onclick="closePaydayModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="savePaydayFromModal()">Save & Recalculate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Daily Cap Modal -->
+  <div class="modal-backdrop hidden" id="capEditModal" onclick="handleCapModalCurtainClick(event)">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Set Expense Cap</h3>
+        <button class="btn-text" onclick="closeCapEditModal()" style="font-size: 1.25rem;">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Choose whether your daily cap is dynamically calculated or manually fixed to a specific Rupee amount.
+      </p>
+      
+      <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.25rem;">
+        <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
+          <input type="radio" name="modalCapRadio" id="modalCapRadioAuto" checked onchange="toggleModalManualCap(false)" />
+          <span><strong>Dynamic Auto-Cap</strong> (Remaining discretionary ÷ days left)</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
+          <input type="radio" name="modalCapRadio" id="modalCapRadioManual" onchange="toggleModalManualCap(true)" />
+          <span><strong>Manual Custom Cap</strong> (Set fixed daily limit)</span>
+        </label>
+      </div>
+
+      <div id="modalManualInputBlock" class="form-group hidden">
+        <label class="form-label">Manual Daily Amount (₹)</label>
+        <input type="number" id="modalManualCapAmt" class="input font-mono" placeholder="₹ 1000" min="10" step="50" style="font-size:1.15rem; font-weight:700;" />
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+        <button type="button" class="btn btn-outline" onclick="closeCapEditModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveCapFromModal()">Apply Cap</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==========================================================================
-       4. FIREBASE SCRIPT & LIGHTWEIGHT LOGIC
+       5. FIREBASE INTEGRATION & APPLICATION LOGIC
        ========================================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -928,10 +1577,10 @@
       getAuth, 
       signInWithEmailAndPassword, 
       createUserWithEmailAndPassword, 
-      signInWithPopup,
-      signInWithRedirect,
-      getRedirectResult,
-      GoogleAuthProvider,
+      signInWithPopup, 
+      signInWithRedirect, 
+      getRedirectResult, 
+      GoogleAuthProvider, 
       onAuthStateChanged, 
       signOut 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -940,7 +1589,7 @@
       doc, 
       setDoc, 
       getDoc, 
-      deleteDoc,
+      deleteDoc, 
       collection, 
       addDoc, 
       query, 
@@ -963,7 +1612,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Redirect result listener
     getRedirectResult(auth).catch((err) => {
       if (err && err.code && err.code !== 'auth/redirect-cancelled-by-user') {
         showAuthError(getFriendlyErrorMessage(err));
@@ -974,11 +1622,13 @@
 
     const defaultData = {
       salary: 75000,
-      daysLeft: 18,
+      paydayDay: 28,
       ratios: { needs: 0.50, wants: 0.30, savings: 0.20 },
       spent: { needs: 0, wants: 0, savings: 0 },
       spentToday: 0,
       capMode: 'today',
+      useManualCap: false,
+      manualCapAmount: 1000,
       filter: 'all',
       chosenCat: 'needs',
       transactions: []
@@ -988,7 +1638,32 @@
     let userData = JSON.parse(JSON.stringify(defaultData));
     let unsubscribeTx = null;
 
-    // Auth state observer
+    // Helper: Calculate Custom Payday Cycle
+    function getCycleDates(paydayDay = 28) {
+      const now = new Date();
+      const currentDay = now.getDate();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+
+      let cycleStart, nextPayday;
+
+      if (currentDay >= paydayDay) {
+        cycleStart = new Date(currentYear, currentMonth, paydayDay);
+        nextPayday = new Date(currentYear, currentMonth + 1, paydayDay);
+      } else {
+        cycleStart = new Date(currentYear, currentMonth - 1, paydayDay);
+        nextPayday = new Date(currentYear, currentMonth, paydayDay);
+      }
+
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const totalDays = Math.max(1, Math.round((nextPayday - cycleStart) / msPerDay));
+      const elapsedDays = Math.max(1, Math.round((now - cycleStart) / msPerDay));
+      const daysLeft = Math.max(1, Math.round((nextPayday - now) / msPerDay));
+
+      return { cycleStart, nextPayday, totalDays, elapsedDays, daysLeft };
+    }
+
+    // Auth Observer
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUser = user;
@@ -1014,35 +1689,58 @@
         if (snap.exists()) {
           const d = snap.data();
           userData.salary = d.salary || 75000;
+          userData.paydayDay = d.paydayDay !== undefined ? d.paydayDay : 28;
           userData.ratios = d.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 };
           userData.capMode = d.capMode || 'today';
+          userData.useManualCap = !!d.useManualCap;
+          userData.manualCapAmount = d.manualCapAmount || 1000;
         } else {
           await setDoc(docRef, {
             email: email,
             salary: 75000,
+            paydayDay: 28,
             ratios: { needs: 0.5, wants: 0.3, savings: 0.2 },
             capMode: 'today',
+            useManualCap: false,
+            manualCapAmount: 1000,
             createdAt: serverTimestamp()
           });
         }
-        syncInputsWithData();
+        syncInputs();
         refreshUI();
       } catch (err) {
-        console.warn("Firestore notice:", err);
+        console.warn("Firestore access notice:", err);
         refreshUI();
       }
     }
 
-    function syncInputsWithData() {
+    function syncInputs() {
       document.getElementById('salarySlider').value = userData.salary;
       document.getElementById('sliderSalaryVal').textContent = '₹' + inrFormatter.format(userData.salary);
+      
       const needsPct = Math.round(userData.ratios.needs * 100);
       const wantsPct = Math.round(userData.ratios.wants * 100);
       document.getElementById('needsSlider').value = needsPct;
       document.getElementById('wantsSlider').value = wantsPct;
       document.getElementById('sliderNeedsVal').textContent = needsPct + '%';
       document.getElementById('sliderWantsVal').textContent = wantsPct + '%';
+      
       document.getElementById('capPeriodSelect').value = userData.capMode;
+      document.getElementById('paydayDateInput').value = userData.paydayDay;
+      document.getElementById('modalPaydayInput').value = userData.paydayDay;
+      document.getElementById('paydayBadgeDate').textContent = getOrdinal(userData.paydayDay);
+
+      // Manual Cap radio sync
+      document.getElementById('radioCapAuto').checked = !userData.useManualCap;
+      document.getElementById('radioCapManual').checked = userData.useManualCap;
+      document.getElementById('manualCapInputWrap').classList.toggle('hidden', !userData.useManualCap);
+      document.getElementById('manualCapAmtInput').value = userData.manualCapAmount;
+    }
+
+    function getOrdinal(n) {
+      const s = ["th", "st", "nd", "rd"];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
     }
 
     function listenToTransactions(uid) {
@@ -1068,7 +1766,8 @@
             name: item.name || 'Expense',
             amount: amt,
             cat: cat,
-            time: jsDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            time: jsDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            date: jsDate
           });
 
           if (userData.spent[cat] !== undefined) {
@@ -1083,109 +1782,19 @@
       }, (err) => console.warn("Snapshot error:", err));
     }
 
-    // Auth toggles
-    let isLogin = true;
-    function toggleAuthMode() {
-      isLogin = !isLogin;
-      clearAuthError();
-      document.getElementById('authHeading').textContent = isLogin ? "Access Ledger" : "Initialize Identity";
-      document.getElementById('authSubtitle').textContent = isLogin ? "Sign in to manage your modular allocations." : "Create your account to start tracking.";
-      document.getElementById('authSubmitBtnText').textContent = isLogin ? "Authenticate" : "Initialize";
-      document.getElementById('authToggleQuestion').textContent = isLogin ? "No account yet?" : "Already have an account?";
-      document.getElementById('authToggleBtn').textContent = isLogin ? "Initialize Here" : "Authenticate";
-    }
-
-    async function handleGoogleAuth() {
-      clearAuthError();
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
-      const googleBtn = document.getElementById('googleAuthBtn');
-      if (googleBtn) googleBtn.disabled = true;
-
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (err) {
-        if (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request') {
-          try {
-            await signInWithRedirect(auth, provider);
-            return;
-          } catch (redirErr) {
-            showAuthError(getFriendlyErrorMessage(redirErr));
-          }
-        } else if (err.code !== 'auth/popup-closed-by-user') {
-          showAuthError(getFriendlyErrorMessage(err));
-        }
-      } finally {
-        if (googleBtn) googleBtn.disabled = false;
-      }
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      clearAuthError();
-
-      const email = document.getElementById('authEmailInput').value.trim();
-      const password = document.getElementById('authPasswordInput').value;
-      const submitBtn = document.getElementById('authSubmitBtn');
-      const submitBtnText = document.getElementById('authSubmitBtnText');
-
-      if (!email || !password) return;
-      submitBtn.disabled = true;
-      const original = submitBtnText.textContent;
-      submitBtnText.textContent = "Processing...";
-
-      try {
-        if (isLogin) {
-          await signInWithEmailAndPassword(auth, email, password);
-        } else {
-          await createUserWithEmailAndPassword(auth, email, password);
-        }
-      } catch (err) {
-        showAuthError(getFriendlyErrorMessage(err));
-      } finally {
-        submitBtn.disabled = false;
-        submitBtnText.textContent = original;
-      }
-    }
-
-    function showAuthError(msg) {
-      const box = document.getElementById('authErrorMessage');
-      box.textContent = msg;
-      box.classList.remove('hidden');
-    }
-
-    function clearAuthError() {
-      const box = document.getElementById('authErrorMessage');
-      box.textContent = '';
-      box.classList.add('hidden');
-    }
-
-    function getFriendlyErrorMessage(err) {
-      if (!err) return "An unexpected error occurred.";
-      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') return "Incorrect email or password.";
-      if (err.code === 'auth/user-not-found') return "No account found with this email. Click 'Initialize Here' below.";
-      if (err.code === 'auth/email-already-in-use') return "An account already exists with this email. Click 'Authenticate'.";
-      if (err.code === 'auth/weak-password') return "Password must be at least 6 characters.";
-      if (err.code === 'auth/invalid-email') return "Please enter a valid email address.";
-      if (err.code === 'auth/unauthorized-domain') {
-        return `Domain "${window.location.hostname}" is not authorized. Add it to Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
-      }
-      return err.message || "Authentication error. Please try again.";
-    }
-
-    async function handleLogout() {
-      if (unsubscribeTx) unsubscribeTx();
-      await signOut(auth);
-      document.getElementById('authEmailInput').value = '';
-      document.getElementById('authPasswordInput').value = '';
-      clearAuthError();
-    }
-
-    // Calculations
+    // Dynamic vs Manual Cap Calculation
     function getDailyCap() {
+      if (userData.useManualCap && userData.manualCapAmount > 0) {
+        let manual = userData.manualCapAmount;
+        if (userData.capMode === 'weekend') manual *= 1.5;
+        else if (userData.capMode === 'trip3') manual *= 1.25;
+        return Math.round(manual);
+      }
+
+      const cycle = getCycleDates(userData.paydayDay);
       const wantsBudget = userData.salary * userData.ratios.wants;
       const remainingWants = Math.max(0, wantsBudget - userData.spent.wants);
-      let baseDaily = remainingWants / userData.daysLeft;
+      let baseDaily = remainingWants / cycle.daysLeft;
 
       if (userData.capMode === 'weekend') baseDaily *= 1.5;
       else if (userData.capMode === 'trip3') baseDaily = (remainingWants * 0.25) / 3;
@@ -1194,7 +1803,16 @@
       return Math.round(baseDaily);
     }
 
+    // Main UI Synchronization
     function refreshUI() {
+      const cycle = getCycleDates(userData.paydayDay);
+
+      // 1. Cycle badges
+      document.getElementById('cycleStatusBadge').textContent = `Day ${cycle.elapsedDays} of ${cycle.totalDays}`;
+      document.getElementById('paydayBadgeDate').textContent = getOrdinal(userData.paydayDay);
+      document.getElementById('cycleDaysLeftLabel').textContent = `${cycle.daysLeft} days until payday`;
+
+      // 2. Budget numbers
       const needsBudget = userData.salary * userData.ratios.needs;
       const wantsBudget = userData.salary * userData.ratios.wants;
       const savingsBudget = userData.salary * userData.ratios.savings;
@@ -1227,8 +1845,10 @@
       document.getElementById('spentNeedsRatio').textContent = `Spent ₹${inrFormatter.format(userData.spent.needs)} (${needsSpentPct}%)`;
       document.getElementById('spentWantsRatio').textContent = `Spent ₹${inrFormatter.format(userData.spent.wants)} (${wantsSpentPct}%)`;
 
+      // 3. Daily Cap & Progress
       const dailyCap = getDailyCap();
       document.getElementById('dailyCapDisplayVal').textContent = '₹' + inrFormatter.format(dailyCap);
+      document.getElementById('capModeBadge').textContent = userData.useManualCap ? 'Manual Fixed' : 'Dynamic Auto';
       document.getElementById('spentTodayDisplayVal').textContent = '₹' + inrFormatter.format(userData.spentToday);
 
       const leftToday = Math.max(0, dailyCap - userData.spentToday);
@@ -1243,7 +1863,125 @@
       else if (capProgress > 70) capBar.style.backgroundColor = 'var(--cat-wants)';
       else capBar.style.backgroundColor = 'var(--accent)';
 
+      // 4. Update Insights
+      updateInsightsData(cycle, wantsBudget, safePool, dailyCap);
+
+      // 5. Update Smart Investment Allocator
+      updateInvestmentAllocations(savingsBudget);
+
+      // 6. Render Ledger
       renderLedger();
+    }
+
+    function updateInsightsData(cycle, wantsBudget, safePool, dailyCap) {
+      const totalSpent = userData.spent.needs + userData.spent.wants;
+      const avgDaily = cycle.elapsedDays > 0 ? Math.round(totalSpent / cycle.elapsedDays) : 0;
+      const projectedOutflow = totalSpent + (avgDaily * cycle.daysLeft);
+      const projectedSurplus = Math.max(0, userData.salary - projectedOutflow);
+
+      document.getElementById('insightTotalSpent').textContent = '₹' + inrFormatter.format(totalSpent);
+      document.getElementById('insightAvgDailySpend').textContent = '₹' + inrFormatter.format(avgDaily) + ' / day';
+      document.getElementById('insightTargetDailyCap').textContent = '₹' + inrFormatter.format(dailyCap) + ' / day';
+      document.getElementById('insightProjectedOutflow').textContent = '₹' + inrFormatter.format(projectedOutflow);
+      document.getElementById('insightProjectedSurplus').textContent = '₹' + inrFormatter.format(projectedSurplus);
+      document.getElementById('insightCycleProgress').textContent = `Day ${cycle.elapsedDays} of ${cycle.totalDays} (${Math.round((cycle.elapsedDays/cycle.totalDays)*100)}%)`;
+
+      // Velocity ratio
+      const velocity = dailyCap > 0 ? (avgDaily / dailyCap).toFixed(2) : "1.00";
+      const burnEl = document.getElementById('insightBurnVelocity');
+      if (velocity <= 0.9) {
+        burnEl.textContent = `${velocity}x (Comfortable)`;
+        burnEl.style.color = 'var(--accent)';
+      } else if (velocity <= 1.1) {
+        burnEl.textContent = `${velocity}x (On Target)`;
+        burnEl.style.color = 'var(--cat-wants)';
+      } else {
+        burnEl.textContent = `${velocity}x (Accelerated)`;
+        burnEl.style.color = 'var(--danger)';
+      }
+
+      // Financial Health Score (0 - 100)
+      let score = 85;
+      if (safePool < userData.salary * 0.2) score -= 25;
+      else if (safePool < userData.salary * 0.35) score -= 10;
+      if (userData.spent.wants > wantsBudget * (cycle.elapsedDays / cycle.totalDays)) score -= 15;
+      score = Math.max(20, Math.min(98, score));
+
+      document.getElementById('insightHealthScore').textContent = score;
+      const labelEl = document.getElementById('insightHealthLabel');
+      const descEl = document.getElementById('insightHealthDesc');
+      if (score >= 80) {
+        labelEl.textContent = "Optimal Pacing";
+        descEl.textContent = "Disciplined burn rate. 20% savings buffer fully protected.";
+      } else if (score >= 60) {
+        labelEl.textContent = "Moderate Burn";
+        descEl.textContent = "Discretionary spending is pacing close to your period limit.";
+      } else {
+        labelEl.textContent = "Caution Pace";
+        descEl.textContent = "Wants expenditure is outpacing cycle days. Dial back by ₹200/day.";
+      }
+
+      // Smart Advice text
+      const adviceEl = document.getElementById('insightSmartAdvice');
+      if (projectedSurplus >= userData.salary * 0.2) {
+        adviceEl.innerHTML = `💡 <strong>Smart Intelligence:</strong> At your current pace of ₹${avgDaily}/day, you will close this cycle with a <strong>₹${inrFormatter.format(projectedSurplus)} surplus</strong>. We recommend locking ₹3,000 into Nifty Alpha Index Fund today.`;
+      } else {
+        adviceEl.innerHTML = `⚠️ <strong>Pace Advisory:</strong> You have <strong>${cycle.daysLeft} days remaining</strong> until payday. Keeping your daily discretionary spend under ₹${dailyCap} will preserve your SIP savings target.`;
+      }
+    }
+
+    function updateInvestmentAllocations(savingsBudget) {
+      document.getElementById('investSavingsPoolRupees').textContent = '₹' + inrFormatter.format(savingsBudget) + ' / month';
+      
+      const coreNifty = Math.round(savingsBudget * 0.45);
+      const alphaFlexi = Math.round(savingsBudget * 0.35);
+      const goldHedge = Math.round(savingsBudget * 0.20);
+
+      document.getElementById('sipAllocNifty').textContent = '₹' + inrFormatter.format(coreNifty);
+      document.getElementById('sipAllocFlexi').textContent = '₹' + inrFormatter.format(alphaFlexi);
+      document.getElementById('sipAllocGold').textContent = '₹' + inrFormatter.format(goldHedge);
+    }
+
+    // Tab Router (Web + Mobile)
+    function switchTab(tab) {
+      // Hide all views
+      document.getElementById('viewTabLedger').classList.add('hidden');
+      document.getElementById('viewTabInsights').classList.add('hidden');
+      document.getElementById('viewTabInvest').classList.add('hidden');
+      document.getElementById('viewTabSettings').classList.add('hidden');
+
+      // Remove active from desktop tabs
+      document.getElementById('deskTabLedger').classList.remove('active');
+      document.getElementById('deskTabInsights').classList.remove('active');
+      document.getElementById('deskTabInvest').classList.remove('active');
+      document.getElementById('deskTabSettings').classList.remove('active');
+
+      // Remove active from mobile tabs
+      document.getElementById('mobTabLedger').classList.remove('active');
+      document.getElementById('mobTabInsights').classList.remove('active');
+      document.getElementById('mobTabInvest').classList.remove('active');
+      document.getElementById('mobTabSettings').classList.remove('active');
+
+      // Show selected
+      if (tab === 'insights') {
+        document.getElementById('viewTabInsights').classList.remove('hidden');
+        document.getElementById('deskTabInsights').classList.add('active');
+        document.getElementById('mobTabInsights').classList.add('active');
+      } else if (tab === 'invest') {
+        document.getElementById('viewTabInvest').classList.remove('hidden');
+        document.getElementById('deskTabInvest').classList.add('active');
+        document.getElementById('mobTabInvest').classList.add('active');
+      } else if (tab === 'settings') {
+        document.getElementById('viewTabSettings').classList.remove('hidden');
+        document.getElementById('deskTabSettings').classList.add('active');
+        document.getElementById('mobTabSettings').classList.add('active');
+      } else {
+        document.getElementById('viewTabLedger').classList.remove('hidden');
+        document.getElementById('deskTabLedger').classList.add('active');
+        document.getElementById('mobTabLedger').classList.add('active');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
     function renderLedger() {
@@ -1256,7 +1994,7 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="padding:2rem 1rem; text-align:center; color:var(--text-dim); font-size:0.85rem;">No transactions in this category. Tap "+ Record Expense" to log one.</div>';
+        container.innerHTML = '<div style="padding:2rem 1rem; text-align:center; color:var(--text-dim); font-size:0.85rem;">No transactions in this filter. Tap "+ Record Expense" to log one.</div>';
         return;
       }
 
@@ -1298,37 +2036,126 @@
       try {
         await deleteDoc(doc(db, "users", currentUser.uid, "transactions", txId));
       } catch (err) {
-        console.error("Error deleting transaction:", err);
+        console.error("Delete notice:", err);
       }
     }
 
-    function setLedgerFilter(cat, btn) {
-      userData.filter = cat;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      renderLedger();
+    // Payday Date Handlers
+    function openPaydayModal() {
+      document.getElementById('modalPaydayInput').value = userData.paydayDay;
+      document.getElementById('paydayModal').classList.remove('hidden');
+    }
+    function closePaydayModal() {
+      document.getElementById('paydayModal').classList.add('hidden');
+    }
+    function handlePaydayCurtainClick(e) {
+      if (e.target.id === 'paydayModal') closePaydayModal();
+    }
+    async function savePaydayFromModal() {
+      const val = parseInt(document.getElementById('modalPaydayInput').value, 10);
+      if (val >= 1 && val <= 31) {
+        userData.paydayDay = val;
+        closePaydayModal();
+        if (currentUser) {
+          await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
+        }
+        syncInputs();
+        refreshUI();
+      }
+    }
+    async function savePaydayDate() {
+      const val = parseInt(document.getElementById('paydayDateInput').value, 10);
+      if (val >= 1 && val <= 31) {
+        userData.paydayDay = val;
+        if (currentUser) {
+          await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
+        }
+        syncInputs();
+        refreshUI();
+        alert('Paycheck date updated to ' + getOrdinal(val) + '. Cycle recalculated!');
+      }
     }
 
-    async function updateCapPeriod() {
-      userData.capMode = document.getElementById('capPeriodSelect').value;
+    // Cap Edit Modal Handlers
+    function openCapEditModal() {
+      document.getElementById('modalCapRadioAuto').checked = !userData.useManualCap;
+      document.getElementById('modalCapRadioManual').checked = userData.useManualCap;
+      document.getElementById('modalManualInputBlock').classList.toggle('hidden', !userData.useManualCap);
+      document.getElementById('modalManualCapAmt').value = userData.manualCapAmount;
+      document.getElementById('capEditModal').classList.remove('hidden');
+    }
+    function closeCapEditModal() {
+      document.getElementById('capEditModal').classList.add('hidden');
+    }
+    function handleCapModalCurtainClick(e) {
+      if (e.target.id === 'capEditModal') closeCapEditModal();
+    }
+    function toggleModalManualCap(isManual) {
+      document.getElementById('modalManualInputBlock').classList.toggle('hidden', !isManual);
+    }
+    async function saveCapFromModal() {
+      const isManual = document.getElementById('modalCapRadioManual').checked;
+      userData.useManualCap = isManual;
+      if (isManual) {
+        const val = parseFloat(document.getElementById('modalManualCapAmt').value);
+        if (val && val > 0) userData.manualCapAmount = val;
+      }
+      closeCapEditModal();
       if (currentUser) {
-        await setDoc(doc(db, "users", currentUser.uid), { capMode: userData.capMode }, { merge: true });
+        await setDoc(doc(db, "users", currentUser.uid), { 
+          useManualCap: userData.useManualCap,
+          manualCapAmount: userData.manualCapAmount 
+        }, { merge: true });
+      }
+      syncInputs();
+      refreshUI();
+    }
+    async function toggleManualCap(isManual) {
+      userData.useManualCap = isManual;
+      document.getElementById('manualCapInputWrap').classList.toggle('hidden', !isManual);
+      if (currentUser) {
+        await setDoc(doc(db, "users", currentUser.uid), { useManualCap: isManual }, { merge: true });
       }
       refreshUI();
     }
-
-    function toggleSalaryTuner() {
-      const box = document.getElementById('salaryTunerBox');
-      const text = document.getElementById('tunerToggleText');
-      if (box.classList.contains('hidden')) {
-        box.classList.remove('hidden');
-        text.textContent = 'Close';
-      } else {
-        box.classList.add('hidden');
-        text.textContent = 'Edit';
+    async function saveManualCap() {
+      const val = parseFloat(document.getElementById('manualCapAmtInput').value);
+      if (val && val > 0) {
+        userData.manualCapAmount = val;
+        if (currentUser) {
+          await setDoc(doc(db, "users", currentUser.uid), { manualCapAmount: val }, { merge: true });
+        }
+        refreshUI();
+        alert('Custom expense cap set to ₹' + inrFormatter.format(val) + '/day!');
       }
     }
 
+    // Simulated Real-Time Market Ticker Updates
+    function tickMarketSimulation() {
+      const niftyBase = 25800 + (Math.random() * 60 - 25);
+      const sensexBase = 84250 + (Math.random() * 180 - 70);
+      const goldBase = 76500 + (Math.random() * 80 - 30);
+      const spBase = 464 + (Math.random() * 2 - 0.8);
+
+      document.getElementById('tickerNiftyPrice').textContent = niftyBase.toFixed(2);
+      document.getElementById('tickerSensexPrice').textContent = sensexBase.toFixed(2);
+      document.getElementById('tickerGoldPrice').textContent = '₹' + inrFormatter.format(goldBase);
+      document.getElementById('tickerSpPrice').textContent = '₹' + spBase.toFixed(2);
+    }
+    setInterval(tickMarketSimulation, 12000);
+
+    function copySIPDistribution() {
+      const savings = userData.salary * userData.ratios.savings;
+      const text = `Traxpens Smart SIP Allocation (Monthly: ₹${inrFormatter.format(savings)})\n` +
+                   `1. Core Index (45%): ₹${inrFormatter.format(savings * 0.45)} (Nifty 50 Index)\n` +
+                   `2. Alpha Momentum (35%): ₹${inrFormatter.format(savings * 0.35)} (Flexi-Cap / Quant)\n` +
+                   `3. Gold & Hedge (20%): ₹${inrFormatter.format(savings * 0.20)} (SGB / Arbitrage)`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Smart SIP plan copied to clipboard! You can paste it into your broker app (Zerodha, Groww, Kuvera).');
+      });
+    }
+
+    // Sliders & Filters
     async function handleSalarySlider(val) {
       userData.salary = parseInt(val, 10);
       document.getElementById('sliderSalaryVal').textContent = '₹' + inrFormatter.format(userData.salary);
@@ -1357,7 +2184,22 @@
       refreshUI();
     }
 
-    // Modal controls
+    function setLedgerFilter(cat, btn) {
+      userData.filter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderLedger();
+    }
+
+    async function updateCapPeriod() {
+      userData.capMode = document.getElementById('capPeriodSelect').value;
+      if (currentUser) {
+        await setDoc(doc(db, "users", currentUser.uid), { capMode: userData.capMode }, { merge: true });
+      }
+      refreshUI();
+    }
+
+    // Modal controls for recording transaction
     function openQuickLogModal() {
       document.getElementById('quickLogModal').classList.remove('hidden');
       const input = document.getElementById('txAmountInput');
@@ -1365,37 +2207,31 @@
       document.getElementById('txNameInput').value = '';
       setTimeout(() => input.focus(), 80);
     }
-
     function closeQuickLogModal() {
       document.getElementById('quickLogModal').classList.add('hidden');
     }
-
     function handleCurtainClick(e) {
       if (e.target.id === 'quickLogModal') closeQuickLogModal();
     }
-
     function selectModalCat(cat) {
       userData.chosenCat = cat;
       document.getElementById('pickNeedsBtn').classList.toggle('selected', cat === 'needs');
       document.getElementById('pickWantsBtn').classList.toggle('selected', cat === 'wants');
       document.getElementById('pickSavingsBtn').classList.toggle('selected', cat === 'savings');
     }
-
     function fillRupeePreset(name, amt, cat) {
       document.getElementById('txNameInput').value = name;
       document.getElementById('txAmountInput').value = amt;
       selectModalCat(cat);
     }
-
     async function submitRecord() {
       const amt = parseFloat(document.getElementById('txAmountInput').value);
       const name = document.getElementById('txNameInput').value.trim() || 'Quick Expense';
 
       if (!amt || isNaN(amt) || amt <= 0) {
-        alert('Please enter a valid Rupee amount.');
+        alert('Please specify a valid Rupee amount.');
         return;
       }
-
       closeQuickLogModal();
 
       if (currentUser) {
@@ -1412,6 +2248,101 @@
       }
     }
 
+    // Auth toggles & handlers
+    let isLogin = true;
+    function toggleAuthMode() {
+      isLogin = !isLogin;
+      clearAuthError();
+      document.getElementById('authHeading').textContent = isLogin ? "Access Ledger" : "Initialize Identity";
+      document.getElementById('authSubtitle').textContent = isLogin ? "Sign in to manage your modular allocations." : "Create your account to start tracking.";
+      document.getElementById('authSubmitBtnText').textContent = isLogin ? "Authenticate" : "Initialize";
+      document.getElementById('authToggleQuestion').textContent = isLogin ? "No account yet?" : "Already have an account?";
+      document.getElementById('authToggleBtn').textContent = isLogin ? "Initialize Here" : "Authenticate";
+    }
+
+    async function handleGoogleAuth() {
+      clearAuthError();
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const googleBtn = document.getElementById('googleAuthBtn');
+      if (googleBtn) googleBtn.disabled = true;
+
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (err) {
+        if (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request') {
+          try {
+            await signInWithRedirect(auth, provider);
+            return;
+          } catch (redirErr) {
+            showAuthError(getFriendlyErrorMessage(redirErr));
+          }
+        } else if (err.code !== 'auth/popup-closed-by-user') {
+          showAuthError(getFriendlyErrorMessage(err));
+        }
+      } finally {
+        if (googleBtn) googleBtn.disabled = false;
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      clearAuthError();
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value;
+      const submitBtn = document.getElementById('authSubmitBtn');
+      const submitBtnText = document.getElementById('authSubmitBtnText');
+
+      if (!email || !password) return;
+      submitBtn.disabled = true;
+      const original = submitBtnText.textContent;
+      submitBtnText.textContent = "Processing...";
+
+      try {
+        if (isLogin) {
+          await signInWithEmailAndPassword(auth, email, password);
+        } else {
+          await createUserWithEmailAndPassword(auth, email, password);
+        }
+      } catch (err) {
+        showAuthError(getFriendlyErrorMessage(err));
+      } finally {
+        submitBtn.disabled = false;
+        submitBtnText.textContent = original;
+      }
+    }
+
+    function showAuthError(msg) {
+      const box = document.getElementById('authErrorMessage');
+      box.textContent = msg;
+      box.classList.remove('hidden');
+    }
+    function clearAuthError() {
+      const box = document.getElementById('authErrorMessage');
+      box.textContent = '';
+      box.classList.add('hidden');
+    }
+    function getFriendlyErrorMessage(err) {
+      if (!err) return "An unexpected error occurred.";
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') return "Incorrect email or password.";
+      if (err.code === 'auth/user-not-found') return "No account found with this email. Click 'Initialize Here' below.";
+      if (err.code === 'auth/email-already-in-use') return "An account already exists with this email. Click 'Authenticate'.";
+      if (err.code === 'auth/weak-password') return "Password must be at least 6 characters.";
+      if (err.code === 'auth/invalid-email') return "Please enter a valid email address.";
+      if (err.code === 'auth/unauthorized-domain') {
+        return `Domain "${window.location.hostname}" is not authorized. Add it to Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
+      }
+      return err.message || "Authentication error. Please try again.";
+    }
+
+    async function handleLogout() {
+      if (unsubscribeTx) unsubscribeTx();
+      await signOut(auth);
+      document.getElementById('authEmailInput').value = '';
+      document.getElementById('authPasswordInput').value = '';
+      clearAuthError();
+    }
+
     function toggleTheme() {
       const html = document.documentElement;
       const target = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -1423,14 +2354,14 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Window attachments
+    // Window bindings
+    window.switchTab = switchTab;
     window.toggleAuthMode = toggleAuthMode;
     window.handleGoogleAuth = handleGoogleAuth;
     window.handleAuthSubmit = handleAuthSubmit;
     window.handleLogout = handleLogout;
     window.setLedgerFilter = setLedgerFilter;
     window.updateCapPeriod = updateCapPeriod;
-    window.toggleSalaryTuner = toggleSalaryTuner;
     window.handleSalarySlider = handleSalarySlider;
     window.handleRatioSliders = handleRatioSliders;
     window.openQuickLogModal = openQuickLogModal;
@@ -1441,13 +2372,31 @@
     window.submitRecord = submitRecord;
     window.toggleTheme = toggleTheme;
     window.deleteTransaction = deleteTransaction;
+    window.openPaydayModal = openPaydayModal;
+    window.closePaydayModal = closePaydayModal;
+    window.handlePaydayCurtainClick = handlePaydayCurtainClick;
+    window.savePaydayFromModal = savePaydayFromModal;
+    window.savePaydayDate = savePaydayDate;
+    window.openCapEditModal = openCapEditModal;
+    window.closeCapEditModal = closeCapEditModal;
+    window.handleCapModalCurtainClick = handleCapModalCurtainClick;
+    window.toggleModalManualCap = toggleModalManualCap;
+    window.saveCapFromModal = saveCapFromModal;
+    window.toggleManualCap = toggleManualCap;
+    window.saveManualCap = saveManualCap;
+    window.tickMarketSimulation = tickMarketSimulation;
+    window.copySIPDistribution = copySIPDistribution;
 
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
         e.preventDefault();
         openQuickLogModal();
       }
-      if (e.key === 'Escape') closeQuickLogModal();
+      if (e.key === 'Escape') {
+        closeQuickLogModal();
+        closePaydayModal();
+        closeCapEditModal();
+      }
     });
   </script>
 </body>
