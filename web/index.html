@@ -1465,6 +1465,101 @@
       margin-right: 0.5rem;
       flex-shrink: 0;
     }
+
+    /* ==========================================================================
+       10. INTERACTIVE SPOTLIGHT GUIDED TOUR
+       ========================================================================== */
+    .tour-spotlight-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      pointer-events: auto;
+      background: transparent;
+      transition: opacity 0.25s ease;
+    }
+
+    .tour-spotlight-box {
+      position: fixed;
+      border-radius: 14px;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.78), 0 0 20px rgba(16, 185, 129, 0.45);
+      border: 2px solid var(--accent);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 9992;
+    }
+
+    .tour-popover-card {
+      position: fixed;
+      z-index: 9995;
+      width: calc(100% - 32px);
+      max-width: 360px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      animation: popIn 0.25s ease;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.96) translateY(6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .tour-step-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 0.5rem;
+    }
+
+    .tour-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    .tour-desc {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin-bottom: 1.15rem;
+    }
+
+    .tour-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .tour-skip-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .tour-skip-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tour-nav-btns {
+      display: flex;
+      gap: 0.4rem;
+    }
   </style>
 </head>
 <body>
@@ -1645,6 +1740,25 @@
   </div>
 
   <!-- ==========================================================================
+       SPOTLIGHT GUIDED TOUR OVERLAY
+       ========================================================================== -->
+  <div id="tourSpotlightOverlay" class="tour-spotlight-backdrop hidden" onclick="handleTourBackdropClick(event)">
+    <div id="tourSpotlightBox" class="tour-spotlight-box"></div>
+    <div id="tourPopoverCard" class="tour-popover-card">
+      <span class="tour-step-badge" id="tourStepBadge">Feature 1 of 5</span>
+      <h3 class="tour-title" id="tourTitle">Section Title</h3>
+      <p class="tour-desc" id="tourDesc">Section explanation.</p>
+      <div class="tour-footer">
+        <button type="button" class="tour-skip-btn" onclick="endGuidedTour()">Skip Tour</button>
+        <div class="tour-nav-btns">
+          <button type="button" class="btn btn-outline btn-sm hidden" id="tourBackBtn" onclick="prevTourStep()">Back</button>
+          <button type="button" class="btn btn-primary btn-sm" id="tourNextBtn" onclick="nextTourStep()">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
        1. AUTH OVERLAY
        ========================================================================== -->
   <div class="auth-overlay hidden" id="authGateOverlay">
@@ -1746,7 +1860,7 @@
       </div>
 
       <!-- Desktop Tab Bar -->
-      <nav class="desktop-nav" aria-label="Desktop Navigation">
+      <nav class="desktop-nav" id="tourDeskNav" aria-label="Desktop Navigation">
         <button class="nav-tab-btn active" id="deskTabLedger" onclick="switchTab('ledger')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           <span>Dashboard</span>
@@ -1774,10 +1888,10 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span class="hide-mobile">Install App</span>
         </button>
-        <button class="btn btn-primary hide-mobile" onclick="openQuickLogModal()">
+        <button class="btn btn-primary hide-mobile" id="tourBtnAddExpense" onclick="openQuickLogModal()">
           <span>+ Add Expense</span>
         </button>
-        <button class="btn btn-outline" onclick="resetAppAndReplayOnboarding()" title="Reset data and replay onboarding tutorial">
+        <button class="btn btn-outline" id="tourBtnTutorial" onclick="startGuidedTour()" title="Start interactive app tour">
           <span>Tutorial</span>
         </button>
         <button class="btn btn-outline" onclick="toggleTheme()" title="Toggle Theme">
@@ -1798,7 +1912,7 @@
       <div class="stats-grid">
         
         <!-- CARD 1: Monthly Salary & Money Left -->
-        <div class="card">
+        <div class="card" id="tourCardIncome">
           <div class="stat-label-row">
             <span>Monthly Income</span>
             <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Change</button>
@@ -1813,7 +1927,7 @@
         </div>
 
         <!-- CARD 2: Daily Spending Limit -->
-        <div class="card">
+        <div class="card" id="tourCardDailyCap">
           <div class="stat-label-row">
             <span>
               Daily Allowance 
@@ -1843,7 +1957,7 @@
         </div>
 
         <!-- CARD 3: How Money is Split -->
-        <div class="card">
+        <div class="card" id="tourCardBudgetSplit">
           <div class="stat-label-row">
             <span>Budget Split</span>
             <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Adjust</button>
@@ -2536,7 +2650,7 @@
   <!-- ==========================================================================
        3. MOBILE BOTTOM NAVBAR
        ========================================================================== -->
-  <nav class="mobile-navbar" aria-label="Mobile Navigation">
+  <nav class="mobile-navbar" id="tourMobNav" aria-label="Mobile Navigation">
     <button class="mobile-nav-item active" id="mobTabLedger" onclick="switchTab('ledger')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
       <span>Home</span>
@@ -2560,7 +2674,7 @@
   </nav>
 
   <!-- Mobile Floating Action Button (Add Expense) -->
-  <button class="mobile-fab" onclick="openQuickLogModal()" title="Add Expense">+</button>
+  <button class="mobile-fab" id="tourMobileFab" onclick="openQuickLogModal()" title="Add Expense">+</button>
 
   <!-- ==========================================================================
        4. MODALS (Add Expense, Payday Date & Custom Limit)
@@ -3375,85 +3489,101 @@
     }
 
     function calculateEmiVerdict() {
-      const price = parseFloat(document.getElementById('emiItemPrice').value) || 0;
-      const downPayment = parseFloat(document.getElementById('emiDownPayment').value) || 0;
-      const scheme = document.getElementById('emiSchemeSelect').value;
-      const tenure = emiSelectedTenure;
+      try {
+        const priceEl = document.getElementById('emiItemPrice');
+        const downPaymentEl = document.getElementById('emiDownPayment');
+        const schemeEl = document.getElementById('emiSchemeSelect');
+        if (!priceEl || !schemeEl) return;
 
-      const principal = Math.max(0, price - downPayment);
-      let monthlyEmi = 0;
-      let totalInterest = 0;
+        const price = parseFloat(priceEl.value) || 0;
+        const downPayment = parseFloat(downPaymentEl ? downPaymentEl.value : 0) || 0;
+        const scheme = schemeEl.value;
+        const tenure = emiSelectedTenure || 6;
 
-      if (scheme === 'nocost') {
-        // 0% No Cost EMI on Flipkart / Amazon (interest offset by merchant)
-        monthlyEmi = tenure > 0 ? principal / tenure : 0;
-        totalInterest = 0;
-      } else if (scheme === 'paylater') {
-        // Flipkart / Amazon Pay Later / Snapmint (~1.5% monthly flat/reducing for cardless)
-        const ratePerMonth = 0.015;
-        monthlyEmi = (principal / tenure) + (principal * ratePerMonth);
-        totalInterest = (monthlyEmi * tenure) - principal;
-      } else {
-        // Standard Credit/Debit card EMI (14% p.a. reducing)
-        const annualRate = 0.14;
-        const monthlyRate = annualRate / 12;
-        monthlyEmi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1);
-        totalInterest = (monthlyEmi * tenure) - principal;
-      }
+        const principal = Math.max(0, price - downPayment);
+        let monthlyEmi = 0;
+        let totalInterest = 0;
 
-      monthlyEmi = Math.round(monthlyEmi);
-      totalInterest = Math.max(0, Math.round(totalInterest));
+        if (scheme === 'nocost') {
+          // 0% No Cost EMI on Flipkart / Amazon (interest offset by merchant)
+          monthlyEmi = tenure > 0 ? principal / tenure : 0;
+          totalInterest = 0;
+        } else if (scheme === 'paylater') {
+          // Flipkart / Amazon Pay Later / Snapmint (~1.5% monthly flat/reducing for cardless)
+          const ratePerMonth = 0.015;
+          monthlyEmi = (principal / tenure) + (principal * ratePerMonth);
+          totalInterest = (monthlyEmi * tenure) - principal;
+        } else {
+          // Standard Credit/Debit card EMI (14% p.a. reducing)
+          const annualRate = 0.14;
+          const monthlyRate = annualRate / 12;
+          monthlyEmi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1);
+          totalInterest = (monthlyEmi * tenure) - principal;
+        }
 
-      // Impact on Salary & Wants
-      const wantsBudget = userData.salary * userData.ratios.wants;
-      const wantsPct = wantsBudget > 0 ? Math.round((monthlyEmi / wantsBudget) * 100) : 100;
-      const salaryPct = userData.salary > 0 ? Math.round((monthlyEmi / userData.salary) * 100) : 100;
+        monthlyEmi = Math.round(monthlyEmi);
+        totalInterest = Math.max(0, Math.round(totalInterest));
 
-      const dailyReduction = Math.round(monthlyEmi / 30);
-      const currentCap = getDailyCap();
-      const newDailyCap = Math.max(0, currentCap - dailyReduction);
+        // Impact on Salary & Wants
+        const wantsBudget = userData.salary * userData.ratios.wants;
+        const wantsPct = wantsBudget > 0 ? Math.round((monthlyEmi / wantsBudget) * 100) : 100;
+        const salaryPct = userData.salary > 0 ? Math.round((monthlyEmi / userData.salary) * 100) : 100;
 
-      // Render Metrics
-      document.getElementById('emiVerdictSalaryRef').textContent = inrFormatter.format(userData.salary);
-      document.getElementById('emiWantsBudgetRef').textContent = inrFormatter.format(wantsBudget);
-      document.getElementById('emiMonthlyAmt').textContent = `₹${inrFormatter.format(monthlyEmi)} / mo`;
-      document.getElementById('emiPrincipalFinanced').textContent = `₹${inrFormatter.format(principal)}`;
-      document.getElementById('emiInterestTotal').textContent = totalInterest === 0 ? "₹0 (No-Cost)" : `₹${inrFormatter.format(totalInterest)}`;
-      document.getElementById('emiWantsSharePct').textContent = `${wantsPct}% of monthly Wants`;
-      document.getElementById('emiDailyReduction').textContent = `-₹${inrFormatter.format(dailyReduction)} / day`;
-      document.getElementById('emiNewDailyCap').textContent = `₹${inrFormatter.format(newDailyCap)} / day`;
+        const dailyReduction = Math.round(monthlyEmi / 30);
+        const currentCap = getDailyCap();
+        const newDailyCap = Math.max(0, currentCap - dailyReduction);
 
-      // Verdict Logic & Workable Advice
-      const verdictBox = document.getElementById('emiVerdictBox');
-      const badge = document.getElementById('emiVerdictBadge');
-      const title = document.getElementById('emiVerdictTitle');
-      const summary = document.getElementById('emiVerdictSummary');
-      const planText = document.getElementById('emiWorkablePlanText');
+        // Helper to safely set text content if element exists
+        const setTxt = (id, txt) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = txt;
+        };
 
-      if (wantsPct <= 22 && salaryPct <= 8) {
-        // GREEN LIGHT: Easily Affordable
-        verdictBox.className = "verdict-banner verdict-green";
-        badge.textContent = "Green Light · Easily Affordable";
-        badge.style.color = "var(--accent)";
-        title.textContent = "Safe & Breathable Plan";
-        summary.textContent = `At ₹${inrFormatter.format(monthlyEmi)}/month (${wantsPct}% of your Wants), this EMI will barely be felt in your day-to-day lifestyle.`;
-        planText.innerHTML = `Go for the <strong>${tenure}-Month Plan</strong>. Your daily allowance only dips by ₹${dailyReduction}/day (down to ₹${newDailyCap}/day). Your essential Needs and 20% SIP savings stay 100% protected.`;
-      } else if (wantsPct <= 40 && salaryPct <= 14) {
-        // YELLOW LIGHT: Doable with Discipline
-        verdictBox.className = "verdict-banner verdict-yellow";
-        badge.textContent = "Caution · Moderate Burden";
-        badge.style.color = "var(--cat-wants)";
-        title.textContent = "Doable with Minor Restraint";
-        summary.textContent = `The ₹${inrFormatter.format(monthlyEmi)} EMI will consume ${wantsPct}% of your discretionary Wants pool. You will need to tighten Swiggy & weekend outings.`;
-        planText.innerHTML = `To avoid feeling suffocated on weekends, consider paying a <strong>₹${inrFormatter.format(Math.round(price * 0.25))} down payment</strong> or stretching to a <strong>9 or 12-month tenure</strong>. This will bring the EMI below ₹${inrFormatter.format(Math.round(wantsBudget * 0.20))}/mo.`;
-      } else {
-        // RED LIGHT: Suffocating
-        verdictBox.className = "verdict-banner verdict-red";
-        badge.textContent = "Red Light · High Risk of Suffocation";
-        badge.style.color = "var(--danger)";
-        title.textContent = "Suffocating EMI Load";
-        summary.textContent = `Danger: An EMI of ₹${inrFormatter.format(monthlyEmi)} consumes ${wantsPct}% of your entire monthly Wants pool. You will feel broke every single weekend.`;
-        planText.innerHTML = `🚨 <strong>Emergency Workable Fix:</strong> Do NOT take this on a 3-month or 6-month plan right now! Instead: (1) Pay at least ₹${inrFormatter.format(Math.round(price * 0.4))} as down payment, OR (2) Choose a <strong>12-month tenure</strong> to drop the EMI down to ~₹${inrFormatter.format(Math.round(principal / 12))}/mo.`;
+        setTxt('emiVerdictSalaryRef', inrFormatter.format(userData.salary));
+        setTxt('emiWantsBudgetRef', inrFormatter.format(wantsBudget));
+        setTxt('emiMonthlyAmt', `₹${inrFormatter.format(monthlyEmi)} / mo`);
+        setTxt('emiPrincipalFinanced', `₹${inrFormatter.format(principal)}`);
+        setTxt('emiInterestTotal', totalInterest === 0 ? "₹0 (No-Cost)" : `₹${inrFormatter.format(totalInterest)}`);
+        setTxt('emiWantsSharePct', `${wantsPct}% of monthly Wants`);
+        setTxt('emiDailyReduction', `-₹${inrFormatter.format(dailyReduction)} / day`);
+        setTxt('emiNewDailyCap', `₹${inrFormatter.format(newDailyCap)} / day`);
+
+        // Verdict Logic & Workable Advice
+        const verdictBox = document.getElementById('emiVerdictBox');
+        const badge = document.getElementById('emiVerdictBadge');
+        const title = document.getElementById('emiVerdictTitle');
+        const summary = document.getElementById('emiVerdictSummary');
+        const planText = document.getElementById('emiWorkablePlanText');
+
+        if (!verdictBox || !badge || !title || !summary || !planText) return;
+
+        if (wantsPct <= 22 && salaryPct <= 8) {
+          // GREEN LIGHT: Easily Affordable
+          verdictBox.className = "verdict-banner verdict-green";
+          badge.textContent = "Green Light · Easily Affordable";
+          badge.style.color = "var(--accent)";
+          title.textContent = "Safe & Breathable Plan";
+          summary.textContent = `At ₹${inrFormatter.format(monthlyEmi)}/month (${wantsPct}% of your Wants), this EMI will barely be felt in your day-to-day lifestyle.`;
+          planText.innerHTML = `Go for the <strong>${tenure}-Month Plan</strong>. Your daily allowance only dips by ₹${dailyReduction}/day (down to ₹${newDailyCap}/day). Your essential Needs and 20% SIP savings stay 100% protected.`;
+        } else if (wantsPct <= 40 && salaryPct <= 14) {
+          // YELLOW LIGHT: Doable with Discipline
+          verdictBox.className = "verdict-banner verdict-yellow";
+          badge.textContent = "Caution · Moderate Burden";
+          badge.style.color = "var(--cat-wants)";
+          title.textContent = "Doable with Minor Restraint";
+          summary.textContent = `The ₹${inrFormatter.format(monthlyEmi)} EMI will consume ${wantsPct}% of your discretionary Wants pool. You will need to tighten Swiggy & weekend outings.`;
+          planText.innerHTML = `To avoid feeling suffocated on weekends, consider paying a <strong>₹${inrFormatter.format(Math.round(price * 0.25))} down payment</strong> or stretching to a <strong>9 or 12-month tenure</strong>. This will bring the EMI below ₹${inrFormatter.format(Math.round(wantsBudget * 0.20))}/mo.`;
+        } else {
+          // RED LIGHT: Suffocating
+          verdictBox.className = "verdict-banner verdict-red";
+          badge.textContent = "Red Light · High Risk of Suffocation";
+          badge.style.color = "var(--danger)";
+          title.textContent = "Suffocating EMI Load";
+          summary.textContent = `Danger: An EMI of ₹${inrFormatter.format(monthlyEmi)} consumes ${wantsPct}% of your entire monthly Wants pool. You will feel broke every single weekend.`;
+          planText.innerHTML = `🚨 <strong>Emergency Workable Fix:</strong> Do NOT take this on a 3-month or 6-month plan right now! Instead: (1) Pay at least ₹${inrFormatter.format(Math.round(price * 0.4))} as down payment, OR (2) Choose a <strong>12-month tenure</strong> to drop the EMI down to ~₹${inrFormatter.format(Math.round(principal / 12))}/mo.`;
+        }
+      } catch (err) {
+        console.warn("calculateEmiVerdict non-blocking notice:", err);
       }
     }
 
@@ -4640,11 +4770,15 @@
       if (errEl) errEl.classList.add('hidden');
 
       userData.salary = val;
-      saveLocalState();
-      saveBudgetData();
-      syncInputs();
-      refreshUI();
-      calculateEmiVerdict();
+      try {
+        saveLocalState();
+        saveBudgetData();
+        syncInputs();
+        refreshUI();
+        calculateEmiVerdict();
+      } catch (err) {
+        console.warn("Non-blocking notice during onboSaveSalaryAndNext:", err);
+      }
 
       onboNextStep();
     }
@@ -4681,6 +4815,205 @@
       }
     }
 
+    // =========================================================================
+    // INTERACTIVE SPOTLIGHT GUIDED TOUR CONTROLLER
+    // =========================================================================
+    let currentTourIdx = 0;
+    let isTourActive = false;
+
+    const tourSteps = [
+      {
+        getTarget: () => document.getElementById('tourCardIncome'),
+        tab: 'ledger',
+        badge: 'Feature 1 of 5 · Safe Spending Pool',
+        title: 'Monthly Income & Safe Spend',
+        desc: '<strong>Your monthly take-home salary</strong> is automatically allocated into safe spending pools. This card shows your total balance and safety margin for the current cycle.'
+      },
+      {
+        getTarget: () => document.getElementById('tourCardDailyCap'),
+        tab: 'ledger',
+        badge: 'Feature 2 of 5 · Daily Allowance',
+        title: 'Dynamic Daily Spending Cap',
+        desc: '<strong>Recalculated every single morning</strong> based on remaining fun money and days left until payday. Stay under this limit to finish the month stress-free.'
+      },
+      {
+        getTarget: () => document.getElementById('tourCardBudgetSplit'),
+        tab: 'ledger',
+        badge: 'Feature 3 of 5 · The 50/30/20 Rule',
+        title: 'Balanced Money Allocation',
+        desc: '<strong>Divides every Rupee automatically:</strong> 50% for essential bills & rent, 30% for guilt-free fun, and 20% directly into wealth-building savings.'
+      },
+      {
+        getTarget: () => {
+          if (window.innerWidth <= 768) {
+            return document.getElementById('tourMobileFab') || document.getElementById('tourBtnAddExpense');
+          }
+          return document.getElementById('tourBtnAddExpense') || document.getElementById('tourMobileFab');
+        },
+        tab: 'ledger',
+        badge: 'Feature 4 of 5 · Fast Record Keeping',
+        title: 'Quick Expense Logging',
+        desc: '<strong>Log expenses in under 5 seconds</strong>. Categorize each purchase into Bills, Fun, or Savings to keep your daily allowance dynamic and accurate.'
+      },
+      {
+        getTarget: () => {
+          if (window.innerWidth <= 768) {
+            return document.getElementById('tourMobNav') || document.getElementById('tourDeskNav');
+          }
+          return document.getElementById('tourDeskNav') || document.getElementById('tourMobNav');
+        },
+        tab: 'ledger',
+        badge: 'Feature 5 of 5 · Financial Power Tools',
+        title: 'Explore App Capabilities',
+        desc: '<strong>Switch views anytime</strong>: Review historical spending trends, test EMI purchase affordability before swiping, and plan wealth compounding.'
+      }
+    ];
+
+    function updateTourPositions() {
+      if (!isTourActive) return;
+      const step = tourSteps[currentTourIdx];
+      if (!step) return;
+      const target = step.getTarget();
+      const spotlight = document.getElementById('tourSpotlightBox');
+      const popover = document.getElementById('tourPopoverCard');
+      if (!spotlight || !popover) return;
+
+      if (!target) {
+        spotlight.style.width = '0px';
+        spotlight.style.height = '0px';
+        popover.style.top = '25%';
+        popover.style.left = '50%';
+        popover.style.transform = 'translate(-50%, -50%)';
+        return;
+      }
+
+      const rect = target.getBoundingClientRect();
+      const pad = 8;
+      
+      spotlight.style.top = Math.max(0, rect.top - pad) + 'px';
+      spotlight.style.left = Math.max(0, rect.left - pad) + 'px';
+      spotlight.style.width = (rect.width + pad * 2) + 'px';
+      spotlight.style.height = (rect.height + pad * 2) + 'px';
+
+      const cardWidth = Math.min(360, window.innerWidth - 32);
+      popover.style.width = cardWidth + 'px';
+
+      const targetCenterX = rect.left + rect.width / 2;
+      let left = targetCenterX - cardWidth / 2;
+      left = Math.max(16, Math.min(window.innerWidth - cardWidth - 16, left));
+      popover.style.left = left + 'px';
+      popover.style.transform = 'none';
+
+      const popoverHeight = popover.offsetHeight || 190;
+      const spaceBelow = window.innerHeight - (rect.bottom + pad);
+      const spaceAbove = rect.top - pad;
+
+      if (spaceBelow >= popoverHeight + 16) {
+        popover.style.top = (rect.bottom + pad + 12) + 'px';
+      } else if (spaceAbove >= popoverHeight + 16) {
+        popover.style.top = Math.max(12, rect.top - pad - popoverHeight - 12) + 'px';
+      } else {
+        popover.style.top = Math.max(12, Math.min(window.innerHeight - popoverHeight - 16, (window.innerHeight - popoverHeight) / 2)) + 'px';
+      }
+    }
+
+    function renderTourStep(idx) {
+      if (idx < 0 || idx >= tourSteps.length) {
+        endGuidedTour();
+        return;
+      }
+      currentTourIdx = idx;
+      const step = tourSteps[idx];
+
+      if (step.tab) {
+        switchTab(step.tab);
+      }
+
+      const badgeEl = document.getElementById('tourStepBadge');
+      const titleEl = document.getElementById('tourTitle');
+      const descEl = document.getElementById('tourDesc');
+      const backBtn = document.getElementById('tourBackBtn');
+      const nextBtn = document.getElementById('tourNextBtn');
+
+      if (badgeEl) badgeEl.textContent = step.badge;
+      if (titleEl) titleEl.textContent = step.title;
+      if (descEl) descEl.innerHTML = step.desc;
+
+      if (backBtn) {
+        backBtn.classList.toggle('hidden', idx === 0);
+      }
+      if (nextBtn) {
+        if (idx === tourSteps.length - 1) {
+          nextBtn.textContent = 'Got It ✓';
+          nextBtn.onclick = endGuidedTour;
+        } else {
+          nextBtn.textContent = 'Next →';
+          nextBtn.onclick = nextTourStep;
+        }
+      }
+
+      const target = step.getTarget();
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
+
+      updateTourPositions();
+      setTimeout(updateTourPositions, 150);
+      setTimeout(updateTourPositions, 350);
+    }
+
+    function startGuidedTour() {
+      const onboOverlay = document.getElementById('onboardingOverlay');
+      if (onboOverlay) onboOverlay.classList.add('hidden');
+      closeQuickLogModal();
+      closePaydayModal();
+      closeCapEditModal();
+      closePwaInstallModal();
+      closeDayInspectModal();
+
+      isTourActive = true;
+      currentTourIdx = 0;
+
+      const overlay = document.getElementById('tourSpotlightOverlay');
+      if (overlay) overlay.classList.remove('hidden');
+
+      renderTourStep(0);
+    }
+
+    function nextTourStep() {
+      if (currentTourIdx < tourSteps.length - 1) {
+        renderTourStep(currentTourIdx + 1);
+      } else {
+        endGuidedTour();
+      }
+    }
+
+    function prevTourStep() {
+      if (currentTourIdx > 0) {
+        renderTourStep(currentTourIdx - 1);
+      }
+    }
+
+    function endGuidedTour() {
+      isTourActive = false;
+      const overlay = document.getElementById('tourSpotlightOverlay');
+      if (overlay) overlay.classList.add('hidden');
+    }
+
+    function handleTourBackdropClick(e) {
+      const popover = document.getElementById('tourPopoverCard');
+      if (popover && !popover.contains(e.target)) {
+        endGuidedTour();
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      if (isTourActive) updateTourPositions();
+    });
+    window.addEventListener('scroll', () => {
+      if (isTourActive) updateTourPositions();
+    }, { passive: true });
+
     window.onboNextStep = onboNextStep;
     window.onboSetSalary = onboSetSalary;
     window.onboUpdateSalaryPreview = onboUpdateSalaryPreview;
@@ -4689,6 +5022,13 @@
     window.onboFinish = onboFinish;
     window.showOnboardingStep = showOnboardingStep;
     window.checkAndTriggerOnboarding = checkAndTriggerOnboarding;
+
+    // Tour exports
+    window.startGuidedTour = startGuidedTour;
+    window.nextTourStep = nextTourStep;
+    window.prevTourStep = prevTourStep;
+    window.endGuidedTour = endGuidedTour;
+    window.handleTourBackdropClick = handleTourBackdropClick;
 
     // PROGRESSIVE WEB APP (PWA) & SERVICE WORKER LIFECYCLE
     // ========================================================================
@@ -4828,11 +5168,21 @@
         openQuickLogModal();
       }
       if (e.key === 'Escape') {
+        endGuidedTour();
         closeQuickLogModal();
         closePaydayModal();
         closeCapEditModal();
         closePwaInstallModal();
         closeDayInspectModal();
+      }
+      if (isTourActive) {
+        if (e.key === 'ArrowRight' || e.key === 'Enter') {
+          e.preventDefault();
+          nextTourStep();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevTourStep();
+        }
       }
     });
 
