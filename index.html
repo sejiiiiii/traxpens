@@ -9,12 +9,12 @@
   <meta name="apple-mobile-web-app-title" content="Traxpens">
   <meta name="application-name" content="Traxpens">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json?v=6">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=6">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png?v=6">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=6">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=6">
   <title>Traxpens — Smart, Modular & Lightweight Expense, EMI & Investment Hub (₹ INR)</title>
 
   <!-- Client-Side E-Passbook PDF Engine (100% Free & Local) -->
@@ -1307,8 +1307,8 @@
         </div>
         <div class="cycle-badge">
           <span id="headerEmailDisplay">Connecting...</span> •
-          <span id="cycleStatusBadge">Day 1 of 30</span> •
-          <span class="payday-tag" onclick="openPaydayModal()" title="Click to customize payday date">Payday: <strong id="paydayBadgeDate">28th</strong> ✎</span>
+          <span id="cycleStatusBadge">Syncing cycle...</span> •
+          <span class="payday-tag" onclick="openPaydayModal()" title="Click to customize payday date (IST)">Payday: <strong id="paydayBadgeDate">—</strong> ✎</span>
         </div>
       </div>
 
@@ -1368,11 +1368,11 @@
             <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Edit in ₹</button>
           </div>
           <div class="stat-number font-mono">
-            <span>₹</span><span id="salaryDisplayVal">75,000</span>
+            <span>₹</span><span id="salaryDisplayVal">—</span>
           </div>
           <div class="stat-footer font-mono">
             <span>Remaining Safe Pool:</span>
-            <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">34,250</span></strong>
+            <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">—</span></strong>
           </div>
         </div>
 
@@ -1394,15 +1394,15 @@
             </div>
           </div>
           
-          <div class="stat-number font-mono" id="dailyCapDisplayVal">₹850</div>
+          <div class="stat-number font-mono" id="dailyCapDisplayVal">—</div>
           
           <div class="progress-track">
-            <div class="progress-bar" id="capBarFill" style="width: 32%;"></div>
+            <div class="progress-bar" id="capBarFill" style="width: 0%;"></div>
           </div>
 
           <div class="stat-footer font-mono">
-            <span>Spent Today: <strong id="spentTodayDisplayVal">₹270</strong></span>
-            <span>Left Today: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹580</strong></span>
+            <span>Spent Today: <strong id="spentTodayDisplayVal">₹0</strong></span>
+            <span>Left Today: <strong id="leftTodayDisplayVal" style="color:var(--accent);">—</strong></span>
           </div>
         </div>
 
@@ -1735,7 +1735,7 @@
               <span id="emiVerdictBadge" style="font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:var(--radius-pill); text-transform:uppercase; background:rgba(0,0,0,0.15);">
                 Green Light
               </span>
-              <span class="font-mono text-dim" style="font-size:0.75rem;">Calculated vs ₹<span id="emiVerdictSalaryRef">75,000</span> Salary</span>
+              <span class="font-mono text-dim" style="font-size:0.75rem;">Calculated vs ₹<span id="emiVerdictSalaryRef">—</span> Salary</span>
             </div>
             <h3 style="font-size:1.3rem; font-weight:800; margin:0.5rem 0 0.35rem;" id="emiVerdictTitle">Safe & Breathable Plan</h3>
             <p style="font-size:0.85rem; line-height:1.45;" id="emiVerdictSummary">
@@ -1949,7 +1949,7 @@
 
           <div class="form-group">
             <label class="form-label">Total Monthly Net Salary (₹)</label>
-            <input type="number" id="inputSalaryRupees" class="input font-mono" value="75000" min="5000" step="1000" oninput="handleSalaryRupeeChange(this.value)" style="font-size:1.15rem; font-weight:700;" />
+            <input type="number" id="inputSalaryRupees" class="input font-mono" value="" placeholder="Enter monthly salary" min="1000" step="1000" oninput="handleSalaryRupeeChange(this.value)" style="font-size:1.15rem; font-weight:700;" />
           </div>
 
           <!-- Real-Time Visual Division Preview Bar -->
@@ -2021,8 +2021,15 @@
           
           <div class="form-group">
             <label class="form-label">Payday Day of the Month (1 - 31)</label>
+            <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.6rem;">
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem; border-color:var(--accent-soft); color:var(--accent);" onclick="setSettingsPaydayPreset(1)">Today / 1st</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(28)">28th</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(30)">30th</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(5)">5th</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(7)">7th</button>
+            </div>
             <div style="display:flex; gap:0.5rem; align-items:center;">
-              <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="28" style="font-size:1.1rem; font-weight:700; width:100px;" oninput="updateSettingsPaydayPreview()" />
+              <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="1" style="font-size:1.1rem; font-weight:700; width:100px;" oninput="updateSettingsPaydayPreview()" />
               <button class="btn btn-primary" onclick="savePaydayDate()">Update Cycle</button>
             </div>
             <div id="settingsPaydayPreview" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
@@ -2167,9 +2174,19 @@
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
         Select the day of the month when your salary is credited. Your budget cycle recalculates automatically in Indian Standard Time (IST).
       </p>
+      <div style="margin-bottom:0.75rem;">
+        <label class="form-label" style="margin-bottom:0.35rem;">Quick Select Common Dates:</label>
+        <div style="display:flex; flex-wrap:wrap; gap:0.35rem;">
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem; border-color:var(--accent-soft); color:var(--accent);" onclick="setPaydayPreset(1)">Today / 1st of Month</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(28)">28th</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(30)">30th</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(5)">5th</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(7)">7th</button>
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-label">Day of Month (1 - 31)</label>
-        <input type="number" id="modalPaydayInput" class="input font-mono" min="1" max="31" value="28" style="font-size: 1.2rem; font-weight:700;" oninput="updateModalPaydayPreview()" />
+        <input type="number" id="modalPaydayInput" class="input font-mono" min="1" max="31" value="1" style="font-size: 1.2rem; font-weight:700;" oninput="updateModalPaydayPreview()" />
       </div>
       <div id="modalPaydayPreview" style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; padding: 0.6rem 0.75rem; background: var(--bg-surface); border: 1px solid var(--border-main); border-radius: var(--radius-sm); line-height: 1.4;">
         <!-- Live preview injected dynamically -->
@@ -2444,8 +2461,8 @@
     const inrFormatter = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
 
     const defaultData = {
-      salary: 75000,
-      paydayDay: 28,
+      salary: 0,
+      paydayDay: 1, // Default to 1st of month (IST)
       ratios: { needs: 0.50, wants: 0.30, savings: 0.20 },
       spent: { needs: 0, wants: 0, savings: 0 },
       spentToday: 0,
@@ -2503,7 +2520,7 @@
     loadLocalState();
 
     // Helper: Calculate Custom Payday Cycle (Strictly synchronized to Indian Standard Time - Asia/Kolkata)
-    function getCycleDates(paydayDay = 28) {
+    function getCycleDates(paydayDay = 1) {
       // 1. Resolve current date & time in Indian Standard Time (IST, UTC+5:30)
       const now = new Date();
       let istDate;
@@ -2598,7 +2615,24 @@
         if (snap.exists()) {
           const d = snap.data();
           if (d.salary) userData.salary = d.salary;
-          if (d.paydayDay !== undefined) userData.paydayDay = d.paydayDay;
+          if (d.paydayDay !== undefined) {
+            // Protect local customizations from being overwritten by stale cloud cache
+            let localCustomized = false;
+            try {
+              const localCached = localStorage.getItem('traxpens_user_data');
+              if (localCached) {
+                const parsed = JSON.parse(localCached);
+                if (parsed && parsed.paydayDay && parsed.paydayDay !== d.paydayDay) {
+                  userData.paydayDay = parsed.paydayDay;
+                  localCustomized = true;
+                  setDoc(docRef, { paydayDay: parsed.paydayDay }, { merge: true }).catch(() => {});
+                }
+              }
+            } catch (e) {}
+            if (!localCustomized) {
+              userData.paydayDay = d.paydayDay;
+            }
+          }
           if (d.ratios) userData.ratios = d.ratios;
           if (d.capMode) userData.capMode = d.capMode;
           if (d.useManualCap !== undefined) userData.useManualCap = !!d.useManualCap;
@@ -2608,8 +2642,8 @@
           // New user initial profile
           await setDoc(docRef, {
             email: email,
-            salary: userData.salary || 75000,
-            paydayDay: userData.paydayDay || 28,
+            salary: userData.salary || 50000,
+            paydayDay: userData.paydayDay || 1,
             ratios: userData.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 },
             capMode: userData.capMode || 'today',
             useManualCap: userData.useManualCap || false,
@@ -2985,6 +3019,18 @@
 
     // Main UI Synchronization
     function refreshUI() {
+      if (!userData.salary || userData.salary <= 0) {
+        document.getElementById('salaryDisplayVal').textContent = '—';
+        document.getElementById('safePoolDisplayVal').textContent = '—';
+        document.getElementById('dailyCapDisplayVal').textContent = '—';
+        document.getElementById('budgetNeedsRupees').textContent = '—';
+        document.getElementById('budgetWantsRupees').textContent = '—';
+        document.getElementById('budgetSavingsRupees').textContent = '—';
+        document.getElementById('cycleStatusBadge').textContent = 'Connecting...';
+        document.getElementById('paydayBadgeDate').textContent = '—';
+        return;
+      }
+
       const cycle = getCycleDates(userData.paydayDay);
 
       // 1. Cycle badges
@@ -3648,6 +3694,23 @@
     }
 
     // Payday Date Handlers with Real-Time IST Synchronization
+    function setPaydayPreset(day) {
+      const input = document.getElementById('modalPaydayInput');
+      if (input) {
+        input.value = day;
+        updateModalPaydayPreview();
+      }
+    }
+
+    function setSettingsPaydayPreset(day) {
+      const input = document.getElementById('paydayDateInput');
+      if (input) {
+        input.value = day;
+        updateSettingsPaydayPreview();
+        savePaydayDate();
+      }
+    }
+
     function updateModalPaydayPreview() {
       const input = document.getElementById('modalPaydayInput');
       const preview = document.getElementById('modalPaydayPreview');
@@ -3698,6 +3761,8 @@
             console.warn("Firestore payday sync deferred:", err);
           }
         }
+        const cycle = getCycleDates(val);
+        alert(`Paycheck cycle updated to ${getOrdinal(val)} of month!\nCurrent IST Status: Day ${cycle.elapsedDays} of ${cycle.totalDays} (${cycle.daysLeft} days until next paycheck).`);
       }
     }
     async function savePaydayDate() {
@@ -3712,8 +3777,6 @@
             await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
           } catch (err) {
             console.warn("Firestore payday sync deferred:", err);
-          }
-        }
         const cycle = getCycleDates(val);
         alert(`Paycheck date updated to ${getOrdinal(val)}. Cycle recalculated (IST): Day ${cycle.elapsedDays} of ${cycle.totalDays}!`);
       }
@@ -3989,6 +4052,8 @@
     window.handlePaydayCurtainClick = handlePaydayCurtainClick;
     window.updateModalPaydayPreview = updateModalPaydayPreview;
     window.updateSettingsPaydayPreview = updateSettingsPaydayPreview;
+    window.setPaydayPreset = setPaydayPreset;
+    window.setSettingsPaydayPreset = setSettingsPaydayPreset;
     window.savePaydayFromModal = savePaydayFromModal;
     window.savePaydayDate = savePaydayDate;
     window.openCapEditModal = openCapEditModal;
@@ -4011,6 +4076,7 @@
         navigator.serviceWorker.register('/sw.js', { scope: '/' })
           .then((registration) => {
             console.log('Traxpens SW registered successfully:', registration.scope);
+            registration.update(); // Force immediate update check
           })
           .catch((err) => {
             console.warn('Traxpens SW registration failed:', err);
