@@ -120,9 +120,10 @@
     /* Minimal Card Primitive */
     .card {
       background: var(--bg-surface);
-      border: 1px solid var(--border-main);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius);
-      padding: 1.25rem;
+      padding: 1.5rem;
+      transition: border-color 0.15s ease;
     }
 
     /* Buttons */
@@ -224,19 +225,19 @@
        2. TOP BAR & WEB/DESKTOP NAVIGATION
        ========================================================================== */
     .app-shell {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 1.25rem 1rem;
+      padding: 1.5rem 1.25rem;
     }
 
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      padding-bottom: 1rem;
-      margin-bottom: 1.25rem;
-      border-bottom: 1px solid var(--border-main);
+      gap: 1.25rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
       flex-wrap: wrap;
     }
 
@@ -435,8 +436,8 @@
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .stat-label-row {
@@ -448,20 +449,21 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.65rem;
     }
 
     .stat-number {
-      font-size: 1.85rem;
+      font-size: 2rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.1;
+      margin-bottom: 0.65rem;
     }
 
     .stat-footer {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -501,7 +503,7 @@
     .content-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     @media (min-width: 900px) {
@@ -510,22 +512,25 @@
       }
     }
 
-    /* Category List Items */
+    /* Category List Items - Flattened */
     .cat-stack {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
 
     .cat-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.75rem;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
+      padding: 0.85rem 0.25rem;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      border-radius: 0;
+    }
+    .cat-row:last-child {
+      border-bottom: none;
     }
     .cat-dot {
       width: 10px;
@@ -591,21 +596,24 @@
     .tx-list {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
     }
 
     .tx-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.75rem 0.85rem;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      transition: border-color 0.15s;
+      padding: 0.85rem 0.25rem;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      border-radius: 0;
+      transition: background-color 0.15s;
     }
     .tx-item:hover {
-      border-color: var(--border-main);
+      background: var(--bg-canvas);
+    }
+    .tx-item:last-child {
+      border-bottom: none;
     }
     .tx-tag {
       font-size: 0.68rem;
@@ -638,15 +646,15 @@
     .insights-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     .health-gauge-box {
       display: flex;
       align-items: center;
       gap: 1.25rem;
-      padding: 1rem;
-      background: var(--bg-elevated);
+      padding: 1.15rem 1.25rem;
+      background: var(--bg-canvas);
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-subtle);
     }
@@ -674,7 +682,6 @@
     .insights-metrics-table {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
       margin-top: 1rem;
     }
 
@@ -683,7 +690,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.85rem;
-      padding-bottom: 0.5rem;
+      padding: 0.65rem 0.25rem;
       border-bottom: 1px solid var(--border-subtle);
     }
 
@@ -692,13 +699,13 @@
     }
 
     .smart-tip-card {
-      background: var(--bg-elevated);
+      background: var(--bg-canvas);
       border-left: 3px solid var(--accent);
       padding: 0.85rem 1rem;
-      border-radius: var(--radius-sm);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       font-size: 0.85rem;
-      line-height: 1.4;
-      margin-top: 0.75rem;
+      line-height: 1.5;
+      margin-top: 1rem;
     }
 
     /* ==========================================================================
@@ -1227,13 +1234,14 @@
 
     .onboarding-card {
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       background: var(--bg-surface);
-      border: 1px solid var(--border-main);
-      border-radius: 16px;
-      padding: 2.25rem 2rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
       position: relative;
       animation: slideUp 0.3s ease;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
     }
 
     @keyframes slideUp {
@@ -1242,8 +1250,8 @@
     }
 
     .onboarding-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      font-size: 2.25rem;
+      margin-bottom: 0.75rem;
       display: block;
       text-align: center;
     }
@@ -1259,56 +1267,54 @@
     }
 
     .onboarding-title {
-      font-size: 1.55rem;
+      font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       text-align: center;
-      line-height: 1.2;
-      margin-bottom: 0.75rem;
+      line-height: 1.25;
+      margin-bottom: 0.65rem;
     }
 
     .onboarding-desc {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
       text-align: center;
-      line-height: 1.6;
+      line-height: 1.5;
       margin-bottom: 1.5rem;
     }
 
     .onboarding-feature-list {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
+      border-top: 1px solid var(--border-subtle);
     }
 
     .onboarding-feature-item {
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 0.85rem 1rem;
+      gap: 0.85rem;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.85rem 0.25rem;
     }
 
     .onboarding-feature-icon {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       flex-shrink: 0;
-      margin-top: 1px;
+      margin-top: 2px;
+    }
+
+    .onboarding-feature-text {
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--text-muted);
     }
 
     .onboarding-feature-text strong {
-      display: block;
-      font-size: 0.9rem;
+      color: var(--text-main);
       font-weight: 700;
-      margin-bottom: 0.2rem;
-    }
-
-    .onboarding-feature-text span {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
     }
 
     .onboarding-salary-input-wrap {
@@ -1318,7 +1324,7 @@
 
     .onboarding-salary-input-wrap label {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 0.6rem;
@@ -1345,7 +1351,7 @@
       font-family: var(--font-mono);
       width: 200px;
       background: var(--bg-elevated);
-      border: 2px solid var(--border-main);
+      border: 1px solid var(--border-main);
       border-radius: var(--radius);
       padding: 0.5rem 0.75rem;
       color: var(--text-main);
@@ -1368,8 +1374,8 @@
 
     .onboarding-next-btn {
       width: 100%;
-      padding: 0.9rem;
-      font-size: 1rem;
+      padding: 0.85rem;
+      font-size: 0.95rem;
       font-weight: 700;
       background: var(--accent);
       color: var(--accent-contrast);
@@ -1391,8 +1397,8 @@
     }
 
     .onboarding-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--border-main);
       transition: all 0.2s;
@@ -1400,7 +1406,7 @@
 
     .onboarding-dot.active {
       background: var(--accent);
-      width: 20px;
+      width: 18px;
       border-radius: 4px;
     }
 
@@ -1411,7 +1417,7 @@
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 1rem;
+      margin-top: 0.85rem;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
       transition: color 0.15s;
@@ -1422,19 +1428,19 @@
     }
 
     .onboarding-split-preview {
-      background: var(--bg-elevated);
+      background: var(--bg-canvas);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
-      padding: 1rem;
+      padding: 1.25rem;
       margin-bottom: 1.25rem;
     }
 
     .onboarding-split-bar {
       display: flex;
-      height: 12px;
+      height: 10px;
       border-radius: var(--radius-pill);
       overflow: hidden;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       gap: 2px;
     }
 
@@ -1443,15 +1449,20 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.82rem;
-      padding: 0.35rem 0;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .onboarding-split-item:last-child {
+      border-bottom: none;
     }
 
     .onboarding-split-dot {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      margin-right: 0.4rem;
+      margin-right: 0.5rem;
       flex-shrink: 0;
     }
   </style>
@@ -1467,24 +1478,24 @@
     <div class="onboarding-card" id="onboStep0">
       <span class="onboarding-icon">👋</span>
       <div class="onboarding-step-label">Welcome to Traxpens</div>
-      <h1 class="onboarding-title">Your Money, Finally Under Control</h1>
-      <p class="onboarding-desc">Traxpens helps you track what you spend, set a daily budget, and grow your savings — all in one place. No spreadsheets needed.</p>
+      <h1 class="onboarding-title">Simple, Stress-Free Money</h1>
+      <p class="onboarding-desc">Take control of daily spending, set dynamic limits, and grow your savings effortlessly.</p>
       <div class="onboarding-feature-list">
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">💰</span>
-          <div class="onboarding-feature-text"><strong>Smart Budget Splitting</strong><span>Your salary is automatically divided into three buckets — bills, fun money, and savings.</span></div>
+          <div class="onboarding-feature-text"><strong>Automated budget split:</strong> Automatically divides your salary into bills, fun money, and savings.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">📅</span>
-          <div class="onboarding-feature-text"><strong>Daily Spending Limit</strong><span>Know exactly how much you can spend today without running out before payday.</span></div>
+          <div class="onboarding-feature-text"><strong>Dynamic daily limit:</strong> Spend safely every day without running dry before payday.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🛒</span>
-          <div class="onboarding-feature-text"><strong>EMI Affordability Check</strong><span>Thinking of buying something on EMI? See if you can comfortably afford it first.</span></div>
+          <div class="onboarding-feature-text"><strong>EMI affordability check:</strong> Test big purchases before swiping to protect your routine budget.</div>
         </div>
       </div>
-      <button class="onboarding-next-btn" onclick="onboNextStep()">Let's Get Started →</button>
-      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup, go straight to app</button></div>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Get Started →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
       <div class="onboarding-dots">
         <div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
       </div>
@@ -1493,9 +1504,9 @@
     <!-- STEP 1: Monthly Salary -->
     <div class="onboarding-card hidden" id="onboStep1">
       <span class="onboarding-icon">💼</span>
-      <div class="onboarding-step-label">Step 1 of 5 · Your Income</div>
-      <h2 class="onboarding-title">What do you earn each month?</h2>
-      <p class="onboarding-desc">Enter your monthly take-home salary — the amount that lands in your bank account after all deductions.</p>
+      <div class="onboarding-step-label">Step 1 of 5 · Monthly Income</div>
+      <h2 class="onboarding-title">What is your monthly income?</h2>
+      <p class="onboarding-desc">Enter your take-home salary after all taxes and deductions.</p>
       <div class="onboarding-salary-input-wrap">
         <label>Monthly take-home salary (₹)</label>
         <div class="onboarding-salary-field-wrap">
@@ -1503,16 +1514,16 @@
           <input type="number" id="onboSalaryInput" class="onboarding-salary-field font-mono" placeholder="50000" min="5000" step="1000" oninput="onboUpdateSalaryPreview()" />
         </div>
         <div class="onboarding-salary-chips">
-          <span class="chip" onclick="onboSetSalary(20000)">₹20,000</span>
-          <span class="chip" onclick="onboSetSalary(35000)">₹35,000</span>
+          <span class="chip" onclick="onboSetSalary(25000)">₹25,000</span>
           <span class="chip" onclick="onboSetSalary(50000)">₹50,000</span>
           <span class="chip" onclick="onboSetSalary(75000)">₹75,000</span>
           <span class="chip" onclick="onboSetSalary(100000)">₹1 Lakh</span>
+          <span class="chip" onclick="onboSetSalary(150000)">₹1.5 Lakh</span>
         </div>
       </div>
       <div id="onboSalaryError" class="hidden" style="color:var(--danger); font-size:0.82rem; text-align:center; margin-bottom:1rem;">Please enter a valid salary (minimum ₹5,000)</div>
       <button class="onboarding-next-btn" onclick="onboSaveSalaryAndNext()">Continue →</button>
-      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip</button></div>
       <div class="onboarding-dots">
         <div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
       </div>
@@ -1521,9 +1532,9 @@
     <!-- STEP 2: Budget Split -->
     <div class="onboarding-card hidden" id="onboStep2">
       <span class="onboarding-icon">🪣</span>
-      <div class="onboarding-step-label">Step 2 of 5 · How Your Money Is Split</div>
-      <h2 class="onboarding-title">Your salary, divided into 3 buckets</h2>
-      <p class="onboarding-desc">We use the <strong>50/30/20 rule</strong> — a simple and proven budgeting method used by millions worldwide.</p>
+      <div class="onboarding-step-label">Step 2 of 5 · Budget Split</div>
+      <h2 class="onboarding-title">How your money splits</h2>
+      <p class="onboarding-desc">We apply the <strong>50/30/20 rule</strong> to keep spending balanced and guilt-free.</p>
       <div class="onboarding-split-preview">
         <div class="onboarding-split-bar">
           <div style="width:50%; background:var(--cat-needs);"></div>
@@ -1531,21 +1542,21 @@
           <div style="width:20%; background:var(--cat-savings);"></div>
         </div>
         <div class="onboarding-split-item">
-          <div><span class="onboarding-split-dot" style="background:var(--cat-needs);"></span><strong>Bills &amp; Essentials</strong> — rent, food, transport</div>
+          <div><span class="onboarding-split-dot" style="background:var(--cat-needs);"></span><strong>Bills &amp; essentials (50%):</strong> Rent, groceries, bills</div>
           <strong class="font-mono" style="color:var(--cat-needs);" id="onboNeedsAmt">₹25,000 (50%)</strong>
         </div>
         <div class="onboarding-split-item">
-          <div><span class="onboarding-split-dot" style="background:var(--cat-wants);"></span><strong>Fun &amp; Personal</strong> — dining, movies, shopping</div>
+          <div><span class="onboarding-split-dot" style="background:var(--cat-wants);"></span><strong>Fun &amp; personal (30%):</strong> Dining, movies, shopping</div>
           <strong class="font-mono" style="color:var(--cat-wants);" id="onboWantsAmt">₹15,000 (30%)</strong>
         </div>
         <div class="onboarding-split-item">
-          <div><span class="onboarding-split-dot" style="background:var(--cat-savings);"></span><strong>Savings &amp; Investments</strong> — SIP, emergency fund</div>
+          <div><span class="onboarding-split-dot" style="background:var(--cat-savings);"></span><strong>Savings &amp; growth (20%):</strong> Emergency funds and SIPs</div>
           <strong class="font-mono" style="color:var(--cat-savings);" id="onboSavingsAmt">₹10,000 (20%)</strong>
         </div>
       </div>
-      <p style="font-size:0.8rem; color:var(--text-dim); text-align:center; margin-bottom:1.25rem;">You can adjust these percentages anytime from <strong>Budget Setup</strong>.</p>
-      <button class="onboarding-next-btn" onclick="onboNextStep()">Got it, next →</button>
-      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <p style="font-size:0.8rem; color:var(--text-dim); text-align:center; margin-bottom:1.25rem;">Adjust these percentages anytime in <strong>Budget Setup</strong>.</p>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Next →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip</button></div>
       <div class="onboarding-dots">
         <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
       </div>
@@ -1554,25 +1565,25 @@
     <!-- STEP 3: Daily Spending Cap -->
     <div class="onboarding-card hidden" id="onboStep3">
       <span class="onboarding-icon">🚦</span>
-      <div class="onboarding-step-label">Step 3 of 5 · Daily Spending Limit</div>
-      <h2 class="onboarding-title">Never go broke before payday</h2>
-      <p class="onboarding-desc">Traxpens calculates exactly how much you can safely spend each day, so you always have money left at the end of the month.</p>
+      <div class="onboarding-step-label">Step 3 of 5 · Daily Limit</div>
+      <h2 class="onboarding-title">Never run dry before payday</h2>
+      <p class="onboarding-desc">One calculated daily number ensures you always have cash left when the month ends.</p>
       <div class="onboarding-feature-list">
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🔄</span>
-          <div class="onboarding-feature-text"><strong>Auto Daily Limit (Recommended)</strong><span>Adjusts daily based on what you've spent and how many days until payday.</span></div>
+          <div class="onboarding-feature-text"><strong>Auto-adjusts daily:</strong> Unspent money rolls over automatically to increase tomorrow's budget.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">✏️</span>
-          <div class="onboarding-feature-text"><strong>Custom Fixed Limit</strong><span>Prefer a fixed amount? Set your own daily limit — e.g., ₹800/day every day.</span></div>
+          <div class="onboarding-feature-text"><strong>Custom fixed limit:</strong> Prefer consistency? Set a fixed daily cap like ₹800/day anytime.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🎉</span>
-          <div class="onboarding-feature-text"><strong>Weekend &amp; Trip Modes</strong><span>Going out this weekend? Switch to a higher limit temporarily without breaking your budget.</span></div>
+          <div class="onboarding-feature-text"><strong>Weekend boost mode:</strong> Temporarily raise your spending allowance for outings without breaking budget.</div>
         </div>
       </div>
-      <button class="onboarding-next-btn" onclick="onboNextStep()">Makes sense, next →</button>
-      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Next →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip</button></div>
       <div class="onboarding-dots">
         <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
       </div>
@@ -1581,25 +1592,25 @@
     <!-- STEP 4: EMI Check -->
     <div class="onboarding-card hidden" id="onboStep4">
       <span class="onboarding-icon">🛒</span>
-      <div class="onboarding-step-label">Step 4 of 5 · Big Purchase Check</div>
-      <h2 class="onboarding-title">Can you afford that gadget on EMI?</h2>
-      <p class="onboarding-desc">Enter any product — phone, laptop, PS5 — and Traxpens tells you if you can comfortably pay for it in monthly instalments.</p>
+      <div class="onboarding-step-label">Step 4 of 5 · Big Purchases</div>
+      <h2 class="onboarding-title">Can you afford it on EMI?</h2>
+      <p class="onboarding-desc">Simulate instalment purchases before swiping to see the impact on your daily lifestyle.</p>
       <div class="onboarding-feature-list">
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">📱</span>
-          <div class="onboarding-feature-text"><strong>Works with any product</strong><span>iPhone, PS5, laptop, AC — just enter the price and see the impact on your budget.</span></div>
+          <div class="onboarding-feature-text"><strong>Works with any product:</strong> Test phones, laptops, and consoles with instant price lookups.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🏦</span>
-          <div class="onboarding-feature-text"><strong>Supports all payment plans</strong><span>0% No-Cost EMI, Flipkart/Amazon Pay Later, or standard bank EMI — all covered.</span></div>
+          <div class="onboarding-feature-text"><strong>All payment plans:</strong> Supports 0% No-Cost EMI, Amazon/Flipkart Pay Later, and bank cards.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🟢</span>
-          <div class="onboarding-feature-text"><strong>Clear verdict: Green / Yellow / Red</strong><span>We say if it's safe to buy now, or suggest a better plan to avoid financial stress.</span></div>
+          <div class="onboarding-feature-text"><strong>Instant traffic-light verdict:</strong> Clear green, yellow, or red advice tells you if it's safe to buy.</div>
         </div>
       </div>
-      <button class="onboarding-next-btn" onclick="onboNextStep()">Awesome, next →</button>
-      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Next →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip</button></div>
       <div class="onboarding-dots">
         <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div>
       </div>
@@ -1608,24 +1619,24 @@
     <!-- STEP 5: Investments -->
     <div class="onboarding-card hidden" id="onboStep5">
       <span class="onboarding-icon">🌱</span>
-      <div class="onboarding-step-label">Step 5 of 5 · Growing Your Money</div>
-      <h2 class="onboarding-title">Make your savings work for you</h2>
-      <p class="onboarding-desc">Your 20% savings don't have to sit idle in a bank. Traxpens suggests simple investment options personalised to your income.</p>
+      <div class="onboarding-step-label">Step 5 of 5 · Growing Savings</div>
+      <h2 class="onboarding-title">Put your savings to work</h2>
+      <p class="onboarding-desc">Put your 20% savings into proven assets recommended for your specific income level.</p>
       <div class="onboarding-feature-list">
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">📈</span>
-          <div class="onboarding-feature-text"><strong>Nifty 50 Index Fund — Safe &amp; Steady</strong><span>Tracks India's top 50 companies. Low risk, consistent growth over 3+ years. Start with ₹500/month.</span></div>
+          <div class="onboarding-feature-text"><strong>Nifty 50 index:</strong> Safe, steady growth in India's top 50 blue chips with low expense.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🚀</span>
-          <div class="onboarding-feature-text"><strong>Flexi-Cap Fund — High Growth</strong><span>Invests across different company sizes for higher returns over 5+ years.</span></div>
+          <div class="onboarding-feature-text"><strong>Flexi-cap funds:</strong> High long-term growth across diverse company sizes.</div>
         </div>
         <div class="onboarding-feature-item">
           <span class="onboarding-feature-icon">🏅</span>
-          <div class="onboarding-feature-text"><strong>Sovereign Gold Bond — Inflation Shield</strong><span>Government-backed gold. Protects savings from inflation. Zero capital gains tax at maturity.</span></div>
+          <div class="onboarding-feature-text"><strong>Sovereign gold bonds:</strong> Government-backed inflation hedge with zero tax on maturity.</div>
         </div>
       </div>
-      <button class="onboarding-next-btn" onclick="onboFinish()">Start Using Traxpens 🎉</button>
+      <button class="onboarding-next-btn" onclick="onboFinish()">Enter Traxpens →</button>
       <div class="onboarding-dots">
         <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div>
       </div>
@@ -1786,14 +1797,14 @@
         <!-- CARD 1: Monthly Salary & Money Left -->
         <div class="card">
           <div class="stat-label-row">
-            <span>Monthly Salary</span>
+            <span>Monthly Income</span>
             <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Change</button>
           </div>
           <div class="stat-number font-mono">
             <span>₹</span><span id="salaryDisplayVal">50,000</span>
           </div>
           <div class="stat-footer font-mono">
-            <span>Money Left to Spend:</span>
+            <span>Safe to spend:</span>
             <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">25,000</span></strong>
           </div>
         </div>
@@ -1802,7 +1813,7 @@
         <div class="card">
           <div class="stat-label-row">
             <span>
-              Daily Spending Limit 
+              Daily Allowance 
               <span id="capModeBadge" style="font-size:0.65rem; padding:1px 5px; border-radius:4px; background:var(--bg-elevated); color:var(--accent);">Auto</span>
             </span>
             <div style="display:flex; align-items:center; gap:0.4rem;">
@@ -1823,15 +1834,15 @@
           </div>
 
           <div class="stat-footer font-mono">
-            <span>Spent Today: <strong id="spentTodayDisplayVal">₹0</strong></span>
-            <span>Left Today: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹500</strong></span>
+            <span>Spent: <strong id="spentTodayDisplayVal">₹0</strong></span>
+            <span>Remaining: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹500</strong></span>
           </div>
         </div>
 
         <!-- CARD 3: How Money is Split -->
         <div class="card">
           <div class="stat-label-row">
-            <span>How Money is Split</span>
+            <span>Budget Split</span>
             <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Adjust</button>
           </div>
           
@@ -1999,10 +2010,10 @@
          ======================================================================== -->
     <div id="viewTabInsights" class="hidden">
       
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
         <div>
-          <h2 style="font-size:1.35rem; font-weight:700;">Your Spending Report</h2>
-          <p style="font-size:0.85rem; color:var(--text-muted);">See how your money is moving and whether you're on track to save this month.</p>
+          <h2 style="font-size:1.35rem; font-weight:700;">Spending Report</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Real-time pacing and month-end financial forecast.</p>
         </div>
         <button class="btn btn-outline btn-sm" onclick="refreshUI()">Refresh</button>
       </div>
@@ -2011,7 +2022,7 @@
         
         <!-- Health Score & Burn Rate -->
         <div class="card">
-          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">How Are You Doing?</div>
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1.25rem;">Current Pacing</div>
           
           <div class="health-gauge-box">
             <div class="health-score-circle">
@@ -2020,27 +2031,27 @@
             </div>
             <div>
               <div style="font-weight:700; font-size:1rem;" id="insightHealthLabel">Optimal Pacing</div>
-              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;" id="insightHealthDesc">
-                You're spending at a comfortable pace — well within your daily limit.
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:3px;" id="insightHealthDesc">
+                Spending safely within your daily allowance.
               </div>
             </div>
           </div>
 
           <div class="insights-metrics-table">
             <div class="metric-row">
-              <span class="text-muted">Average spent per day:</span>
+              <span class="text-muted"><strong>Daily average:</strong></span>
               <strong class="font-mono" id="insightAvgDailySpend">₹0 / day</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Your safe daily limit:</span>
+              <span class="text-muted"><strong>Safe limit:</strong></span>
               <strong class="font-mono" id="insightTargetDailyCap">₹850 / day</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Spending speed:</span>
+              <span class="text-muted"><strong>Burn velocity:</strong></span>
               <strong class="font-mono" id="insightBurnVelocity" style="color:var(--accent);">0.82x (Safe)</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Days into this month:</span>
+              <span class="text-muted"><strong>Cycle progress:</strong></span>
               <strong class="font-mono" id="insightCycleProgress">Day 12 of 30 (40%)</strong>
             </div>
           </div>
@@ -2048,23 +2059,23 @@
 
         <!-- Month-End Projections -->
         <div class="card">
-          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">End of Month Forecast</div>
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1.25rem;">End of Month Forecast</div>
           
           <div class="insights-metrics-table">
             <div class="metric-row">
-              <span class="text-muted">Total spent so far:</span>
+              <span class="text-muted"><strong>Spent so far:</strong></span>
               <strong class="font-mono" id="insightTotalSpent">₹0</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Expected total spending:</span>
+              <span class="text-muted"><strong>Projected outflow:</strong></span>
               <strong class="font-mono" id="insightProjectedOutflow">₹0</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Money you'll have left:</span>
+              <span class="text-muted"><strong>Projected surplus:</strong></span>
               <strong class="font-mono" style="color:var(--accent); font-size:1.05rem;" id="insightProjectedSurplus">₹0</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">20% savings target status:</span>
+              <span class="text-muted"><strong>Savings status:</strong></span>
               <strong class="font-mono" id="insightSavingsTargetPreserved">100% Intact</strong>
             </div>
           </div>
@@ -2084,10 +2095,10 @@
          ======================================================================== -->
     <div id="viewTabEmi" class="hidden">
       
-      <div style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.35rem; font-weight:700;">Can I Afford This on EMI?</h2>
-        <p style="font-size:0.85rem; color:var(--text-muted);">
-          Enter any product and see if you can comfortably pay for it in monthly instalments — without feeling broke every weekend.
+      <div style="margin-bottom:1.5rem;">
+        <h2 style="font-size:1.35rem; font-weight:700;">Can I Afford This?</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">
+          Simulate monthly instalment impact on your daily lifestyle before swiping.
         </p>
       </div>
 
@@ -2095,10 +2106,10 @@
         
         <!-- Left Column: Input Configuration -->
         <div class="card">
-          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">What do you want to buy?</div>
+          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Purchase Details</div>
           
           <!-- Quick Preset Chips -->
-          <label class="form-label">Popular products</label>
+          <label class="form-label">Popular items</label>
           <div class="quick-chips" style="margin-top:0.25rem;">
             <span class="chip" onclick="fillEmiPreset('Sony PlayStation 5 (Disc Edition)', 54990)">🎮 PS5 Disc (₹54,990)</span>
             <span class="chip" onclick="fillEmiPreset('Sony PS5 Digital Edition', 44990)">🎮 PS5 Digital (₹44,990)</span>
@@ -2123,29 +2134,28 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">How do you want to pay?</label>
+            <label class="form-label">Payment Scheme</label>
             <select id="emiSchemeSelect" class="input" onchange="calculateEmiVerdict()" style="font-size:0.85rem;">
-              <option value="nocost">0% No-Cost EMI (Card discount / Amazon & Flipkart)</option>
-              <option value="paylater">Flipkart / Amazon Pay Later / Snapmint (No credit card needed)</option>
-              <option value="standard">Standard Credit/Debit Card EMI (14% per year)</option>
+              <option value="nocost">0% No-Cost EMI (Amazon & Flipkart)</option>
+              <option value="paylater">Pay Later / Snapmint (No credit card needed)</option>
+              <option value="standard">Standard Card EMI (14% annual interest)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Pay over how many months?</label>
+            <label class="form-label">Tenure (Months)</label>
             <div class="tenure-pill-group">
-              <button type="button" class="tenure-pill" data-months="3" onclick="selectEmiTenure(3)">3 Months</button>
-              <button type="button" class="tenure-pill selected" data-months="6" onclick="selectEmiTenure(6)">6 Months (Recommended)</button>
-              <button type="button" class="tenure-pill" data-months="9" onclick="selectEmiTenure(9)">9 Months</button>
-              <button type="button" class="tenure-pill" data-months="12" onclick="selectEmiTenure(12)">12 Months</button>
-              <button type="button" class="tenure-pill" data-months="18" onclick="selectEmiTenure(18)">18 Months</button>
+              <button type="button" class="tenure-pill" data-months="3" onclick="selectEmiTenure(3)">3 Mo</button>
+              <button type="button" class="tenure-pill selected" data-months="6" onclick="selectEmiTenure(6)">6 Mo (Recommended)</button>
+              <button type="button" class="tenure-pill" data-months="9" onclick="selectEmiTenure(9)">9 Mo</button>
+              <button type="button" class="tenure-pill" data-months="12" onclick="selectEmiTenure(12)">12 Mo</button>
+              <button type="button" class="tenure-pill" data-months="18" onclick="selectEmiTenure(18)">18 Mo</button>
             </div>
           </div>
 
           <!-- Beginner Guide Tip -->
           <div class="info-callout" style="margin-top:1rem;">
-            💡 <strong>No credit card? No problem!</strong><br>
-            You can still get this! Look for <strong>Amazon Pay Later</strong> or <strong>Flipkart Pay Later</strong> during sales. They do instant digital approval with just your PAN & Aadhaar, or use a family member's card for 6-Month No-Cost EMI.
+            💡 <strong>No credit card?</strong> Use <strong>Amazon/Flipkart Pay Later</strong> for digital approval with PAN, or select 6-month zero-interest plans.
           </div>
         </div>
 
@@ -2161,45 +2171,45 @@
             </div>
             <h3 style="font-size:1.3rem; font-weight:800; margin:0.5rem 0 0.35rem;" id="emiVerdictTitle">Safe & Breathable Plan</h3>
             <p style="font-size:0.85rem; line-height:1.45;" id="emiVerdictSummary">
-              The monthly EMI will be easily absorbed by your fun budget without suffocating your day-to-day lifestyle.
+              Monthly instalment fits safely inside your fun budget without suffocating your daily routine.
             </p>
           </div>
 
           <!-- Financial Breakdown Card -->
           <div class="card">
-            <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">How It Affects Your Budget</div>
+            <div style="font-weight:700; font-size:0.95rem; margin-bottom:1.25rem;">Budget Impact Breakdown</div>
             
             <div class="insights-metrics-table">
               <div class="metric-row">
-                <span class="text-muted">Monthly instalment (EMI):</span>
+                <span class="text-muted"><strong>Monthly instalment:</strong></span>
                 <strong class="font-mono" style="font-size:1.15rem; color:var(--accent);" id="emiMonthlyAmt">₹7,498 / mo</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Amount financed:</span>
+                <span class="text-muted"><strong>Amount financed:</strong></span>
                 <strong class="font-mono" id="emiPrincipalFinanced">₹44,990</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Total interest / extra cost:</span>
+                <span class="text-muted"><strong>Interest cost:</strong></span>
                 <strong class="font-mono" id="emiInterestTotal">₹0 (No-Cost)</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Share of fun money (₹<span id="emiWantsBudgetRef">22,500</span>):</span>
+                <span class="text-muted"><strong>Fun budget share:</strong></span>
                 <strong class="font-mono" id="emiWantsSharePct">33% of fun budget</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Daily limit reduction:</span>
+                <span class="text-muted"><strong>Daily limit impact:</strong></span>
                 <strong class="font-mono" style="color:var(--danger);" id="emiDailyReduction">-₹250 / day</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">New safe daily limit:</span>
+                <span class="text-muted"><strong>Adjusted daily limit:</strong></span>
                 <strong class="font-mono" style="color:var(--accent); font-size:1.05rem;" id="emiNewDailyCap">₹600 / day</strong>
               </div>
             </div>
 
             <!-- Tailored No-Suffocation Plan -->
             <div class="smart-tip-card" id="emiSmartPlanCard" style="margin-top:1.25rem;">
-              🎯 <strong>Our Recommendation:</strong><br>
-              <span id="emiWorkablePlanText">Pick the 6-month tenure. To comfortably absorb this ₹7,498 EMI, adjust your discretionary leisure spending (dining out, deliveries) by ₹250/day. Your essential bills and 20% SIP savings remain completely untouched.</span>
+              🎯 <strong>Recommendation:</strong><br>
+              <span id="emiWorkablePlanText">Pick 6 months. Adjust discretionary daily spending by ₹250/day. Essential bills and 20% savings stay intact.</span>
             </div>
           </div>
         </div>
@@ -2213,10 +2223,10 @@
          ======================================================================== -->
     <div id="viewTabInvest" class="hidden">
       
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
           <h2 style="font-size:1.35rem; font-weight:700;">Where to Put Your Savings</h2>
-          <p style="font-size:0.85rem; color:var(--text-muted);">Simple investment ideas tailored to your savings amount, with live market updates.</p>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">Curated investment vehicles for your 20% savings allocation.</p>
         </div>
         <div style="display:flex; align-items:center; gap:0.5rem;">
           <span class="font-mono" style="font-size:0.75rem; color:var(--accent); display:flex; align-items:center; gap:4px;">
@@ -2257,29 +2267,29 @@
       </div>
 
       <!-- Personalized SIP Split Banner -->
-      <div class="card" style="margin-bottom: 1.25rem; background: var(--bg-elevated);">
+      <div class="card" style="margin-bottom: 1.5rem; background: var(--bg-surface);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
           <div>
-            <div style="font-weight:700; font-size:1.05rem;">How to Split Your Monthly Savings</div>
+            <div style="font-weight:700; font-size:1.05rem;">How to Split Your Savings</div>
             <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
-              Your 20% savings this month: <strong class="font-mono" style="color:var(--accent);" id="investSavingsPoolRupees">₹15,000 / month</strong>
+              Your 20% savings: <strong class="font-mono" style="color:var(--accent);" id="investSavingsPoolRupees">₹15,000 / month</strong>
             </div>
           </div>
           <button class="btn btn-primary btn-sm" onclick="copySIPDistribution()">Copy Plan</button>
         </div>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem; margin-top:1rem;">
-          <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
+          <div style="padding:0.85rem; background:var(--bg-canvas); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
             <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Safe & Steady (45%)</div>
             <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--cat-needs);" id="sipAllocNifty">₹6,750</div>
             <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Nifty 50 Index Fund</div>
           </div>
-          <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
+          <div style="padding:0.85rem; background:var(--bg-canvas); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
             <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">High Growth (35%)</div>
             <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--purple);" id="sipAllocFlexi">₹5,250</div>
             <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Parag Parikh / Quant Flexi Fund</div>
           </div>
-          <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
+          <div style="padding:0.85rem; background:var(--bg-canvas); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
             <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Gold Safety (20%)</div>
             <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--cat-wants);" id="sipAllocGold">₹3,000</div>
             <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Sovereign Gold Bond / Arbitrage</div>
@@ -2294,12 +2304,12 @@
         <div class="invest-opportunity-card">
           <div>
             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-              <span class="invest-badge badge-core">Core Wealth · Low Expense</span>
+              <span class="invest-badge badge-core">Core Wealth · Low Fee</span>
               <span class="font-mono up" style="font-weight:700; font-size:0.85rem;">14.2% 3Y CAGR</span>
             </div>
-            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Nifty 50 / Large-Cap Index</div>
+            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Nifty 50 Index Fund</div>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
-              Passively mirrors India's top 50 blue chips with 0.08% expense ratio. The foundational engine for steady compounding.
+              <strong>Mirrors India's top 50</strong> companies with low 0.08% fees. Ideal foundation for steady 3+ year compound growth.
             </p>
           </div>
           <div style="border-top:1px solid var(--border-subtle); padding-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
@@ -2312,12 +2322,12 @@
         <div class="invest-opportunity-card">
           <div>
             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-              <span class="invest-badge badge-alpha">Alpha Momentum · Smart Flexi</span>
+              <span class="invest-badge badge-alpha">Alpha Momentum · Growth</span>
               <span class="font-mono up" style="font-weight:700; font-size:0.85rem;">19.8% 3Y CAGR</span>
             </div>
-            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Flexi-Cap & Quant Alpha</div>
+            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Flexi-Cap & Alpha</div>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
-              Dynamically allocates between high-growth mid-caps and global leaders to outperform broad market indexes during bullish expansions.
+              <strong>High-growth equity allocation</strong> across dynamic market leaders. Built to outperform broad market indexes over 5+ years.
             </p>
           </div>
           <div style="border-top:1px solid var(--border-subtle); padding-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
@@ -2330,12 +2340,12 @@
         <div class="invest-opportunity-card">
           <div>
             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-              <span class="invest-badge badge-safe">Capital Defense · 0% Tax Gain</span>
+              <span class="invest-badge badge-safe">Capital Defense · 0% Tax</span>
               <span class="font-mono" style="font-weight:700; font-size:0.85rem; color:var(--cat-wants);">8.5% + Capital Gain</span>
             </div>
-            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Sovereign Gold & Arbitrage</div>
+            <div style="font-weight:700; font-size:1.1rem; margin-top:0.5rem;">Sovereign Gold Bonds</div>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
-              Hedges against currency inflation with sovereign government backing and zero capital gains tax when held to maturity.
+              <strong>Government-backed capital shield</strong> hedging against inflation. Offers sovereign safety with zero capital gains tax at maturity.
             </p>
           </div>
           <div style="border-top:1px solid var(--border-subtle); padding-top:0.75rem; display:flex; justify-content:space-between; align-items:center;">
@@ -2353,10 +2363,10 @@
          ======================================================================== -->
     <div id="viewTabSettings" class="hidden">
       
-      <div style="margin-bottom:1.25rem;">
+      <div style="margin-bottom:1.5rem;">
         <h2 style="font-size:1.35rem; font-weight:700;">Budget Setup</h2>
-        <p style="font-size:0.85rem; color:var(--text-muted);">
-          Set your salary and decide how to split it. You can adjust the sliders or type amounts directly in ₹.
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">
+          Set your monthly salary and tune category allocation percentages in real time.
         </p>
       </div>
 
@@ -2375,7 +2385,7 @@
           </div>
 
           <!-- Real-Time Visual Division Preview Bar -->
-          <div style="margin:1rem 0;">
+          <div style="margin:1.25rem 0;">
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.35rem;">
               <span>How your salary is split</span>
               <span id="allocationStatusText" class="font-mono" style="color:var(--accent);">100% Balanced</span>
@@ -2394,10 +2404,10 @@
             </div>
           </div>
 
-          <!-- Direct Rupee Inputs for 3 Buckets -->
-          <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:1.25rem;">
+          <!-- Direct Rupee Inputs for 3 Buckets - Flattened -->
+          <div style="display:flex; flex-direction:column; margin-top:1.25rem; border-top:1px solid var(--border-subtle);">
             <!-- Needs in Rupees -->
-            <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
+            <div style="padding:0.85rem 0; border-bottom:1px solid var(--border-subtle);">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
                 <label class="form-label" style="margin-bottom:0; color:var(--cat-needs);">1. Bills & Essentials</label>
                 <span class="font-mono" id="labelNeedsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-needs);">50%</span>
@@ -2410,7 +2420,7 @@
             </div>
 
             <!-- Wants in Rupees -->
-            <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
+            <div style="padding:0.85rem 0; border-bottom:1px solid var(--border-subtle);">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
                 <label class="form-label" style="margin-bottom:0; color:var(--cat-wants);">2. Fun & Personal</label>
                 <span class="font-mono" id="labelWantsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-wants);">30%</span>
@@ -2423,7 +2433,7 @@
             </div>
 
             <!-- Savings in Rupees -->
-            <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
+            <div style="padding:0.85rem 0;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
                 <label class="form-label" style="margin-bottom:0; color:var(--cat-savings);">3. Savings & Investments</label>
                 <span class="font-mono" id="labelSavingsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-savings);">20%</span>
@@ -2455,7 +2465,7 @@
               <button class="btn btn-primary" onclick="savePaydayDate()">Save Date</button>
             </div>
             <div id="settingsPaydayPreview" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
-              Your cycle will automatically calculate elapsed days and days left based on Indian Standard Time (IST).
+              Tracks cycle progress and days left automatically based on IST.
             </div>
           </div>
 
@@ -2465,12 +2475,12 @@
             <div style="display:flex; flex-direction:column; gap:0.6rem;">
               <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
                 <input type="radio" name="capModeRadio" id="radioCapAuto" checked onchange="toggleManualCap(false)" />
-                <span><strong>Auto Limit (Recommended):</strong> Calculated daily from remaining fun money ÷ days left.</span>
+                <span><strong>Auto Limit (Recommended):</strong> Divided daily from remaining fun money.</span>
               </label>
 
               <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
                 <input type="radio" name="capModeRadio" id="radioCapManual" onchange="toggleManualCap(true)" />
-                <span><strong>Fixed Limit:</strong> Set a fixed daily amount regardless of balance.</span>
+                <span><strong>Fixed Limit:</strong> Fixed daily allowance regardless of balance.</span>
               </label>
             </div>
 
@@ -2491,7 +2501,7 @@
             <button class="btn btn-outline btn-sm" onclick="triggerPwaInstall()">Install</button>
           </div>
           <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.85rem;">
-            Install Traxpens directly onto your phone or computer for instant access — works like a real app, even offline.
+            Install Traxpens on your phone or PC for offline support and instant home screen access.
           </p>
           <button class="btn btn-primary" onclick="triggerPwaInstall()" style="width:100%; justify-content:center; gap:0.5rem;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
