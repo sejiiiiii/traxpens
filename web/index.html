@@ -1208,14 +1208,436 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
     }
+
+    /* ==========================================================================
+       9. ONBOARDING / FIRST-TIME SETUP WALKTHROUGH
+       ========================================================================== */
+    .onboarding-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-canvas);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+    }
+
+    .onboarding-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: 16px;
+      padding: 2.25rem 2rem;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .onboarding-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      text-align: center;
+    }
+
+    .onboarding-step-label {
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .onboarding-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .onboarding-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .onboarding-feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .onboarding-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+    }
+
+    .onboarding-feature-icon {
+      font-size: 1.35rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .onboarding-feature-text strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .onboarding-feature-text span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .onboarding-salary-input-wrap {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .onboarding-salary-input-wrap label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .onboarding-salary-field-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .onboarding-salary-prefix {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .onboarding-salary-field {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      width: 200px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border-main);
+      border-radius: var(--radius);
+      padding: 0.5rem 0.75rem;
+      color: var(--text-main);
+      outline: none;
+      text-align: center;
+      transition: border-color 0.15s;
+    }
+
+    .onboarding-salary-field:focus {
+      border-color: var(--accent);
+    }
+
+    .onboarding-salary-chips {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+
+    .onboarding-next-btn {
+      width: 100%;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .onboarding-next-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .onboarding-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 1.25rem;
+    }
+
+    .onboarding-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-main);
+      transition: all 0.2s;
+    }
+
+    .onboarding-dot.active {
+      background: var(--accent);
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    .onboarding-skip-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .onboarding-skip-btn:hover {
+      color: var(--text-muted);
+    }
+
+    .onboarding-split-preview {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .onboarding-split-bar {
+      display: flex;
+      height: 12px;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      gap: 2px;
+    }
+
+    .onboarding-split-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      padding: 0.35rem 0;
+    }
+
+    .onboarding-split-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.4rem;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
 
   <!-- ==========================================================================
+       0. ONBOARDING WALKTHROUGH (First-Time Setup — shown once on first visit)
+       ========================================================================== -->
+  <div class="onboarding-overlay hidden" id="onboardingOverlay">
+    
+    <!-- STEP 0: Welcome -->
+    <div class="onboarding-card" id="onboStep0">
+      <span class="onboarding-icon">👋</span>
+      <div class="onboarding-step-label">Welcome to Traxpens</div>
+      <h1 class="onboarding-title">Your Money, Finally Under Control</h1>
+      <p class="onboarding-desc">Traxpens helps you track what you spend, set a daily budget, and grow your savings — all in one place. No spreadsheets needed.</p>
+      <div class="onboarding-feature-list">
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">💰</span>
+          <div class="onboarding-feature-text"><strong>Smart Budget Splitting</strong><span>Your salary is automatically divided into three buckets — bills, fun money, and savings.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">📅</span>
+          <div class="onboarding-feature-text"><strong>Daily Spending Limit</strong><span>Know exactly how much you can spend today without running out before payday.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🛒</span>
+          <div class="onboarding-feature-text"><strong>EMI Affordability Check</strong><span>Thinking of buying something on EMI? See if you can comfortably afford it first.</span></div>
+        </div>
+      </div>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Let's Get Started →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup, go straight to app</button></div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
+      </div>
+    </div>
+
+    <!-- STEP 1: Monthly Salary -->
+    <div class="onboarding-card hidden" id="onboStep1">
+      <span class="onboarding-icon">💼</span>
+      <div class="onboarding-step-label">Step 1 of 5 · Your Income</div>
+      <h2 class="onboarding-title">What do you earn each month?</h2>
+      <p class="onboarding-desc">Enter your monthly take-home salary — the amount that lands in your bank account after all deductions.</p>
+      <div class="onboarding-salary-input-wrap">
+        <label>Monthly take-home salary (₹)</label>
+        <div class="onboarding-salary-field-wrap">
+          <span class="onboarding-salary-prefix">₹</span>
+          <input type="number" id="onboSalaryInput" class="onboarding-salary-field font-mono" placeholder="50000" min="5000" step="1000" oninput="onboUpdateSalaryPreview()" />
+        </div>
+        <div class="onboarding-salary-chips">
+          <span class="chip" onclick="onboSetSalary(20000)">₹20,000</span>
+          <span class="chip" onclick="onboSetSalary(35000)">₹35,000</span>
+          <span class="chip" onclick="onboSetSalary(50000)">₹50,000</span>
+          <span class="chip" onclick="onboSetSalary(75000)">₹75,000</span>
+          <span class="chip" onclick="onboSetSalary(100000)">₹1 Lakh</span>
+        </div>
+      </div>
+      <div id="onboSalaryError" class="hidden" style="color:var(--danger); font-size:0.82rem; text-align:center; margin-bottom:1rem;">Please enter a valid salary (minimum ₹5,000)</div>
+      <button class="onboarding-next-btn" onclick="onboSaveSalaryAndNext()">Continue →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Budget Split -->
+    <div class="onboarding-card hidden" id="onboStep2">
+      <span class="onboarding-icon">🪣</span>
+      <div class="onboarding-step-label">Step 2 of 5 · How Your Money Is Split</div>
+      <h2 class="onboarding-title">Your salary, divided into 3 buckets</h2>
+      <p class="onboarding-desc">We use the <strong>50/30/20 rule</strong> — a simple and proven budgeting method used by millions worldwide.</p>
+      <div class="onboarding-split-preview">
+        <div class="onboarding-split-bar">
+          <div style="width:50%; background:var(--cat-needs);"></div>
+          <div style="width:30%; background:var(--cat-wants);"></div>
+          <div style="width:20%; background:var(--cat-savings);"></div>
+        </div>
+        <div class="onboarding-split-item">
+          <div><span class="onboarding-split-dot" style="background:var(--cat-needs);"></span><strong>Bills &amp; Essentials</strong> — rent, food, transport</div>
+          <strong class="font-mono" style="color:var(--cat-needs);" id="onboNeedsAmt">₹25,000 (50%)</strong>
+        </div>
+        <div class="onboarding-split-item">
+          <div><span class="onboarding-split-dot" style="background:var(--cat-wants);"></span><strong>Fun &amp; Personal</strong> — dining, movies, shopping</div>
+          <strong class="font-mono" style="color:var(--cat-wants);" id="onboWantsAmt">₹15,000 (30%)</strong>
+        </div>
+        <div class="onboarding-split-item">
+          <div><span class="onboarding-split-dot" style="background:var(--cat-savings);"></span><strong>Savings &amp; Investments</strong> — SIP, emergency fund</div>
+          <strong class="font-mono" style="color:var(--cat-savings);" id="onboSavingsAmt">₹10,000 (20%)</strong>
+        </div>
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-dim); text-align:center; margin-bottom:1.25rem;">You can adjust these percentages anytime from <strong>Budget Setup</strong>.</p>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Got it, next →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Daily Spending Cap -->
+    <div class="onboarding-card hidden" id="onboStep3">
+      <span class="onboarding-icon">🚦</span>
+      <div class="onboarding-step-label">Step 3 of 5 · Daily Spending Limit</div>
+      <h2 class="onboarding-title">Never go broke before payday</h2>
+      <p class="onboarding-desc">Traxpens calculates exactly how much you can safely spend each day, so you always have money left at the end of the month.</p>
+      <div class="onboarding-feature-list">
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🔄</span>
+          <div class="onboarding-feature-text"><strong>Auto Daily Limit (Recommended)</strong><span>Adjusts daily based on what you've spent and how many days until payday.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">✏️</span>
+          <div class="onboarding-feature-text"><strong>Custom Fixed Limit</strong><span>Prefer a fixed amount? Set your own daily limit — e.g., ₹800/day every day.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🎉</span>
+          <div class="onboarding-feature-text"><strong>Weekend &amp; Trip Modes</strong><span>Going out this weekend? Switch to a higher limit temporarily without breaking your budget.</span></div>
+        </div>
+      </div>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Makes sense, next →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div>
+      </div>
+    </div>
+
+    <!-- STEP 4: EMI Check -->
+    <div class="onboarding-card hidden" id="onboStep4">
+      <span class="onboarding-icon">🛒</span>
+      <div class="onboarding-step-label">Step 4 of 5 · Big Purchase Check</div>
+      <h2 class="onboarding-title">Can you afford that gadget on EMI?</h2>
+      <p class="onboarding-desc">Enter any product — phone, laptop, PS5 — and Traxpens tells you if you can comfortably pay for it in monthly instalments.</p>
+      <div class="onboarding-feature-list">
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">📱</span>
+          <div class="onboarding-feature-text"><strong>Works with any product</strong><span>iPhone, PS5, laptop, AC — just enter the price and see the impact on your budget.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🏦</span>
+          <div class="onboarding-feature-text"><strong>Supports all payment plans</strong><span>0% No-Cost EMI, Flipkart/Amazon Pay Later, or standard bank EMI — all covered.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🟢</span>
+          <div class="onboarding-feature-text"><strong>Clear verdict: Green / Yellow / Red</strong><span>We say if it's safe to buy now, or suggest a better plan to avoid financial stress.</span></div>
+        </div>
+      </div>
+      <button class="onboarding-next-btn" onclick="onboNextStep()">Awesome, next →</button>
+      <div style="text-align:center;"><button class="onboarding-skip-btn" onclick="onboSkip()">Skip setup</button></div>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div><div class="onboarding-dot"></div>
+      </div>
+    </div>
+
+    <!-- STEP 5: Investments -->
+    <div class="onboarding-card hidden" id="onboStep5">
+      <span class="onboarding-icon">🌱</span>
+      <div class="onboarding-step-label">Step 5 of 5 · Growing Your Money</div>
+      <h2 class="onboarding-title">Make your savings work for you</h2>
+      <p class="onboarding-desc">Your 20% savings don't have to sit idle in a bank. Traxpens suggests simple investment options personalised to your income.</p>
+      <div class="onboarding-feature-list">
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">📈</span>
+          <div class="onboarding-feature-text"><strong>Nifty 50 Index Fund — Safe &amp; Steady</strong><span>Tracks India's top 50 companies. Low risk, consistent growth over 3+ years. Start with ₹500/month.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🚀</span>
+          <div class="onboarding-feature-text"><strong>Flexi-Cap Fund — High Growth</strong><span>Invests across different company sizes for higher returns over 5+ years.</span></div>
+        </div>
+        <div class="onboarding-feature-item">
+          <span class="onboarding-feature-icon">🏅</span>
+          <div class="onboarding-feature-text"><strong>Sovereign Gold Bond — Inflation Shield</strong><span>Government-backed gold. Protects savings from inflation. Zero capital gains tax at maturity.</span></div>
+        </div>
+      </div>
+      <button class="onboarding-next-btn" onclick="onboFinish()">Start Using Traxpens 🎉</button>
+      <div class="onboarding-dots">
+        <div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div><div class="onboarding-dot active"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
        1. AUTH OVERLAY
        ========================================================================== -->
   <div class="auth-overlay hidden" id="authGateOverlay">
+
     <div class="auth-box">
       <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
         <div style="width:42px; height:42px; padding:6px; background:var(--bg-elevated); border:1px solid var(--border-main); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
@@ -1234,9 +1656,9 @@
       </div>
 
       <div style="margin-bottom: 1.25rem;">
-        <h2 style="font-size:1.25rem; font-weight:700;" id="authHeading">Access Ledger</h2>
+        <h2 style="font-size:1.25rem; font-weight:700;" id="authHeading">Sign In</h2>
         <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;" id="authSubtitle">
-          Sign in to view your salary allocations, EMI planner and live investments.
+          Sign in to access your budget, expenses, and savings tracker.
         </p>
       </div>
 
@@ -1266,13 +1688,13 @@
         </div>
 
         <button type="submit" class="btn btn-primary" id="authSubmitBtn" style="width: 100%; margin-top: 0.5rem; padding: 0.75rem;">
-          <span id="authSubmitBtnText">Authenticate</span>
+          <span id="authSubmitBtnText">Sign In</span>
         </button>
       </form>
 
       <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); text-align: center; font-size: 0.85rem; color: var(--text-muted);">
-        <span id="authToggleQuestion">No account yet?</span>
-        <button class="btn-text" style="margin-left: 0.4rem;" id="authToggleBtn" onclick="toggleAuthMode()">Initialize Here</button>
+        <span id="authToggleQuestion">Don't have an account?</span>
+        <button class="btn-text" style="margin-left: 0.4rem;" id="authToggleBtn" onclick="toggleAuthMode()">Create Account</button>
       </div>
 
       <div style="margin-top: 1rem; text-align: center;">
@@ -1316,23 +1738,23 @@
       <nav class="desktop-nav" aria-label="Desktop Navigation">
         <button class="nav-tab-btn active" id="deskTabLedger" onclick="switchTab('ledger')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          <span>Ledger</span>
+          <span>Dashboard</span>
         </button>
         <button class="nav-tab-btn" id="deskTabInsights" onclick="switchTab('insights')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-          <span>Insights</span>
+          <span>Spending Trends</span>
         </button>
         <button class="nav-tab-btn" id="deskTabEmi" onclick="switchTab('emi')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m7-2h3"/></svg>
-          <span>EMI & PS5 Verdict</span>
+          <span>Can I Afford This?</span>
         </button>
         <button class="nav-tab-btn" id="deskTabInvest" onclick="switchTab('invest')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
-          <span>Smart Investments</span>
+          <span>Investments</span>
         </button>
         <button class="nav-tab-btn" id="deskTabSettings" onclick="switchTab('settings')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Budget (₹ & %)</span>
+          <span>Budget Setup</span>
         </button>
       </nav>
 
@@ -1342,13 +1764,13 @@
           <span class="hide-mobile">Install App</span>
         </button>
         <button class="btn btn-primary hide-mobile" onclick="openQuickLogModal()">
-          <span>+ Record Expense</span>
+          <span>+ Add Expense</span>
         </button>
         <button class="btn btn-outline" onclick="toggleTheme()" title="Toggle Theme">
           <span id="themeBtnText">Theme</span>
         </button>
         <button class="btn btn-danger-outline" onclick="handleLogout()" title="Sign Out">
-          Disconnect
+          Sign Out
         </button>
       </div>
     </header>
@@ -1361,36 +1783,36 @@
       <!-- Top 3 KPI Cards -->
       <div class="stats-grid">
         
-        <!-- CARD 1: Monthly Paycheck & Safe Pool -->
+        <!-- CARD 1: Monthly Salary & Money Left -->
         <div class="card">
           <div class="stat-label-row">
-            <span>Monthly Net Paycheck</span>
-            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Edit in ₹</button>
+            <span>Monthly Salary</span>
+            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Change</button>
           </div>
           <div class="stat-number font-mono">
             <span>₹</span><span id="salaryDisplayVal">50,000</span>
           </div>
           <div class="stat-footer font-mono">
-            <span>Remaining Safe Pool:</span>
+            <span>Money Left to Spend:</span>
             <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">25,000</span></strong>
           </div>
         </div>
 
-        <!-- CARD 2: Daily Spending Cap (with Manual Edit Option) -->
+        <!-- CARD 2: Daily Spending Limit -->
         <div class="card">
           <div class="stat-label-row">
             <span>
-              Expense Cap 
-              <span id="capModeBadge" style="font-size:0.65rem; padding:1px 5px; border-radius:4px; background:var(--bg-elevated); color:var(--accent);">Dynamic</span>
+              Daily Spending Limit 
+              <span id="capModeBadge" style="font-size:0.65rem; padding:1px 5px; border-radius:4px; background:var(--bg-elevated); color:var(--accent);">Auto</span>
             </span>
             <div style="display:flex; align-items:center; gap:0.4rem;">
               <select id="capPeriodSelect" onchange="updateCapPeriod()" style="background:var(--bg-elevated); border:1px solid var(--border-main); color:var(--text-muted); font-size:0.72rem; border-radius:4px; padding:2px 4px; outline:none;">
                 <option value="today">Today</option>
-                <option value="weekend">Weekend (1.5x)</option>
-                <option value="rolling7">7-Day Rolling</option>
-                <option value="trip3">3-Day Vacation</option>
+                <option value="weekend">Weekend (+50%)</option>
+                <option value="rolling7">7-Day View</option>
+                <option value="trip3">Short Trip (3 Days)</option>
               </select>
-              <button class="btn-text font-mono" onclick="openCapEditModal()" title="Edit or manually set daily cap" style="font-size:0.75rem;">✎ Edit</button>
+              <button class="btn-text font-mono" onclick="openCapEditModal()" title="Edit daily limit" style="font-size:0.75rem;">✎ Edit</button>
             </div>
           </div>
           
@@ -1406,22 +1828,22 @@
           </div>
         </div>
 
-        <!-- CARD 3: 50/30/20 Allocation -->
+        <!-- CARD 3: How Money is Split -->
         <div class="card">
           <div class="stat-label-row">
-            <span>50/30/20 Rule Ratio</span>
-            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Tune in ₹</button>
+            <span>How Money is Split</span>
+            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Adjust</button>
           </div>
           
           <div class="stacked-bar">
-            <div class="bar-slice" id="sliceNeedsBar" style="width: 50%; background: var(--cat-needs);" title="Needs"></div>
-            <div class="bar-slice" id="sliceWantsBar" style="width: 30%; background: var(--cat-wants);" title="Wants"></div>
+            <div class="bar-slice" id="sliceNeedsBar" style="width: 50%; background: var(--cat-needs);" title="Bills & Essentials"></div>
+            <div class="bar-slice" id="sliceWantsBar" style="width: 30%; background: var(--cat-wants);" title="Fun & Personal"></div>
             <div class="bar-slice" id="sliceSavingsBar" style="width: 20%; background: var(--cat-savings);" title="Savings"></div>
           </div>
 
           <div class="stat-footer font-mono" style="margin-top:0.4rem;">
-            <span style="color:var(--cat-needs);">Needs: <strong id="pctNeedsLabel">50%</strong></span>
-            <span style="color:var(--cat-wants);">Wants: <strong id="pctWantsLabel">30%</strong></span>
+            <span style="color:var(--cat-needs);">Bills: <strong id="pctNeedsLabel">50%</strong></span>
+            <span style="color:var(--cat-wants);">Fun: <strong id="pctWantsLabel">30%</strong></span>
             <span style="color:var(--cat-savings);">Savings: <strong id="pctSavingsLabel">20%</strong></span>
           </div>
         </div>
@@ -1433,29 +1855,29 @@
         <div class="view-mode-toggle" role="tablist">
           <button type="button" class="mode-pill active" id="btnModeFeed" onclick="setLedgerViewMode('feed')">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-            <span>Activity Feed</span>
+            <span>Expense Feed</span>
           </button>
           <button type="button" class="mode-pill" id="btnModeCalendar" onclick="setLedgerViewMode('calendar')">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span>📅 Daily Cap Calendar</span>
+            <span>📅 Monthly Calendar</span>
           </button>
         </div>
 
         <div style="font-size:0.75rem; color:var(--text-muted); display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
-          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent);"></span> Within Cap</span>
-          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--danger);"></span> Cap Exhausted</span>
-          <span style="display:inline-flex; align-items:center; gap:4px;">💰 Salary Credited</span>
+          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent);"></span> Within limit</span>
+          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--danger);"></span> Over limit</span>
+          <span style="display:inline-flex; align-items:center; gap:4px;">💰 Payday</span>
         </div>
       </div>
 
-      <!-- Mode 1: Standard Activity Feed (Paycheck Buckets + Ledger) -->
+      <!-- Mode 1: Standard Expense Feed (Budget Buckets + Ledger) -->
       <div class="content-grid" id="ledgerFeedContainer">
         
         <!-- Left: Buckets Breakdown -->
         <div>
           <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-weight: 700; font-size: 0.95rem;">Modular Paycheck Buckets</span>
+              <span style="font-weight: 700; font-size: 0.95rem;">Your Budget Buckets</span>
               <span class="font-mono text-dim" style="font-size:0.75rem;" id="cycleDaysLeftLabel">18 days left</span>
             </div>
             
@@ -1464,7 +1886,7 @@
                 <div style="display: flex; align-items: center;">
                   <div class="cat-dot" style="background: var(--cat-needs);"></div>
                   <div>
-                    <div class="cat-name">Needs (<span id="catNeedsPct">50%</span>)</div>
+                    <div class="cat-name">Bills & Essentials (<span id="catNeedsPct">50%</span>)</div>
                     <div class="cat-sub">Rent, bills, groceries, commute</div>
                   </div>
                 </div>
@@ -1478,8 +1900,8 @@
                 <div style="display: flex; align-items: center;">
                   <div class="cat-dot" style="background: var(--cat-wants);"></div>
                   <div>
-                    <div class="cat-name">Wants (<span id="catWantsPct">30%</span>)</div>
-                    <div class="cat-sub">Dining, Swiggy, leisure, movies</div>
+                    <div class="cat-name">Fun & Personal (<span id="catWantsPct">30%</span>)</div>
+                    <div class="cat-sub">Dining out, entertainment, shopping</div>
                   </div>
                 </div>
                 <div class="cat-amt">
@@ -1498,7 +1920,7 @@
                 </div>
                 <div class="cat-amt">
                   <div class="cat-rupee font-mono" id="budgetSavingsRupees">₹15,000</div>
-                  <button class="btn-text font-mono" onclick="switchTab('invest')" style="font-size:0.75rem;">Deploy SIP →</button>
+                  <button class="btn-text font-mono" onclick="switchTab('invest')" style="font-size:0.75rem;">Where to invest →</button>
                 </div>
               </div>
             </div>
@@ -1509,19 +1931,19 @@
         <div>
           <div class="card">
             <div class="ledger-top">
-              <div style="font-weight: 700; font-size: 0.95rem;">Transaction Ledger</div>
+              <div style="font-weight: 700; font-size: 0.95rem;">My Expenses</div>
               
               <div class="filters-wrap">
                 <button class="filter-btn active" onclick="setLedgerFilter('all', this)">All</button>
-                <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Needs</button>
-                <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Wants</button>
+                <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Bills</button>
+                <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Fun</button>
                 <button class="filter-btn" onclick="setLedgerFilter('savings', this)">Savings</button>
               </div>
             </div>
 
             <div class="tx-list" id="ledgerRowsContainer">
               <div style="padding: 2rem 1rem; text-align: center; color: var(--text-dim); font-size: 0.85rem;">
-                No transactions recorded yet. Tap "+ Record Expense" to log one.
+                No expenses recorded yet. Tap "+ Add Expense" to log one.
               </div>
             </div>
           </div>
@@ -1573,23 +1995,23 @@
     </div>
 
     <!-- ========================================================================
-         VIEW 2: SMART INSIGHTS SECTION (Trends & Projections)
+         VIEW 2: SPENDING REPORT (Trends & Projections)
          ======================================================================== -->
     <div id="viewTabInsights" class="hidden">
       
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
         <div>
-          <h2 style="font-size:1.35rem; font-weight:700;">Financial Intelligence & Trends</h2>
-          <p style="font-size:0.85rem; color:var(--text-muted);">Real-time projections calculated from your current payday velocity.</p>
+          <h2 style="font-size:1.35rem; font-weight:700;">Your Spending Report</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);">See how your money is moving and whether you're on track to save this month.</p>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="refreshUI()">Refresh Projections</button>
+        <button class="btn btn-outline btn-sm" onclick="refreshUI()">Refresh</button>
       </div>
 
       <div class="insights-grid">
         
         <!-- Health Score & Burn Rate -->
         <div class="card">
-          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">Cycle Health & Velocity</div>
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">How Are You Doing?</div>
           
           <div class="health-gauge-box">
             <div class="health-score-circle">
@@ -1599,26 +2021,26 @@
             <div>
               <div style="font-weight:700; font-size:1rem;" id="insightHealthLabel">Optimal Pacing</div>
               <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;" id="insightHealthDesc">
-                Spending velocity is comfortably below your dynamic daily limit.
+                You're spending at a comfortable pace — well within your daily limit.
               </div>
             </div>
           </div>
 
           <div class="insights-metrics-table">
             <div class="metric-row">
-              <span class="text-muted">Average Daily Spend:</span>
+              <span class="text-muted">Average spent per day:</span>
               <strong class="font-mono" id="insightAvgDailySpend">₹0 / day</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Target Safe Daily Cap:</span>
+              <span class="text-muted">Your safe daily limit:</span>
               <strong class="font-mono" id="insightTargetDailyCap">₹850 / day</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Cycle Burn Rate Velocity:</span>
+              <span class="text-muted">Spending speed:</span>
               <strong class="font-mono" id="insightBurnVelocity" style="color:var(--accent);">0.82x (Safe)</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Cycle Days Progress:</span>
+              <span class="text-muted">Days into this month:</span>
               <strong class="font-mono" id="insightCycleProgress">Day 12 of 30 (40%)</strong>
             </div>
           </div>
@@ -1626,30 +2048,30 @@
 
         <!-- Month-End Projections -->
         <div class="card">
-          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">Month-End Projections</div>
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">End of Month Forecast</div>
           
           <div class="insights-metrics-table">
             <div class="metric-row">
-              <span class="text-muted">Current Total Spent:</span>
+              <span class="text-muted">Total spent so far:</span>
               <strong class="font-mono" id="insightTotalSpent">₹0</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Projected Total Outflow:</span>
+              <span class="text-muted">Expected total spending:</span>
               <strong class="font-mono" id="insightProjectedOutflow">₹0</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Projected Surplus at Payday:</span>
+              <span class="text-muted">Money you'll have left:</span>
               <strong class="font-mono" style="color:var(--accent); font-size:1.05rem;" id="insightProjectedSurplus">₹0</strong>
             </div>
             <div class="metric-row">
-              <span class="text-muted">Target 20% Capital Preserved:</span>
+              <span class="text-muted">20% savings target status:</span>
               <strong class="font-mono" id="insightSavingsTargetPreserved">100% Intact</strong>
             </div>
           </div>
 
           <!-- Dynamic AI Smart Advice -->
           <div class="smart-tip-card" id="insightSmartAdvice">
-            💡 <strong>Smart Observation:</strong> Your current burn velocity will leave you with an estimated surplus at payday.
+            💡 <strong>Smart Tip:</strong> Your current spending pace will leave you with an estimated surplus at payday.
           </div>
         </div>
 
@@ -1658,14 +2080,14 @@
     </div>
 
     <!-- ========================================================================
-         VIEW 3: EMI & BIG PURCHASE AFFORDABILITY (PS5 / Gadget Verdict)
+         VIEW 3: EMI AFFORDABILITY CHECKER
          ======================================================================== -->
     <div id="viewTabEmi" class="hidden">
       
       <div style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.35rem; font-weight:700;">Can I Bear This EMI? — Purchase Feasibility Simulator</h2>
+        <h2 style="font-size:1.35rem; font-weight:700;">Can I Afford This on EMI?</h2>
         <p style="font-size:0.85rem; color:var(--text-muted);">
-          Stress-test big purchases (PS5, iPhone, Laptop) against your salary and Flipkart/Amazon payment plans without suffocating.
+          Enter any product and see if you can comfortably pay for it in monthly instalments — without feeling broke every weekend.
         </p>
       </div>
 
@@ -1673,10 +2095,10 @@
         
         <!-- Left Column: Input Configuration -->
         <div class="card">
-          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Configure Target Product</div>
+          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">What do you want to buy?</div>
           
           <!-- Quick Preset Chips -->
-          <label class="form-label">Popular Indian E-Commerce Presets</label>
+          <label class="form-label">Popular products</label>
           <div class="quick-chips" style="margin-top:0.25rem;">
             <span class="chip" onclick="fillEmiPreset('Sony PlayStation 5 (Disc Edition)', 54990)">🎮 PS5 Disc (₹54,990)</span>
             <span class="chip" onclick="fillEmiPreset('Sony PS5 Digital Edition', 44990)">🎮 PS5 Digital (₹44,990)</span>
@@ -1691,7 +2113,7 @@
 
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
             <div class="form-group">
-              <label class="form-label">Price on Flipkart / Amazon (₹)</label>
+              <label class="form-label">Price (₹)</label>
               <input type="number" id="emiItemPrice" class="input font-mono" value="44990" min="1000" step="500" oninput="calculateEmiVerdict()" />
             </div>
             <div class="form-group">
@@ -1701,16 +2123,16 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Financing Scheme (India E-Commerce)</label>
+            <label class="form-label">How do you want to pay?</label>
             <select id="emiSchemeSelect" class="input" onchange="calculateEmiVerdict()" style="font-size:0.85rem;">
               <option value="nocost">0% No-Cost EMI (Card discount / Amazon & Flipkart)</option>
-              <option value="paylater">Flipkart / Amazon Pay Later / Snapmint (No Credit History Needed)</option>
-              <option value="standard">Standard Credit/Debit Card EMI (14% p.a. Reducing)</option>
+              <option value="paylater">Flipkart / Amazon Pay Later / Snapmint (No credit card needed)</option>
+              <option value="standard">Standard Credit/Debit Card EMI (14% per year)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Select Loan Tenure</label>
+            <label class="form-label">Pay over how many months?</label>
             <div class="tenure-pill-group">
               <button type="button" class="tenure-pill" data-months="3" onclick="selectEmiTenure(3)">3 Months</button>
               <button type="button" class="tenure-pill selected" data-months="6" onclick="selectEmiTenure(6)">6 Months (Recommended)</button>
@@ -1722,8 +2144,8 @@
 
           <!-- Beginner Guide Tip -->
           <div class="info-callout" style="margin-top:1rem;">
-            💡 <strong>No Work Experience or Loan History?</strong><br>
-            You can still get this! Look for <strong>Amazon Pay Later</strong> or <strong>Flipkart Pay Later</strong> during sales. They do instant digital approval with just your PAN & Aadhaar, or use a family member's HDFC/ICICI card for 6-Month No-Cost EMI.
+            💡 <strong>No credit card? No problem!</strong><br>
+            You can still get this! Look for <strong>Amazon Pay Later</strong> or <strong>Flipkart Pay Later</strong> during sales. They do instant digital approval with just your PAN & Aadhaar, or use a family member's card for 6-Month No-Cost EMI.
           </div>
         </div>
 
@@ -1739,45 +2161,45 @@
             </div>
             <h3 style="font-size:1.3rem; font-weight:800; margin:0.5rem 0 0.35rem;" id="emiVerdictTitle">Safe & Breathable Plan</h3>
             <p style="font-size:0.85rem; line-height:1.45;" id="emiVerdictSummary">
-              The monthly EMI will be easily absorbed by your Wants budget without suffocating your day-to-day lifestyle.
+              The monthly EMI will be easily absorbed by your fun budget without suffocating your day-to-day lifestyle.
             </p>
           </div>
 
           <!-- Financial Breakdown Card -->
           <div class="card">
-            <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">Salary Impact Analysis</div>
+            <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">How It Affects Your Budget</div>
             
             <div class="insights-metrics-table">
               <div class="metric-row">
-                <span class="text-muted">Monthly EMI Deduction:</span>
+                <span class="text-muted">Monthly instalment (EMI):</span>
                 <strong class="font-mono" style="font-size:1.15rem; color:var(--accent);" id="emiMonthlyAmt">₹7,498 / mo</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Financed Principal:</span>
+                <span class="text-muted">Amount financed:</span>
                 <strong class="font-mono" id="emiPrincipalFinanced">₹44,990</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Estimated Total Interest / Cost:</span>
+                <span class="text-muted">Total interest / extra cost:</span>
                 <strong class="font-mono" id="emiInterestTotal">₹0 (No-Cost)</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Share of Monthly Wants (₹<span id="emiWantsBudgetRef">22,500</span>):</span>
-                <strong class="font-mono" id="emiWantsSharePct">33% of Wants</strong>
+                <span class="text-muted">Share of fun money (₹<span id="emiWantsBudgetRef">22,500</span>):</span>
+                <strong class="font-mono" id="emiWantsSharePct">33% of fun budget</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Daily Spending Cap Reduction:</span>
+                <span class="text-muted">Daily limit reduction:</span>
                 <strong class="font-mono" style="color:var(--danger);" id="emiDailyReduction">-₹250 / day</strong>
               </div>
               <div class="metric-row">
-                <span class="text-muted">Adjusted Safe Daily Limit:</span>
+                <span class="text-muted">New safe daily limit:</span>
                 <strong class="font-mono" style="color:var(--accent); font-size:1.05rem;" id="emiNewDailyCap">₹600 / day</strong>
               </div>
             </div>
 
             <!-- Tailored No-Suffocation Plan -->
             <div class="smart-tip-card" id="emiSmartPlanCard" style="margin-top:1.25rem;">
-              🎯 <strong>Workable No-Suffocation Plan:</strong><br>
-              <span id="emiWorkablePlanText">Pick the 6-month tenure. To comfortably absorb this ₹7,498 EMI, adjust your discretionary leisure spending (dining out, deliveries) by ₹250/day. Your essential Needs and 20% SIP savings remain completely untouched.</span>
+              🎯 <strong>Our Recommendation:</strong><br>
+              <span id="emiWorkablePlanText">Pick the 6-month tenure. To comfortably absorb this ₹7,498 EMI, adjust your discretionary leisure spending (dining out, deliveries) by ₹250/day. Your essential bills and 20% SIP savings remain completely untouched.</span>
             </div>
           </div>
         </div>
@@ -1787,21 +2209,21 @@
     </div>
 
     <!-- ========================================================================
-         VIEW 4: SMART INVESTMENTS HUB (Real-Time Market Pulse & Allocations)
+         VIEW 4: INVESTMENTS HUB
          ======================================================================== -->
     <div id="viewTabInvest" class="hidden">
       
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
-          <h2 style="font-size:1.35rem; font-weight:700;">Smart Investments & Real-Time Pulse</h2>
-          <p style="font-size:0.85rem; color:var(--text-muted);">Intelligently selected profitable asset routes updating with live market shifts.</p>
+          <h2 style="font-size:1.35rem; font-weight:700;">Where to Put Your Savings</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Simple investment ideas tailored to your savings amount, with live market updates.</p>
         </div>
         <div style="display:flex; align-items:center; gap:0.5rem;">
           <span class="font-mono" style="font-size:0.75rem; color:var(--accent); display:flex; align-items:center; gap:4px;">
             <span style="width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block;"></span>
-            Live Feed Active
+            Live Prices
           </span>
-          <button class="btn btn-outline btn-sm" onclick="tickMarketSimulation()">Refresh Rates</button>
+          <button class="btn btn-outline btn-sm" onclick="tickMarketSimulation()">Refresh</button>
         </div>
       </div>
 
@@ -1828,7 +2250,7 @@
           <div class="ticker-change font-mono up" id="tickerSpChange">+0.91% ▲</div>
         </div>
         <div class="ticker-card">
-          <div class="ticker-name">10Y G-SEC YTM</div>
+          <div class="ticker-name">10Y Govt Bond</div>
           <div class="ticker-price font-mono" id="tickerGsecPrice">6.82%</div>
           <div class="ticker-change font-mono" style="color:var(--cat-needs);">Safe Benchmark</div>
         </div>
@@ -1838,29 +2260,29 @@
       <div class="card" style="margin-bottom: 1.25rem; background: var(--bg-elevated);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
           <div>
-            <div style="font-weight:700; font-size:1.05rem;">Automated Smart SIP Allocator</div>
+            <div style="font-weight:700; font-size:1.05rem;">How to Split Your Monthly Savings</div>
             <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
-              Based on your monthly 20% savings capacity: <strong class="font-mono" style="color:var(--accent);" id="investSavingsPoolRupees">₹15,000 / month</strong>
+              Your 20% savings this month: <strong class="font-mono" style="color:var(--accent);" id="investSavingsPoolRupees">₹15,000 / month</strong>
             </div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="copySIPDistribution()">Copy Allocation Plan</button>
+          <button class="btn btn-primary btn-sm" onclick="copySIPDistribution()">Copy Plan</button>
         </div>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem; margin-top:1rem;">
           <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
-            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Core Index (45%)</div>
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Safe & Steady (45%)</div>
             <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--cat-needs);" id="sipAllocNifty">₹6,750</div>
-            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">UTI / HDFC Nifty 50 Index</div>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Nifty 50 Index Fund</div>
           </div>
           <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
-            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Alpha Momentum (35%)</div>
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">High Growth (35%)</div>
             <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--purple);" id="sipAllocFlexi">₹5,250</div>
-            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Parag Parikh / Quant Flexi</div>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Parag Parikh / Quant Flexi Fund</div>
           </div>
           <div style="padding:0.75rem; background:var(--bg-surface); border:1px solid var(--border-main); border-radius:var(--radius-sm);">
-            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Gold & Hedge (20%)</div>
+            <div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Gold Safety (20%)</div>
             <div class="font-mono" style="font-size:1.15rem; font-weight:700; color:var(--cat-wants);" id="sipAllocGold">₹3,000</div>
-            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Sovereign Gold / Arbitrage</div>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Sovereign Gold Bond / Arbitrage</div>
           </div>
         </div>
       </div>
@@ -1932,9 +2354,9 @@
     <div id="viewTabSettings" class="hidden">
       
       <div style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.35rem; font-weight:700;">Payday Cycle & Rupee Budget Allocations</h2>
+        <h2 style="font-size:1.35rem; font-weight:700;">Budget Setup</h2>
         <p style="font-size:0.85rem; color:var(--text-muted);">
-          Configure your budget directly in Rupees (₹) with real-time division visualizer, or tune by percentages.
+          Set your salary and decide how to split it. You can adjust the sliders or type amounts directly in ₹.
         </p>
       </div>
 
@@ -1943,31 +2365,31 @@
         <!-- Left Column: Direct Rupee & % Budget Allocation with Real-Time Preview -->
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-            <div style="font-weight:700; font-size:1rem;">Monthly Salary & Rupee Allocation</div>
+            <div style="font-weight:700; font-size:1rem;">Salary & Budget Split</div>
             <button class="btn btn-outline btn-sm font-mono" id="btnAutoBalance" onclick="autoBalanceBudget()">Auto-Balance</button>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Total Monthly Net Salary (₹)</label>
+            <label class="form-label">Monthly take-home salary (₹)</label>
             <input type="number" id="inputSalaryRupees" class="input font-mono" value="" placeholder="Enter monthly salary" min="1000" step="1000" oninput="handleSalaryRupeeChange(this.value)" style="font-size:1.15rem; font-weight:700;" />
           </div>
 
           <!-- Real-Time Visual Division Preview Bar -->
           <div style="margin:1rem 0;">
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.35rem;">
-              <span>Live Division Preview</span>
+              <span>How your salary is split</span>
               <span id="allocationStatusText" class="font-mono" style="color:var(--accent);">100% Balanced</span>
             </div>
             
             <div class="stacked-bar" style="height:12px;">
-              <div id="previewNeedsBar" class="bar-slice" style="width:50%; background:var(--cat-needs);" title="Needs"></div>
-              <div id="previewWantsBar" class="bar-slice" style="width:30%; background:var(--cat-wants);" title="Wants"></div>
+              <div id="previewNeedsBar" class="bar-slice" style="width:50%; background:var(--cat-needs);" title="Bills & Essentials"></div>
+              <div id="previewWantsBar" class="bar-slice" style="width:30%; background:var(--cat-wants);" title="Fun & Personal"></div>
               <div id="previewSavingsBar" class="bar-slice" style="width:20%; background:var(--cat-savings);" title="Savings"></div>
             </div>
 
             <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-family:var(--font-mono); margin-top:0.35rem;">
-              <span style="color:var(--cat-needs);">Needs: <strong id="previewNeedsVal">₹37,500 (50%)</strong></span>
-              <span style="color:var(--cat-wants);">Wants: <strong id="previewWantsVal">₹22,500 (30%)</strong></span>
+              <span style="color:var(--cat-needs);">Bills: <strong id="previewNeedsVal">₹37,500 (50%)</strong></span>
+              <span style="color:var(--cat-wants);">Fun: <strong id="previewWantsVal">₹22,500 (30%)</strong></span>
               <span style="color:var(--cat-savings);">Savings: <strong id="previewSavingsVal">₹15,000 (20%)</strong></span>
             </div>
           </div>
@@ -1977,7 +2399,7 @@
             <!-- Needs in Rupees -->
             <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-                <label class="form-label" style="margin-bottom:0; color:var(--cat-needs);">1. Needs (Essentials & Fixed)</label>
+                <label class="form-label" style="margin-bottom:0; color:var(--cat-needs);">1. Bills & Essentials</label>
                 <span class="font-mono" id="labelNeedsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-needs);">50%</span>
               </div>
               <div style="display:flex; gap:0.5rem; align-items:center;">
@@ -1990,7 +2412,7 @@
             <!-- Wants in Rupees -->
             <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-                <label class="form-label" style="margin-bottom:0; color:var(--cat-wants);">2. Wants (Discretionary & EMI Pool)</label>
+                <label class="form-label" style="margin-bottom:0; color:var(--cat-wants);">2. Fun & Personal</label>
                 <span class="font-mono" id="labelWantsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-wants);">30%</span>
               </div>
               <div style="display:flex; gap:0.5rem; align-items:center;">
@@ -2003,7 +2425,7 @@
             <!-- Savings in Rupees -->
             <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-                <label class="form-label" style="margin-bottom:0; color:var(--cat-savings);">3. Savings & Investments (SIP)</label>
+                <label class="form-label" style="margin-bottom:0; color:var(--cat-savings);">3. Savings & Investments</label>
                 <span class="font-mono" id="labelSavingsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-savings);">20%</span>
               </div>
               <div style="display:flex; gap:0.5rem; align-items:center;">
@@ -2017,20 +2439,20 @@
 
         <!-- Right Column: Payday Cycle Date & Expense Cap Mode -->
         <div class="card">
-          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Paycheck Cycle Date</div>
+          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">When Do You Get Paid?</div>
           
           <div class="form-group">
-            <label class="form-label">Payday Day of the Month (1 - 31)</label>
+            <label class="form-label">Salary date (day of month)</label>
             <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.6rem;">
-              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem; border-color:var(--accent-soft); color:var(--accent);" onclick="setSettingsPaydayPreset(1)">Today / 1st</button>
-              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(28)">28th</button>
-              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(30)">30th</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem; border-color:var(--accent-soft); color:var(--accent);" onclick="setSettingsPaydayPreset(1)">1st</button>
               <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(5)">5th</button>
               <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(7)">7th</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(28)">28th</button>
+              <button type="button" class="btn btn-outline" style="padding:3px 8px; font-size:0.75rem;" onclick="setSettingsPaydayPreset(30)">30th</button>
             </div>
             <div style="display:flex; gap:0.5rem; align-items:center;">
               <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="1" style="font-size:1.1rem; font-weight:700; width:100px;" oninput="updateSettingsPaydayPreview()" />
-              <button class="btn btn-primary" onclick="savePaydayDate()">Update Cycle</button>
+              <button class="btn btn-primary" onclick="savePaydayDate()">Save Date</button>
             </div>
             <div id="settingsPaydayPreview" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
               Your cycle will automatically calculate elapsed days and days left based on Indian Standard Time (IST).
@@ -2038,17 +2460,17 @@
           </div>
 
           <div style="border-top:1px solid var(--border-subtle); padding-top:1.25rem; margin-top:1.25rem;">
-            <div style="font-weight:700; font-size:1rem; margin-bottom:0.75rem;">Daily Expense Cap Mode</div>
+            <div style="font-weight:700; font-size:1rem; margin-bottom:0.75rem;">Daily Spending Limit</div>
             
             <div style="display:flex; flex-direction:column; gap:0.6rem;">
               <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
                 <input type="radio" name="capModeRadio" id="radioCapAuto" checked onchange="toggleManualCap(false)" />
-                <span><strong>Dynamic Auto-Cap:</strong> Calculated automatically from remaining Wants budget ÷ days left.</span>
+                <span><strong>Auto Limit (Recommended):</strong> Calculated daily from remaining fun money ÷ days left.</span>
               </label>
 
               <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
                 <input type="radio" name="capModeRadio" id="radioCapManual" onchange="toggleManualCap(true)" />
-                <span><strong>Manual Fixed Cap:</strong> Fixed custom daily allowance regardless of balance.</span>
+                <span><strong>Fixed Limit:</strong> Set a fixed daily amount regardless of balance.</span>
               </label>
             </div>
 
@@ -2063,17 +2485,17 @@
         <div class="card" style="margin-top: 1rem;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
             <div style="font-weight:700; font-size:1rem; display:flex; align-items:center; gap:0.5rem;">
-              <span>📱 Desktop & Phone App Shortcut</span>
+              <span>📱 Install as App</span>
               <span id="pwaStatusTag" class="badge-neutral" style="font-size:0.7rem;">PWA Ready</span>
             </div>
             <button class="btn btn-outline btn-sm" onclick="triggerPwaInstall()">Install</button>
           </div>
           <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.85rem;">
-            Install Traxpens directly onto your Windows PC desktop, Mac dock, or Android/iPhone home screen for instant standalone launch without browser borders or clutter.
+            Install Traxpens directly onto your phone or computer for instant access — works like a real app, even offline.
           </p>
           <button class="btn btn-primary" onclick="triggerPwaInstall()" style="width:100%; justify-content:center; gap:0.5rem;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>📲 Install App & Create Shortcut</span>
+            <span>📲 Add to Home Screen</span>
           </button>
         </div>
 
@@ -2089,15 +2511,15 @@
   <nav class="mobile-navbar" aria-label="Mobile Navigation">
     <button class="mobile-nav-item active" id="mobTabLedger" onclick="switchTab('ledger')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>Ledger</span>
+      <span>Home</span>
     </button>
     <button class="mobile-nav-item" id="mobTabInsights" onclick="switchTab('insights')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-      <span>Insights</span>
+      <span>Report</span>
     </button>
     <button class="mobile-nav-item" id="mobTabEmi" onclick="switchTab('emi')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m7-2h3"/></svg>
-      <span>EMI Verdict</span>
+      <span>EMI Check</span>
     </button>
     <button class="mobile-nav-item" id="mobTabInvest" onclick="switchTab('invest')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
@@ -2109,22 +2531,22 @@
     </button>
   </nav>
 
-  <!-- Mobile Floating Action Button (Record Expense) -->
-  <button class="mobile-fab" onclick="openQuickLogModal()" title="Record Expense">+</button>
+  <!-- Mobile Floating Action Button (Add Expense) -->
+  <button class="mobile-fab" onclick="openQuickLogModal()" title="Add Expense">+</button>
 
   <!-- ==========================================================================
-       4. MODALS (Quick Log, Payday Date & Custom Cap)
+       4. MODALS (Add Expense, Payday Date & Custom Limit)
        ========================================================================== -->
-  <!-- Record Transaction Modal -->
+  <!-- Add Expense Modal -->
   <div class="modal-backdrop hidden" id="quickLogModal" onclick="handleCurtainClick(event)">
     <div class="modal-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-        <h3 style="font-size: 1.15rem; font-weight: 700;">Record Transaction</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Add an Expense</h3>
         <button class="btn-text" onclick="closeQuickLogModal()" style="font-size: 1.25rem; line-height: 1;">✕</button>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Rupee Amount (₹)</label>
+        <label class="form-label">How much did you spend? (₹)</label>
         <input type="number" id="txAmountInput" class="input font-mono" style="font-size: 1.25rem; font-weight: 700;" placeholder="₹ 0" min="1" step="any" autofocus />
       </div>
 
@@ -2138,18 +2560,18 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Description / Merchant</label>
+        <label class="form-label">What did you spend on?</label>
         <input type="text" id="txNameInput" class="input" placeholder="e.g. Swiggy, Zepto, Metro, Petrol" />
       </div>
 
       <div class="form-group">
-        <label class="form-label">Budget Bucket</label>
+        <label class="form-label">Which bucket does this belong to?</label>
         <div class="cat-selector-grid">
           <button type="button" class="cat-select-btn selected" id="pickNeedsBtn" onclick="selectModalCat('needs')">
-            Needs (50%)
+            Bills (50%)
           </button>
           <button type="button" class="cat-select-btn" id="pickWantsBtn" onclick="selectModalCat('wants')">
-            Wants (30%)
+            Fun (30%)
           </button>
           <button type="button" class="cat-select-btn" id="pickSavingsBtn" onclick="selectModalCat('savings')">
             Savings (20%)
@@ -2159,7 +2581,7 @@
 
       <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
         <button type="button" class="btn btn-outline" onclick="closeQuickLogModal()">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick="submitRecord()">Save Transaction</button>
+        <button type="button" class="btn btn-primary" onclick="submitRecord()">Save Expense</button>
       </div>
     </div>
   </div>
@@ -2168,20 +2590,20 @@
   <div class="modal-backdrop hidden" id="paydayModal" onclick="handlePaydayCurtainClick(event)">
     <div class="modal-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="font-size: 1.15rem; font-weight: 700;">Edit Paycheck Date</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Change Payday Date</h3>
         <button class="btn-text" onclick="closePaydayModal()" style="font-size: 1.25rem;">✕</button>
       </div>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-        Select the day of the month when your salary is credited. Your budget cycle recalculates automatically in Indian Standard Time (IST).
+        Which day of the month does your salary arrive? Your daily spending limit is calculated based on this.
       </p>
       <div style="margin-bottom:0.75rem;">
-        <label class="form-label" style="margin-bottom:0.35rem;">Quick Select Common Dates:</label>
+        <label class="form-label" style="margin-bottom:0.35rem;">Common dates:</label>
         <div style="display:flex; flex-wrap:wrap; gap:0.35rem;">
-          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem; border-color:var(--accent-soft); color:var(--accent);" onclick="setPaydayPreset(1)">Today / 1st of Month</button>
-          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(28)">28th</button>
-          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(30)">30th</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem; border-color:var(--accent-soft); color:var(--accent);" onclick="setPaydayPreset(1)">1st</button>
           <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(5)">5th</button>
           <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(7)">7th</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(28)">28th</button>
+          <button type="button" class="btn btn-outline" style="padding:4px 9px; font-size:0.75rem;" onclick="setPaydayPreset(30)">30th</button>
         </div>
       </div>
       <div class="form-group">
@@ -2193,7 +2615,7 @@
       </div>
       <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
         <button type="button" class="btn btn-outline" onclick="closePaydayModal()">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick="savePaydayFromModal()">Save & Recalculate</button>
+        <button type="button" class="btn btn-primary" onclick="savePaydayFromModal()">Save Date</button>
       </div>
     </div>
   </div>
@@ -2202,32 +2624,32 @@
   <div class="modal-backdrop hidden" id="capEditModal" onclick="handleCapModalCurtainClick(event)">
     <div class="modal-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="font-size: 1.15rem; font-weight: 700;">Set Expense Cap</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Set Daily Spending Limit</h3>
         <button class="btn-text" onclick="closeCapEditModal()" style="font-size: 1.25rem;">✕</button>
       </div>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Choose whether your daily cap is dynamically calculated or manually fixed to a specific Rupee amount.
+        Choose how your daily limit is set — either automatically or as a fixed amount you choose.
       </p>
       
       <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.25rem;">
         <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
           <input type="radio" name="modalCapRadio" id="modalCapRadioAuto" checked onchange="toggleModalManualCap(false)" />
-          <span><strong>Dynamic Auto-Cap</strong> (Remaining discretionary ÷ days left)</span>
+          <span><strong>Auto Limit (Recommended)</strong> — calculated daily from remaining fun money ÷ days left</span>
         </label>
         <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
           <input type="radio" name="modalCapRadio" id="modalCapRadioManual" onchange="toggleModalManualCap(true)" />
-          <span><strong>Manual Custom Cap</strong> (Set fixed daily limit)</span>
+          <span><strong>Fixed Limit</strong> — set your own fixed daily allowance</span>
         </label>
       </div>
 
       <div id="modalManualInputBlock" class="form-group hidden">
-        <label class="form-label">Manual Daily Amount (₹)</label>
+        <label class="form-label">My daily limit (₹)</label>
         <input type="number" id="modalManualCapAmt" class="input font-mono" placeholder="₹ 1000" min="10" step="50" style="font-size:1.15rem; font-weight:700;" />
       </div>
 
       <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
         <button type="button" class="btn btn-outline" onclick="closeCapEditModal()">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick="saveCapFromModal()">Apply Cap</button>
+        <button type="button" class="btn btn-primary" onclick="saveCapFromModal()">Apply Limit</button>
       </div>
     </div>
   </div>
@@ -2521,6 +2943,21 @@
       } catch (e) {}
     }
 
+    // Fresh Start Data Reset (User request: "completely reset the app data and start from beginning")
+    function checkAppReset() {
+      try {
+        if (localStorage.getItem('traxpens_reset_v3') !== 'true') {
+          localStorage.removeItem('traxpens_user_data');
+          localStorage.removeItem('traxpens_payday_custom');
+          localStorage.removeItem('traxpens_walkthrough_completed_v3');
+          localStorage.setItem('traxpens_reset_v3', 'true');
+          userData = JSON.parse(JSON.stringify(defaultData));
+          saveLocalState();
+        }
+      } catch (e) {}
+    }
+    checkAppReset();
+
     // Immediately restore cached local state on boot
     loadLocalState();
 
@@ -2665,11 +3102,13 @@
         syncInputs();
         refreshUI();
         calculateEmiVerdict();
+        checkAndTriggerOnboarding();
       } catch (err) {
         console.warn("Firestore access notice (falling back to local cache):", err);
         loadLocalState();
         syncInputs();
         refreshUI();
+        checkAndTriggerOnboarding();
       }
     }
 
@@ -3942,11 +4381,11 @@
     function toggleAuthMode() {
       isLogin = !isLogin;
       clearAuthError();
-      document.getElementById('authHeading').textContent = isLogin ? "Access Ledger" : "Initialize Identity";
-      document.getElementById('authSubtitle').textContent = isLogin ? "Sign in to manage your modular allocations." : "Create your account to start tracking.";
-      document.getElementById('authSubmitBtnText').textContent = isLogin ? "Authenticate" : "Initialize";
-      document.getElementById('authToggleQuestion').textContent = isLogin ? "No account yet?" : "Already have an account?";
-      document.getElementById('authToggleBtn').textContent = isLogin ? "Initialize Here" : "Authenticate";
+      document.getElementById('authHeading').textContent = isLogin ? "Sign In" : "Create Account";
+      document.getElementById('authSubtitle').textContent = isLogin ? "Sign in to access your budget, expenses, and savings tracker." : "Create your account to start tracking.";
+      document.getElementById('authSubmitBtnText').textContent = isLogin ? "Sign In" : "Create Account";
+      document.getElementById('authToggleQuestion').textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+      document.getElementById('authToggleBtn').textContent = isLogin ? "Create Account" : "Sign In";
     }
 
     async function handleGoogleAuth() {
@@ -4014,8 +4453,8 @@
     function getFriendlyErrorMessage(err) {
       if (!err) return "An unexpected error occurred.";
       if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') return "Incorrect email or password.";
-      if (err.code === 'auth/user-not-found') return "No account found with this email. Click 'Initialize Here' below.";
-      if (err.code === 'auth/email-already-in-use') return "An account already exists with this email. Click 'Authenticate'.";
+      if (err.code === 'auth/user-not-found') return "No account found with this email. Click 'Create Account' below.";
+      if (err.code === 'auth/email-already-in-use') return "An account already exists with this email. Click 'Sign In'.";
       if (err.code === 'auth/weak-password') return "Password must be at least 6 characters.";
       if (err.code === 'auth/invalid-email') return "Please enter a valid email address.";
       if (err.code === 'auth/unauthorized-domain') {
@@ -4078,7 +4517,128 @@
     window.tickMarketSimulation = tickMarketSimulation;
     window.copySIPDistribution = copySIPDistribution;
     
-    // ========================================================================
+    // =========================================================================
+    // FIRST-TIME ONBOARDING & SETUP WALKTHROUGH CONTROLLER
+    // =========================================================================
+    let currentOnboStep = 0;
+    const totalOnboSteps = 6;
+
+    function showOnboardingStep(stepIdx) {
+      currentOnboStep = stepIdx;
+      for (let i = 0; i < totalOnboSteps; i++) {
+        const stepEl = document.getElementById(`onboStep${i}`);
+        if (stepEl) {
+          stepEl.classList.toggle('hidden', i !== stepIdx);
+        }
+      }
+      if (stepIdx === 2) {
+        updateOnboSplitDisplay();
+      }
+    }
+
+    function onboNextStep() {
+      if (currentOnboStep < totalOnboSteps - 1) {
+        showOnboardingStep(currentOnboStep + 1);
+      } else {
+        onboFinish();
+      }
+    }
+
+    function onboSetSalary(amt) {
+      const input = document.getElementById('onboSalaryInput');
+      if (input) {
+        input.value = amt;
+        onboUpdateSalaryPreview();
+      }
+    }
+
+    function onboUpdateSalaryPreview() {
+      const errEl = document.getElementById('onboSalaryError');
+      if (errEl) errEl.classList.add('hidden');
+      updateOnboSplitDisplay();
+    }
+
+    function updateOnboSplitDisplay() {
+      const salaryInput = document.getElementById('onboSalaryInput');
+      const salary = (salaryInput && parseFloat(salaryInput.value) >= 5000) 
+        ? parseFloat(salaryInput.value) 
+        : (userData.salary || 50000);
+      
+      const needs = Math.round(salary * 0.50);
+      const wants = Math.round(salary * 0.30);
+      const savings = Math.round(salary * 0.20);
+
+      const needsEl = document.getElementById('onboNeedsAmt');
+      const wantsEl = document.getElementById('onboWantsAmt');
+      const savingsEl = document.getElementById('onboSavingsAmt');
+
+      if (needsEl) needsEl.textContent = `₹${inrFormatter.format(needs)} (50%)`;
+      if (wantsEl) wantsEl.textContent = `₹${inrFormatter.format(wants)} (30%)`;
+      if (savingsEl) savingsEl.textContent = `₹${inrFormatter.format(savings)} (20%)`;
+    }
+
+    function onboSaveSalaryAndNext() {
+      const input = document.getElementById('onboSalaryInput');
+      const val = parseFloat(input ? input.value : 0);
+      const errEl = document.getElementById('onboSalaryError');
+      
+      if (!val || val < 5000) {
+        if (errEl) errEl.classList.remove('hidden');
+        return;
+      }
+      if (errEl) errEl.classList.add('hidden');
+
+      userData.salary = val;
+      saveLocalState();
+      saveBudgetData();
+      syncInputs();
+      refreshUI();
+      calculateEmiVerdict();
+
+      onboNextStep();
+    }
+
+    function onboSkip() {
+      onboFinish();
+    }
+
+    function onboFinish() {
+      const overlay = document.getElementById('onboardingOverlay');
+      if (overlay) overlay.classList.add('hidden');
+      try {
+        localStorage.setItem('traxpens_walkthrough_completed_v3', 'true');
+      } catch (e) {}
+      syncInputs();
+      refreshUI();
+    }
+
+    function checkAndTriggerOnboarding() {
+      let isDone = false;
+      try {
+        isDone = localStorage.getItem('traxpens_walkthrough_completed_v3') === 'true';
+      } catch (e) {}
+
+      const overlay = document.getElementById('onboardingOverlay');
+      if (!isDone && overlay) {
+        const input = document.getElementById('onboSalaryInput');
+        if (input) input.value = userData.salary || 50000;
+        updateOnboSplitDisplay();
+        showOnboardingStep(0);
+        overlay.classList.remove('hidden');
+      } else if (overlay) {
+        overlay.classList.add('hidden');
+      }
+    }
+
+    window.onboNextStep = onboNextStep;
+    window.onboSetSalary = onboSetSalary;
+    window.onboUpdateSalaryPreview = onboUpdateSalaryPreview;
+    window.onboSaveSalaryAndNext = onboSaveSalaryAndNext;
+    window.onboSkip = onboSkip;
+    window.onboFinish = onboFinish;
+    window.showOnboardingStep = showOnboardingStep;
+    window.checkAndTriggerOnboarding = checkAndTriggerOnboarding;
+
     // PROGRESSIVE WEB APP (PWA) & SERVICE WORKER LIFECYCLE
     // ========================================================================
     let deferredInstallPrompt = null;
@@ -4228,6 +4788,7 @@
     // Immediate 0ms boot render: paints complete dashboard instantly before auth resolves
     syncInputs();
     refreshUI();
+    checkAndTriggerOnboarding();
   </script>
 </body>
 </html>
