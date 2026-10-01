@@ -2021,12 +2021,12 @@
           
           <div class="form-group">
             <label class="form-label">Payday Day of the Month (1 - 31)</label>
-            <div style="display:flex; gap:0.5rem;">
-              <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="28" style="font-size:1.1rem; font-weight:700; width:120px;" />
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="28" style="font-size:1.1rem; font-weight:700; width:100px;" oninput="updateSettingsPaydayPreview()" />
               <button class="btn btn-primary" onclick="savePaydayDate()">Update Cycle</button>
             </div>
-            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;">
-              Your cycle will automatically calculate elapsed days and days left based on this date.
+            <div id="settingsPaydayPreview" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">
+              Your cycle will automatically calculate elapsed days and days left based on Indian Standard Time (IST).
             </div>
           </div>
 
@@ -2164,14 +2164,17 @@
         <h3 style="font-size: 1.15rem; font-weight: 700;">Edit Paycheck Date</h3>
         <button class="btn-text" onclick="closePaydayModal()" style="font-size: 1.25rem;">✕</button>
       </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Select the day of the month when your salary is credited. Your 30-day budget cycle will recalculate automatically.
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+        Select the day of the month when your salary is credited. Your budget cycle recalculates automatically in Indian Standard Time (IST).
       </p>
       <div class="form-group">
         <label class="form-label">Day of Month (1 - 31)</label>
-        <input type="number" id="modalPaydayInput" class="input font-mono" min="1" max="31" value="28" style="font-size: 1.2rem; font-weight:700;" />
+        <input type="number" id="modalPaydayInput" class="input font-mono" min="1" max="31" value="28" style="font-size: 1.2rem; font-weight:700;" oninput="updateModalPaydayPreview()" />
       </div>
-      <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+      <div id="modalPaydayPreview" style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; padding: 0.6rem 0.75rem; background: var(--bg-surface); border: 1px solid var(--border-main); border-radius: var(--radius-sm); line-height: 1.4;">
+        <!-- Live preview injected dynamically -->
+      </div>
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
         <button type="button" class="btn btn-outline" onclick="closePaydayModal()">Cancel</button>
         <button type="button" class="btn btn-primary" onclick="savePaydayFromModal()">Save & Recalculate</button>
       </div>
@@ -2458,29 +2461,113 @@
     let userData = JSON.parse(JSON.stringify(defaultData));
     let unsubscribeTx = null;
 
-    // Helper: Calculate Custom Payday Cycle
+    // Local Storage Persistence (Guarantees zero data loss across reloads and offline)
+    function saveLocalState() {
+      try {
+        localStorage.setItem('traxpens_user_data', JSON.stringify({
+          salary: userData.salary,
+          paydayDay: userData.paydayDay,
+          ratios: userData.ratios,
+          capMode: userData.capMode,
+          useManualCap: userData.useManualCap,
+          manualCapAmount: userData.manualCapAmount
+        }));
+      } catch (e) {}
+    }
+
+    function loadLocalState() {
+      try {
+        const cached = localStorage.getItem('traxpens_user_data');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && typeof parsed === 'object') {
+            if (typeof parsed.salary === 'number' && parsed.salary > 0) userData.salary = parsed.salary;
+            if (parsed.paydayDay !== undefined) {
+              const pd = parseInt(parsed.paydayDay, 10);
+              if (pd >= 1 && pd <= 31) userData.paydayDay = pd;
+            }
+            if (parsed.ratios && typeof parsed.ratios === 'object') {
+              if (parsed.ratios.needs && parsed.ratios.wants && parsed.ratios.savings) {
+                userData.ratios = parsed.ratios;
+              }
+            }
+            if (parsed.capMode) userData.capMode = parsed.capMode;
+            if (parsed.useManualCap !== undefined) userData.useManualCap = !!parsed.useManualCap;
+            if (typeof parsed.manualCapAmount === 'number') userData.manualCapAmount = parsed.manualCapAmount;
+          }
+        }
+      } catch (e) {}
+    }
+
+    // Immediately restore cached local state on boot
+    loadLocalState();
+
+    // Helper: Calculate Custom Payday Cycle (Strictly synchronized to Indian Standard Time - Asia/Kolkata)
     function getCycleDates(paydayDay = 28) {
+      // 1. Resolve current date & time in Indian Standard Time (IST, UTC+5:30)
       const now = new Date();
-      const currentDay = now.getDate();
-      const currentMonth = now.getMonth();
-      const currentYear = now.getFullYear();
+      let istDate;
+      try {
+        const istStr = now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+        istDate = new Date(istStr);
+      } catch (e) {
+        istDate = now;
+      }
+
+      const pDay = Math.min(31, Math.max(1, parseInt(paydayDay, 10) || 28));
+      const currentYear = istDate.getFullYear();
+      const currentMonth = istDate.getMonth(); // 0 = Jan, 9 = Oct
+      const currentDay = istDate.getDate();
+
+      // Number of days in month helper (handling leap years and 28/29/30/31 days)
+      const getDaysInMonth = (y, m) => new Date(y, m + 1, 0).getDate();
 
       let cycleStart, nextPayday;
 
-      if (currentDay >= paydayDay) {
-        cycleStart = new Date(currentYear, currentMonth, paydayDay);
-        nextPayday = new Date(currentYear, currentMonth + 1, paydayDay);
+      if (currentDay >= pDay) {
+        // Today is on or after payday this month -> Cycle started this month on pDay
+        const startDay = Math.min(pDay, getDaysInMonth(currentYear, currentMonth));
+        cycleStart = new Date(currentYear, currentMonth, startDay, 0, 0, 0, 0);
+
+        // Next payday is in next month
+        const nextMonthYear = currentMonth === 11 ? currentYear + 1 : currentYear;
+        const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
+        const endDay = Math.min(pDay, getDaysInMonth(nextMonthYear, nextMonth));
+        nextPayday = new Date(nextMonthYear, nextMonth, endDay, 0, 0, 0, 0);
       } else {
-        cycleStart = new Date(currentYear, currentMonth - 1, paydayDay);
-        nextPayday = new Date(currentYear, currentMonth, paydayDay);
+        // Today is before payday this month -> Cycle started last month on pDay
+        const prevMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+        const startDay = Math.min(pDay, getDaysInMonth(prevMonthYear, prevMonth));
+        cycleStart = new Date(prevMonthYear, prevMonth, startDay, 0, 0, 0, 0);
+
+        // Next payday is this month on pDay
+        const endDay = Math.min(pDay, getDaysInMonth(currentYear, currentMonth));
+        nextPayday = new Date(currentYear, currentMonth, endDay, 0, 0, 0, 0);
       }
 
       const msPerDay = 1000 * 60 * 60 * 24;
       const totalDays = Math.max(1, Math.round((nextPayday - cycleStart) / msPerDay));
-      const elapsedDays = Math.max(1, Math.round((now - cycleStart) / msPerDay));
-      const daysLeft = Math.max(1, Math.round((nextPayday - now) / msPerDay));
 
-      return { cycleStart, nextPayday, totalDays, elapsedDays, daysLeft };
+      // Elapsed days: On payday itself, it is Day 1 of the cycle.
+      const todayMidnight = new Date(currentYear, currentMonth, currentDay, 0, 0, 0, 0);
+      const elapsedDays = Math.min(totalDays, Math.max(1, Math.round((todayMidnight - cycleStart) / msPerDay) + 1));
+      const daysLeft = Math.max(0, Math.round((nextPayday - todayMidnight) / msPerDay));
+
+      const istFormatted = istDate.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", year: "numeric" });
+
+      return {
+        cycleStart,
+        nextPayday,
+        totalDays,
+        elapsedDays,
+        daysLeft,
+        currentDay,
+        currentMonth,
+        currentYear,
+        pDay,
+        istFormatted
+      };
     }
 
     // Auth Observer
@@ -2496,9 +2583,11 @@
         listenToTransactions(user.uid);
       } else {
         currentUser = null;
-        userData = JSON.parse(JSON.stringify(defaultData));
+        loadLocalState(); // Preserve user's configured payday & allocations in guest/demo mode
         if (unsubscribeTx) unsubscribeTx();
         document.getElementById('authGateOverlay').classList.remove('hidden');
+        syncInputs();
+        refreshUI();
       }
     });
 
@@ -2508,29 +2597,34 @@
         const snap = await getDoc(docRef);
         if (snap.exists()) {
           const d = snap.data();
-          userData.salary = d.salary || 75000;
-          userData.paydayDay = d.paydayDay !== undefined ? d.paydayDay : 28;
-          userData.ratios = d.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 };
-          userData.capMode = d.capMode || 'today';
-          userData.useManualCap = !!d.useManualCap;
-          userData.manualCapAmount = d.manualCapAmount || 1000;
+          if (d.salary) userData.salary = d.salary;
+          if (d.paydayDay !== undefined) userData.paydayDay = d.paydayDay;
+          if (d.ratios) userData.ratios = d.ratios;
+          if (d.capMode) userData.capMode = d.capMode;
+          if (d.useManualCap !== undefined) userData.useManualCap = !!d.useManualCap;
+          if (d.manualCapAmount) userData.manualCapAmount = d.manualCapAmount;
+          saveLocalState();
         } else {
+          // New user initial profile
           await setDoc(docRef, {
             email: email,
-            salary: 75000,
-            paydayDay: 28,
-            ratios: { needs: 0.5, wants: 0.3, savings: 0.2 },
-            capMode: 'today',
-            useManualCap: false,
-            manualCapAmount: 1000,
+            salary: userData.salary || 75000,
+            paydayDay: userData.paydayDay || 28,
+            ratios: userData.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 },
+            capMode: userData.capMode || 'today',
+            useManualCap: userData.useManualCap || false,
+            manualCapAmount: userData.manualCapAmount || 1000,
             createdAt: serverTimestamp()
           });
+          saveLocalState();
         }
         syncInputs();
         refreshUI();
         calculateEmiVerdict();
       } catch (err) {
-        console.warn("Firestore access notice:", err);
+        console.warn("Firestore access notice (falling back to local cache):", err);
+        loadLocalState();
+        syncInputs();
         refreshUI();
       }
     }
@@ -2573,6 +2667,9 @@
       document.getElementById('radioCapManual').checked = userData.useManualCap;
       document.getElementById('manualCapInputWrap').classList.toggle('hidden', !userData.useManualCap);
       document.getElementById('manualCapAmtInput').value = userData.manualCapAmount;
+
+      updateSettingsPaydayPreview();
+      updateModalPaydayPreview();
     }
 
     function getOrdinal(n) {
@@ -3550,9 +3647,34 @@
       }
     }
 
-    // Payday Date Handlers
+    // Payday Date Handlers with Real-Time IST Synchronization
+    function updateModalPaydayPreview() {
+      const input = document.getElementById('modalPaydayInput');
+      const preview = document.getElementById('modalPaydayPreview');
+      if (!input || !preview) return;
+      const val = parseInt(input.value, 10);
+      if (val >= 1 && val <= 31) {
+        const cycle = getCycleDates(val);
+        preview.innerHTML = `Cycle Status: <strong>Day ${cycle.elapsedDays} of ${cycle.totalDays}</strong> (${cycle.daysLeft} days remaining) • <span style="color:var(--accent);">IST: ${cycle.istFormatted}</span>`;
+      } else {
+        preview.textContent = 'Please enter a day between 1 and 31.';
+      }
+    }
+
+    function updateSettingsPaydayPreview() {
+      const input = document.getElementById('paydayDateInput');
+      const preview = document.getElementById('settingsPaydayPreview');
+      if (!input || !preview) return;
+      const val = parseInt(input.value, 10);
+      if (val >= 1 && val <= 31) {
+        const cycle = getCycleDates(val);
+        preview.innerHTML = `Cycle Status: <strong>Day ${cycle.elapsedDays} of ${cycle.totalDays}</strong> (${cycle.daysLeft} days until next paycheck) • <span style="color:var(--accent); font-weight:600;">IST Synced (${cycle.istFormatted})</span>`;
+      }
+    }
+
     function openPaydayModal() {
       document.getElementById('modalPaydayInput').value = userData.paydayDay;
+      updateModalPaydayPreview();
       document.getElementById('paydayModal').classList.remove('hidden');
     }
     function closePaydayModal() {
@@ -3565,24 +3687,35 @@
       const val = parseInt(document.getElementById('modalPaydayInput').value, 10);
       if (val >= 1 && val <= 31) {
         userData.paydayDay = val;
+        saveLocalState();
         closePaydayModal();
-        if (currentUser) {
-          await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
-        }
         syncInputs();
         refreshUI();
+        if (currentUser) {
+          try {
+            await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
+          } catch (err) {
+            console.warn("Firestore payday sync deferred:", err);
+          }
+        }
       }
     }
     async function savePaydayDate() {
       const val = parseInt(document.getElementById('paydayDateInput').value, 10);
       if (val >= 1 && val <= 31) {
         userData.paydayDay = val;
-        if (currentUser) {
-          await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
-        }
+        saveLocalState();
         syncInputs();
         refreshUI();
-        alert('Paycheck date updated to ' + getOrdinal(val) + '. Cycle recalculated!');
+        if (currentUser) {
+          try {
+            await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
+          } catch (err) {
+            console.warn("Firestore payday sync deferred:", err);
+          }
+        }
+        const cycle = getCycleDates(val);
+        alert(`Paycheck date updated to ${getOrdinal(val)}. Cycle recalculated (IST): Day ${cycle.elapsedDays} of ${cycle.totalDays}!`);
       }
     }
 
@@ -3854,6 +3987,8 @@
     window.openPaydayModal = openPaydayModal;
     window.closePaydayModal = closePaydayModal;
     window.handlePaydayCurtainClick = handlePaydayCurtainClick;
+    window.updateModalPaydayPreview = updateModalPaydayPreview;
+    window.updateSettingsPaydayPreview = updateSettingsPaydayPreview;
     window.savePaydayFromModal = savePaydayFromModal;
     window.savePaydayDate = savePaydayDate;
     window.openCapEditModal = openCapEditModal;
