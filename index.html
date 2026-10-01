@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Traxpens — Smart, Modular & Lightweight Expense & Investment Hub (₹ INR)</title>
+  <title>Traxpens — Smart, Modular & Lightweight Expense, EMI & Investment Hub (₹ INR)</title>
 
   <style>
     /* ==========================================================================
@@ -87,7 +87,7 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      padding-bottom: 70px; /* Space for mobile navbar */
+      padding-bottom: 70px;
     }
 
     @media (min-width: 769px) {
@@ -285,7 +285,7 @@
     }
 
     .nav-tab-btn {
-      padding: 0.45rem 0.9rem;
+      padding: 0.45rem 0.85rem;
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-muted);
@@ -330,7 +330,7 @@
       z-index: 400;
       justify-content: space-around;
       align-items: center;
-      padding: 0 0.5rem;
+      padding: 0 0.25rem;
     }
 
     @media (min-width: 769px) {
@@ -350,15 +350,15 @@
       background: none;
       border: none;
       color: var(--text-dim);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 600;
       cursor: pointer;
       transition: color 0.15s;
     }
 
     .mobile-nav-item svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       stroke-width: 2;
     }
 
@@ -451,7 +451,7 @@
 
     .stacked-bar {
       display: flex;
-      height: 8px;
+      height: 10px;
       border-radius: var(--radius-pill);
       overflow: hidden;
       margin: 0.75rem 0 0.5rem;
@@ -461,7 +461,7 @@
 
     .bar-slice {
       height: 100%;
-      transition: width 0.3s ease;
+      transition: width 0.25s ease;
     }
 
     /* Main 2-Column Content Grid */
@@ -668,21 +668,6 @@
       margin-top: 0.75rem;
     }
 
-    /* Sparkline bars */
-    .spark-bars {
-      display: flex;
-      align-items: flex-end;
-      height: 48px;
-      gap: 6px;
-      margin-top: 0.75rem;
-    }
-    .spark-bar {
-      flex: 1;
-      background: var(--accent);
-      border-radius: 3px 3px 0 0;
-      min-height: 4px;
-    }
-
     /* ==========================================================================
        6. SMART INVESTMENTS SECTION STYLES
        ========================================================================== */
@@ -750,12 +735,72 @@
     .badge-core { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
     .badge-safe { background: rgba(59, 130, 246, 0.1); color: var(--cat-needs); border: 1px solid var(--cat-needs); }
 
-    .sip-allocator-box {
+    /* ==========================================================================
+       7. EMI & BIG PURCHASE AFFORDABILITY STYLES
+       ========================================================================== */
+    .emi-simulator-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 900px) {
+      .emi-simulator-grid {
+        grid-template-columns: 440px 1fr;
+      }
+    }
+
+    .verdict-banner {
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      margin-bottom: 1.25rem;
+    }
+    .verdict-green {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: var(--accent);
+      color: var(--text-main);
+    }
+    .verdict-yellow {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--cat-wants);
+      color: var(--text-main);
+    }
+    .verdict-red {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: var(--danger);
+      color: var(--text-main);
+    }
+
+    .tenure-pill-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .tenure-pill {
+      padding: 0.4rem 0.75rem;
       background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-main);
+      color: var(--text-muted);
       border-radius: var(--radius-sm);
-      padding: 1rem;
-      margin-top: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tenure-pill.selected {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .info-callout {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      padding: 0.85rem 1rem;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--text-muted);
     }
 
     /* Modal (Blur-free, Snappy) */
@@ -881,7 +926,7 @@
         </div>
         <h2 style="font-size:1.5rem; font-weight:700;" id="authHeading">Access Ledger</h2>
         <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;" id="authSubtitle">
-          Sign in to view your salary allocations and live investments.
+          Sign in to view your salary allocations, EMI planner and live investments.
         </p>
       </div>
 
@@ -951,13 +996,17 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
           <span>Insights</span>
         </button>
+        <button class="nav-tab-btn" id="deskTabEmi" onclick="switchTab('emi')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m7-2h3"/></svg>
+          <span>EMI & PS5 Verdict</span>
+        </button>
         <button class="nav-tab-btn" id="deskTabInvest" onclick="switchTab('invest')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
           <span>Smart Investments</span>
         </button>
         <button class="nav-tab-btn" id="deskTabSettings" onclick="switchTab('settings')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Cycle & Tuner</span>
+          <span>Budget (₹ & %)</span>
         </button>
       </nav>
 
@@ -986,7 +1035,7 @@
         <div class="card">
           <div class="stat-label-row">
             <span>Monthly Net Paycheck</span>
-            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Configure</button>
+            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Edit in ₹</button>
           </div>
           <div class="stat-number font-mono">
             <span>₹</span><span id="salaryDisplayVal">75,000</span>
@@ -1031,7 +1080,7 @@
         <div class="card">
           <div class="stat-label-row">
             <span>50/30/20 Rule Ratio</span>
-            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Tune %</button>
+            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Tune in ₹</button>
           </div>
           
           <div class="stacked-bar">
@@ -1047,6 +1096,22 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Quick Action Callout: Can I Afford PS5 / Big Purchases? -->
+      <div class="card" style="margin-bottom:1.25rem; background:var(--bg-elevated); border-left:3px solid var(--purple); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+        <div>
+          <div style="font-weight:700; font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+            <span>🎮 Planning to buy a PS5, Phone or Laptop on EMI?</span>
+            <span style="font-size:0.7rem; background:var(--purple-soft); color:var(--purple); padding:1px 6px; border-radius:var(--radius-pill); font-weight:700;">Zero Loan History</span>
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">
+            Check how much EMI Flipkart or Amazon will charge, and get a verdict on whether it will suffocate your monthly salary.
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm font-mono" onclick="switchTab('emi')" style="border-color:var(--purple); color:var(--purple);">
+          Run Affordability Verdict →
+        </button>
       </div>
 
       <!-- Main 2-Column Grid: Buckets + Ledger -->
@@ -1209,7 +1274,7 @@
 
           <!-- Dynamic AI Smart Advice -->
           <div class="smart-tip-card" id="insightSmartAdvice">
-            💡 <strong>Smart Observation:</strong> Your current burn velocity will leave you with an estimated surplus at payday. Consider routing ₹2,500 into this month's Smart Flexi-Cap SIP.
+            💡 <strong>Smart Observation:</strong> Your current burn velocity will leave you with an estimated surplus at payday.
           </div>
         </div>
 
@@ -1218,7 +1283,136 @@
     </div>
 
     <!-- ========================================================================
-         VIEW 3: SMART INVESTMENTS HUB (Real-Time Market Pulse & Allocations)
+         VIEW 3: EMI & BIG PURCHASE AFFORDABILITY (PS5 / Gadget Verdict)
+         ======================================================================== -->
+    <div id="viewTabEmi" class="hidden">
+      
+      <div style="margin-bottom:1.25rem;">
+        <h2 style="font-size:1.35rem; font-weight:700;">Can I Bear This EMI? — Purchase Feasibility Simulator</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted);">
+          Stress-test big purchases (PS5, iPhone, Laptop) against your salary and Flipkart/Amazon payment plans without suffocating.
+        </p>
+      </div>
+
+      <div class="emi-simulator-grid">
+        
+        <!-- Left Column: Input Configuration -->
+        <div class="card">
+          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Configure Target Product</div>
+          
+          <!-- Quick Preset Chips -->
+          <label class="form-label">Popular Indian E-Commerce Presets</label>
+          <div class="quick-chips" style="margin-top:0.25rem;">
+            <span class="chip" onclick="fillEmiPreset('Sony PlayStation 5 (Disc Edition)', 54990)">🎮 PS5 Disc (₹54,990)</span>
+            <span class="chip" onclick="fillEmiPreset('Sony PS5 Digital Edition', 44990)">🎮 PS5 Digital (₹44,990)</span>
+            <span class="chip" onclick="fillEmiPreset('Apple iPhone 15 / 16', 69900)">📱 iPhone (₹69,900)</span>
+            <span class="chip" onclick="fillEmiPreset('Gaming / Work Laptop', 58000)">💻 Laptop (₹58,000)</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Product Name</label>
+            <input type="text" id="emiItemName" class="input" value="Sony PlayStation 5" oninput="calculateEmiVerdict()" />
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Price on Flipkart / Amazon (₹)</label>
+              <input type="number" id="emiItemPrice" class="input font-mono" value="44990" min="1000" step="500" oninput="calculateEmiVerdict()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Down Payment (₹)</label>
+              <input type="number" id="emiDownPayment" class="input font-mono" value="0" min="0" step="1000" oninput="calculateEmiVerdict()" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Financing Scheme (India E-Commerce)</label>
+            <select id="emiSchemeSelect" class="input" onchange="calculateEmiVerdict()" style="font-size:0.85rem;">
+              <option value="nocost">0% No-Cost EMI (Card discount / Amazon & Flipkart)</option>
+              <option value="paylater">Flipkart / Amazon Pay Later / Snapmint (No Credit History Needed)</option>
+              <option value="standard">Standard Credit/Debit Card EMI (14% p.a. Reducing)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Select Loan Tenure</label>
+            <div class="tenure-pill-group">
+              <button type="button" class="tenure-pill" data-months="3" onclick="selectEmiTenure(3)">3 Months</button>
+              <button type="button" class="tenure-pill selected" data-months="6" onclick="selectEmiTenure(6)">6 Months (Recommended)</button>
+              <button type="button" class="tenure-pill" data-months="9" onclick="selectEmiTenure(9)">9 Months</button>
+              <button type="button" class="tenure-pill" data-months="12" onclick="selectEmiTenure(12)">12 Months</button>
+              <button type="button" class="tenure-pill" data-months="18" onclick="selectEmiTenure(18)">18 Months</button>
+            </div>
+          </div>
+
+          <!-- Beginner Guide Tip -->
+          <div class="info-callout" style="margin-top:1rem;">
+            💡 <strong>No Work Experience or Loan History?</strong><br>
+            You can still get this! Look for <strong>Amazon Pay Later</strong> or <strong>Flipkart Pay Later</strong> during sales. They do instant digital approval with just your PAN & Aadhaar, or use a family member's HDFC/ICICI card for 6-Month No-Cost EMI.
+          </div>
+        </div>
+
+        <!-- Right Column: The Verdict & No-Suffocation Plan -->
+        <div>
+          <!-- Dynamic Verdict Card -->
+          <div id="emiVerdictBox" class="verdict-banner verdict-green">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span id="emiVerdictBadge" style="font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:var(--radius-pill); text-transform:uppercase; background:rgba(0,0,0,0.15);">
+                Green Light
+              </span>
+              <span class="font-mono text-dim" style="font-size:0.75rem;">Calculated vs ₹<span id="emiVerdictSalaryRef">75,000</span> Salary</span>
+            </div>
+            <h3 style="font-size:1.3rem; font-weight:800; margin:0.5rem 0 0.35rem;" id="emiVerdictTitle">Safe & Breathable Plan</h3>
+            <p style="font-size:0.85rem; line-height:1.45;" id="emiVerdictSummary">
+              The monthly EMI will be easily absorbed by your Wants budget without suffocating your day-to-day lifestyle.
+            </p>
+          </div>
+
+          <!-- Financial Breakdown Card -->
+          <div class="card">
+            <div style="font-weight:700; font-size:0.95rem; margin-bottom:1rem;">Salary Impact Analysis</div>
+            
+            <div class="insights-metrics-table">
+              <div class="metric-row">
+                <span class="text-muted">Monthly EMI Deduction:</span>
+                <strong class="font-mono" style="font-size:1.15rem; color:var(--accent);" id="emiMonthlyAmt">₹7,498 / mo</strong>
+              </div>
+              <div class="metric-row">
+                <span class="text-muted">Financed Principal:</span>
+                <strong class="font-mono" id="emiPrincipalFinanced">₹44,990</strong>
+              </div>
+              <div class="metric-row">
+                <span class="text-muted">Estimated Total Interest / Cost:</span>
+                <strong class="font-mono" id="emiInterestTotal">₹0 (No-Cost)</strong>
+              </div>
+              <div class="metric-row">
+                <span class="text-muted">Share of Monthly Wants (₹<span id="emiWantsBudgetRef">22,500</span>):</span>
+                <strong class="font-mono" id="emiWantsSharePct">33% of Wants</strong>
+              </div>
+              <div class="metric-row">
+                <span class="text-muted">Daily Spending Cap Reduction:</span>
+                <strong class="font-mono" style="color:var(--danger);" id="emiDailyReduction">-₹250 / day</strong>
+              </div>
+              <div class="metric-row">
+                <span class="text-muted">Adjusted Safe Daily Limit:</span>
+                <strong class="font-mono" style="color:var(--accent); font-size:1.05rem;" id="emiNewDailyCap">₹600 / day</strong>
+              </div>
+            </div>
+
+            <!-- Tailored No-Suffocation Plan -->
+            <div class="smart-tip-card" id="emiSmartPlanCard" style="margin-top:1.25rem;">
+              🎯 <strong>Workable No-Suffocation Plan:</strong><br>
+              <span id="emiWorkablePlanText">Pick the 6-month tenure. To comfortably absorb this ₹7,498 EMI, adjust your discretionary leisure spending (dining out, deliveries) by ₹250/day. Your essential Needs and 20% SIP savings remain completely untouched.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================================================
+         VIEW 4: SMART INVESTMENTS HUB (Real-Time Market Pulse & Allocations)
          ======================================================================== -->
     <div id="viewTabInvest" class="hidden">
       
@@ -1358,18 +1552,95 @@
     </div>
 
     <!-- ========================================================================
-         VIEW 4: SETTINGS, CYCLE CONFIGURATION & SALARY TUNER
+         VIEW 5: SETTINGS, CYCLE CONFIGURATION & RUPEE BUDGET TUNER
          ======================================================================== -->
     <div id="viewTabSettings" class="hidden">
       
       <div style="margin-bottom:1.25rem;">
-        <h2 style="font-size:1.35rem; font-weight:700;">Payday Cycle & Budget Configuration</h2>
-        <p style="font-size:0.85rem; color:var(--text-muted);">Adjust your salary cycle, expense limits, and 50/30/20 proportions.</p>
+        <h2 style="font-size:1.35rem; font-weight:700;">Payday Cycle & Rupee Budget Allocations</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted);">
+          Configure your budget directly in Rupees (₹) with real-time division visualizer, or tune by percentages.
+        </p>
       </div>
 
       <div class="content-grid">
         
-        <!-- Payday Date & Cap Settings -->
+        <!-- Left Column: Direct Rupee & % Budget Allocation with Real-Time Preview -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <div style="font-weight:700; font-size:1rem;">Monthly Salary & Rupee Allocation</div>
+            <button class="btn btn-outline btn-sm font-mono" id="btnAutoBalance" onclick="autoBalanceBudget()">Auto-Balance</button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Total Monthly Net Salary (₹)</label>
+            <input type="number" id="inputSalaryRupees" class="input font-mono" value="75000" min="5000" step="1000" oninput="handleSalaryRupeeChange(this.value)" style="font-size:1.15rem; font-weight:700;" />
+          </div>
+
+          <!-- Real-Time Visual Division Preview Bar -->
+          <div style="margin:1rem 0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.35rem;">
+              <span>Live Division Preview</span>
+              <span id="allocationStatusText" class="font-mono" style="color:var(--accent);">100% Balanced</span>
+            </div>
+            
+            <div class="stacked-bar" style="height:12px;">
+              <div id="previewNeedsBar" class="bar-slice" style="width:50%; background:var(--cat-needs);" title="Needs"></div>
+              <div id="previewWantsBar" class="bar-slice" style="width:30%; background:var(--cat-wants);" title="Wants"></div>
+              <div id="previewSavingsBar" class="bar-slice" style="width:20%; background:var(--cat-savings);" title="Savings"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-family:var(--font-mono); margin-top:0.35rem;">
+              <span style="color:var(--cat-needs);">Needs: <strong id="previewNeedsVal">₹37,500 (50%)</strong></span>
+              <span style="color:var(--cat-wants);">Wants: <strong id="previewWantsVal">₹22,500 (30%)</strong></span>
+              <span style="color:var(--cat-savings);">Savings: <strong id="previewSavingsVal">₹15,000 (20%)</strong></span>
+            </div>
+          </div>
+
+          <!-- Direct Rupee Inputs for 3 Buckets -->
+          <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:1.25rem;">
+            <!-- Needs in Rupees -->
+            <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                <label class="form-label" style="margin-bottom:0; color:var(--cat-needs);">1. Needs (Essentials & Fixed)</label>
+                <span class="font-mono" id="labelNeedsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-needs);">50%</span>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <span class="font-mono" style="font-weight:700;">₹</span>
+                <input type="number" id="inputNeedsRupees" class="input font-mono" value="37500" step="500" oninput="handleCategoryRupeeInput('needs', this.value)" />
+              </div>
+              <input type="range" id="needsSlider" min="10" max="80" step="1" value="50" oninput="handleSliderChange('needs', this.value)" style="width:100%; margin-top:0.5rem;" />
+            </div>
+
+            <!-- Wants in Rupees -->
+            <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                <label class="form-label" style="margin-bottom:0; color:var(--cat-wants);">2. Wants (Discretionary & EMI Pool)</label>
+                <span class="font-mono" id="labelWantsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-wants);">30%</span>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <span class="font-mono" style="font-weight:700;">₹</span>
+                <input type="number" id="inputWantsRupees" class="input font-mono" value="22500" step="500" oninput="handleCategoryRupeeInput('wants', this.value)" />
+              </div>
+              <input type="range" id="wantsSlider" min="5" max="60" step="1" value="30" oninput="handleSliderChange('wants', this.value)" style="width:100%; margin-top:0.5rem;" />
+            </div>
+
+            <!-- Savings in Rupees -->
+            <div style="padding:0.75rem; background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                <label class="form-label" style="margin-bottom:0; color:var(--cat-savings);">3. Savings & Investments (SIP)</label>
+                <span class="font-mono" id="labelSavingsPctCalc" style="font-size:0.8rem; font-weight:700; color:var(--cat-savings);">20%</span>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <span class="font-mono" style="font-weight:700;">₹</span>
+                <input type="number" id="inputSavingsRupees" class="input font-mono" value="15000" step="500" oninput="handleCategoryRupeeInput('savings', this.value)" />
+              </div>
+              <input type="range" id="savingsSlider" min="5" max="60" step="1" value="20" oninput="handleSliderChange('savings', this.value)" style="width:100%; margin-top:0.5rem;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Payday Cycle Date & Expense Cap Mode -->
         <div class="card">
           <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Paycheck Cycle Date</div>
           
@@ -1379,7 +1650,7 @@
               <input type="number" id="paydayDateInput" class="input font-mono" min="1" max="31" value="28" style="font-size:1.1rem; font-weight:700; width:120px;" />
               <button class="btn btn-primary" onclick="savePaydayDate()">Update Cycle</button>
             </div>
-            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;" id="paydayCycleHelpText">
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;">
               Your cycle will automatically calculate elapsed days and days left based on this date.
             </div>
           </div>
@@ -1406,30 +1677,6 @@
           </div>
         </div>
 
-        <!-- Salary & 50/30/20 Sliders -->
-        <div class="card">
-          <div style="font-weight:700; font-size:1rem; margin-bottom:1rem;">Monthly Salary & Targets</div>
-          
-          <div class="form-group">
-            <label class="form-label">Monthly Take-Home Pay: <span id="sliderSalaryVal" class="font-mono" style="color:var(--accent);">₹75,000</span></label>
-            <input type="range" id="salarySlider" min="15000" max="500000" step="1000" value="75000" oninput="handleSalarySlider(this.value)" style="width:100%;" />
-          </div>
-
-          <div class="form-group" style="margin-top:1.25rem;">
-            <label class="form-label">Needs Target: <span id="sliderNeedsVal" class="font-mono">50%</span></label>
-            <input type="range" id="needsSlider" min="20" max="70" step="5" value="50" oninput="handleRatioSliders()" style="width:100%;" />
-          </div>
-
-          <div class="form-group" style="margin-top:1.25rem;">
-            <label class="form-label">Wants Target: <span id="sliderWantsVal" class="font-mono">30%</span></label>
-            <input type="range" id="wantsSlider" min="10" max="50" step="5" value="30" oninput="handleRatioSliders()" style="width:100%;" />
-          </div>
-
-          <div style="font-size:0.75rem; color:var(--text-dim); margin-top:0.5rem;">
-            * Savings target automatically balances to make the total 100%.
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -1448,13 +1695,17 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
       <span>Insights</span>
     </button>
+    <button class="mobile-nav-item" id="mobTabEmi" onclick="switchTab('emi')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m-2-2v4m7-2h3"/></svg>
+      <span>EMI Verdict</span>
+    </button>
     <button class="mobile-nav-item" id="mobTabInvest" onclick="switchTab('invest')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
       <span>Invest</span>
     </button>
     <button class="mobile-nav-item" id="mobTabSettings" onclick="switchTab('settings')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      <span>Settings</span>
+      <span>Budget</span>
     </button>
   </nav>
 
@@ -1708,6 +1959,7 @@
         }
         syncInputs();
         refreshUI();
+        calculateEmiVerdict();
       } catch (err) {
         console.warn("Firestore access notice:", err);
         refreshUI();
@@ -1715,22 +1967,39 @@
     }
 
     function syncInputs() {
-      document.getElementById('salarySlider').value = userData.salary;
-      document.getElementById('sliderSalaryVal').textContent = '₹' + inrFormatter.format(userData.salary);
-      
+      // Salary inputs
+      document.getElementById('inputSalaryRupees').value = userData.salary;
+
+      // Calculate exact rupee amounts
+      const needsAmt = Math.round(userData.salary * userData.ratios.needs);
+      const wantsAmt = Math.round(userData.salary * userData.ratios.wants);
+      const savingsAmt = Math.round(userData.salary * userData.ratios.savings);
+
+      document.getElementById('inputNeedsRupees').value = needsAmt;
+      document.getElementById('inputWantsRupees').value = wantsAmt;
+      document.getElementById('inputSavingsRupees').value = savingsAmt;
+
       const needsPct = Math.round(userData.ratios.needs * 100);
       const wantsPct = Math.round(userData.ratios.wants * 100);
+      const savingsPct = Math.round(userData.ratios.savings * 100);
+
       document.getElementById('needsSlider').value = needsPct;
       document.getElementById('wantsSlider').value = wantsPct;
-      document.getElementById('sliderNeedsVal').textContent = needsPct + '%';
-      document.getElementById('sliderWantsVal').textContent = wantsPct + '%';
-      
+      document.getElementById('savingsSlider').value = savingsPct;
+
+      document.getElementById('labelNeedsPctCalc').textContent = needsPct + '%';
+      document.getElementById('labelWantsPctCalc').textContent = wantsPct + '%';
+      document.getElementById('labelSavingsPctCalc').textContent = savingsPct + '%';
+
+      // Visual preview
+      updateAllocationVisualPreview();
+
+      // Cycle & Cap inputs
       document.getElementById('capPeriodSelect').value = userData.capMode;
       document.getElementById('paydayDateInput').value = userData.paydayDay;
       document.getElementById('modalPaydayInput').value = userData.paydayDay;
       document.getElementById('paydayBadgeDate').textContent = getOrdinal(userData.paydayDay);
 
-      // Manual Cap radio sync
       document.getElementById('radioCapAuto').checked = !userData.useManualCap;
       document.getElementById('radioCapManual').checked = userData.useManualCap;
       document.getElementById('manualCapInputWrap').classList.toggle('hidden', !userData.useManualCap);
@@ -1741,6 +2010,251 @@
       const s = ["th", "st", "nd", "rd"];
       const v = n % 100;
       return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    // Direct Rupee Input Handlers with Real-Time Preview
+    function handleSalaryRupeeChange(val) {
+      const s = parseFloat(val) || 0;
+      if (s <= 0) return;
+      userData.salary = s;
+      
+      // Keep ratios, update rupee values
+      syncInputs();
+      saveBudgetData();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    function handleCategoryRupeeInput(cat, val) {
+      const enteredAmt = parseFloat(val) || 0;
+      const salary = userData.salary;
+      if (salary <= 0) return;
+
+      // Update ratio for that category
+      userData.ratios[cat] = enteredAmt / salary;
+      
+      const pct = Math.round(userData.ratios[cat] * 100);
+      if (cat === 'needs') {
+        document.getElementById('labelNeedsPctCalc').textContent = pct + '%';
+        document.getElementById('needsSlider').value = pct;
+      } else if (cat === 'wants') {
+        document.getElementById('labelWantsPctCalc').textContent = pct + '%';
+        document.getElementById('wantsSlider').value = pct;
+      } else if (cat === 'savings') {
+        document.getElementById('labelSavingsPctCalc').textContent = pct + '%';
+        document.getElementById('savingsSlider').value = pct;
+      }
+
+      updateAllocationVisualPreview();
+      saveBudgetData();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    function handleSliderChange(cat, pctVal) {
+      const pct = parseFloat(pctVal) || 0;
+      userData.ratios[cat] = pct / 100;
+      const amt = Math.round(userData.salary * (pct / 100));
+
+      if (cat === 'needs') {
+        document.getElementById('inputNeedsRupees').value = amt;
+        document.getElementById('labelNeedsPctCalc').textContent = pct + '%';
+      } else if (cat === 'wants') {
+        document.getElementById('inputWantsRupees').value = amt;
+        document.getElementById('labelWantsPctCalc').textContent = pct + '%';
+      } else if (cat === 'savings') {
+        document.getElementById('inputSavingsRupees').value = amt;
+        document.getElementById('labelSavingsPctCalc').textContent = pct + '%';
+      }
+
+      updateAllocationVisualPreview();
+      saveBudgetData();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    function updateAllocationVisualPreview() {
+      const needsAmt = Math.round(userData.salary * userData.ratios.needs);
+      const wantsAmt = Math.round(userData.salary * userData.ratios.wants);
+      const savingsAmt = Math.round(userData.salary * userData.ratios.savings);
+      const totalAllocated = needsAmt + wantsAmt + savingsAmt;
+      const salary = userData.salary;
+
+      const needsPct = Math.round((needsAmt / Math.max(1, salary)) * 100);
+      const wantsPct = Math.round((wantsAmt / Math.max(1, salary)) * 100);
+      const savingsPct = Math.round((savingsAmt / Math.max(1, salary)) * 100);
+
+      document.getElementById('previewNeedsBar').style.width = needsPct + '%';
+      document.getElementById('previewWantsBar').style.width = wantsPct + '%';
+      document.getElementById('previewSavingsBar').style.width = savingsPct + '%';
+
+      document.getElementById('previewNeedsVal').textContent = `₹${inrFormatter.format(needsAmt)} (${needsPct}%)`;
+      document.getElementById('previewWantsVal').textContent = `₹${inrFormatter.format(wantsAmt)} (${wantsPct}%)`;
+      document.getElementById('previewSavingsVal').textContent = `₹${inrFormatter.format(savingsAmt)} (${savingsPct}%)`;
+
+      const statusEl = document.getElementById('allocationStatusText');
+      const balanceBtn = document.getElementById('btnAutoBalance');
+
+      const diff = salary - totalAllocated;
+      if (Math.abs(diff) <= 10) {
+        statusEl.textContent = '100% Balanced';
+        statusEl.style.color = 'var(--accent)';
+        balanceBtn.classList.add('hidden');
+      } else if (diff > 0) {
+        statusEl.textContent = `+₹${inrFormatter.format(diff)} Unallocated`;
+        statusEl.style.color = 'var(--cat-wants)';
+        balanceBtn.classList.remove('hidden');
+        balanceBtn.textContent = 'Balance to Savings';
+      } else {
+        statusEl.textContent = `-₹${inrFormatter.format(Math.abs(diff))} Over-allocated`;
+        statusEl.style.color = 'var(--danger)';
+        balanceBtn.classList.remove('hidden');
+        balanceBtn.textContent = 'Auto Balance';
+      }
+    }
+
+    function autoBalanceBudget() {
+      const needsAmt = parseFloat(document.getElementById('inputNeedsRupees').value) || 0;
+      const wantsAmt = parseFloat(document.getElementById('inputWantsRupees').value) || 0;
+      const salary = userData.salary;
+
+      let remaining = salary - (needsAmt + wantsAmt);
+      if (remaining < 0) {
+        // Needs + wants exceeds salary; scale down wants to ensure at least 10% savings
+        const safeSavings = Math.round(salary * 0.10);
+        remaining = safeSavings;
+        const newWants = Math.max(0, salary - needsAmt - safeSavings);
+        document.getElementById('inputWantsRupees').value = newWants;
+        userData.ratios.wants = newWants / salary;
+      }
+
+      document.getElementById('inputSavingsRupees').value = Math.max(0, remaining);
+      userData.ratios.needs = needsAmt / salary;
+      userData.ratios.savings = Math.max(0, remaining) / salary;
+
+      syncInputs();
+      saveBudgetData();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    let saveTimeout = null;
+    function saveBudgetData() {
+      if (!currentUser) return;
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(async () => {
+        try {
+          await setDoc(doc(db, "users", currentUser.uid), {
+            salary: userData.salary,
+            ratios: userData.ratios
+          }, { merge: true });
+        } catch (err) {
+          console.error("Save error:", err);
+        }
+      }, 500);
+    }
+
+    // =========================================================================
+    // EMI & BIG PURCHASE AFFORDABILITY ENGINE (PS5 / Gadgets)
+    // =========================================================================
+    let emiSelectedTenure = 6;
+
+    function selectEmiTenure(months) {
+      emiSelectedTenure = months;
+      document.querySelectorAll('.tenure-pill').forEach(pill => {
+        pill.classList.toggle('selected', parseInt(pill.getAttribute('data-months'), 10) === months);
+      });
+      calculateEmiVerdict();
+    }
+
+    function fillEmiPreset(name, price) {
+      document.getElementById('emiItemName').value = name;
+      document.getElementById('emiItemPrice').value = price;
+      document.getElementById('emiDownPayment').value = 0;
+      calculateEmiVerdict();
+    }
+
+    function calculateEmiVerdict() {
+      const price = parseFloat(document.getElementById('emiItemPrice').value) || 0;
+      const downPayment = parseFloat(document.getElementById('emiDownPayment').value) || 0;
+      const scheme = document.getElementById('emiSchemeSelect').value;
+      const tenure = emiSelectedTenure;
+
+      const principal = Math.max(0, price - downPayment);
+      let monthlyEmi = 0;
+      let totalInterest = 0;
+
+      if (scheme === 'nocost') {
+        // 0% No Cost EMI on Flipkart / Amazon (interest offset by merchant)
+        monthlyEmi = tenure > 0 ? principal / tenure : 0;
+        totalInterest = 0;
+      } else if (scheme === 'paylater') {
+        // Flipkart / Amazon Pay Later / Snapmint (~1.5% monthly flat/reducing for cardless)
+        const ratePerMonth = 0.015;
+        monthlyEmi = (principal / tenure) + (principal * ratePerMonth);
+        totalInterest = (monthlyEmi * tenure) - principal;
+      } else {
+        // Standard Credit/Debit card EMI (14% p.a. reducing)
+        const annualRate = 0.14;
+        const monthlyRate = annualRate / 12;
+        monthlyEmi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / (Math.pow(1 + monthlyRate, tenure) - 1);
+        totalInterest = (monthlyEmi * tenure) - principal;
+      }
+
+      monthlyEmi = Math.round(monthlyEmi);
+      totalInterest = Math.max(0, Math.round(totalInterest));
+
+      // Impact on Salary & Wants
+      const wantsBudget = userData.salary * userData.ratios.wants;
+      const wantsPct = wantsBudget > 0 ? Math.round((monthlyEmi / wantsBudget) * 100) : 100;
+      const salaryPct = userData.salary > 0 ? Math.round((monthlyEmi / userData.salary) * 100) : 100;
+
+      const dailyReduction = Math.round(monthlyEmi / 30);
+      const currentCap = getDailyCap();
+      const newDailyCap = Math.max(0, currentCap - dailyReduction);
+
+      // Render Metrics
+      document.getElementById('emiVerdictSalaryRef').textContent = inrFormatter.format(userData.salary);
+      document.getElementById('emiWantsBudgetRef').textContent = inrFormatter.format(wantsBudget);
+      document.getElementById('emiMonthlyAmt').textContent = `₹${inrFormatter.format(monthlyEmi)} / mo`;
+      document.getElementById('emiPrincipalFinanced').textContent = `₹${inrFormatter.format(principal)}`;
+      document.getElementById('emiInterestTotal').textContent = totalInterest === 0 ? "₹0 (No-Cost)" : `₹${inrFormatter.format(totalInterest)}`;
+      document.getElementById('emiWantsSharePct').textContent = `${wantsPct}% of monthly Wants`;
+      document.getElementById('emiDailyReduction').textContent = `-₹${inrFormatter.format(dailyReduction)} / day`;
+      document.getElementById('emiNewDailyCap').textContent = `₹${inrFormatter.format(newDailyCap)} / day`;
+
+      // Verdict Logic & Workable Advice
+      const verdictBox = document.getElementById('emiVerdictBox');
+      const badge = document.getElementById('emiVerdictBadge');
+      const title = document.getElementById('emiVerdictTitle');
+      const summary = document.getElementById('emiVerdictSummary');
+      const planText = document.getElementById('emiWorkablePlanText');
+
+      if (wantsPct <= 22 && salaryPct <= 8) {
+        // GREEN LIGHT: Easily Affordable
+        verdictBox.className = "verdict-banner verdict-green";
+        badge.textContent = "Green Light · Easily Affordable";
+        badge.style.color = "var(--accent)";
+        title.textContent = "Safe & Breathable Plan";
+        summary.textContent = `At ₹${inrFormatter.format(monthlyEmi)}/month (${wantsPct}% of your Wants), this EMI will barely be felt in your day-to-day lifestyle.`;
+        planText.innerHTML = `Go for the <strong>${tenure}-Month Plan</strong>. Your daily allowance only dips by ₹${dailyReduction}/day (down to ₹${newDailyCap}/day). Your essential Needs and 20% SIP savings stay 100% protected.`;
+      } else if (wantsPct <= 40 && salaryPct <= 14) {
+        // YELLOW LIGHT: Doable with Discipline
+        verdictBox.className = "verdict-banner verdict-yellow";
+        badge.textContent = "Caution · Moderate Burden";
+        badge.style.color = "var(--cat-wants)";
+        title.textContent = "Doable with Minor Restraint";
+        summary.textContent = `The ₹${inrFormatter.format(monthlyEmi)} EMI will consume ${wantsPct}% of your discretionary Wants pool. You will need to tighten Swiggy & weekend outings.`;
+        planText.innerHTML = `To avoid feeling suffocated on weekends, consider paying a <strong>₹${inrFormatter.format(Math.round(price * 0.25))} down payment</strong> or stretching to a <strong>9 or 12-month tenure</strong>. This will bring the EMI below ₹${inrFormatter.format(Math.round(wantsBudget * 0.20))}/mo.`;
+      } else {
+        // RED LIGHT: Suffocating
+        verdictBox.className = "verdict-banner verdict-red";
+        badge.textContent = "Red Light · High Risk of Suffocation";
+        badge.style.color = "var(--danger)";
+        title.textContent = "Suffocating EMI Load";
+        summary.textContent = `Danger: An EMI of ₹${inrFormatter.format(monthlyEmi)} consumes ${wantsPct}% of your entire monthly Wants pool. You will feel broke every single weekend.`;
+        planText.innerHTML = `🚨 <strong>Emergency Workable Fix:</strong> Do NOT take this on a 3-month or 6-month plan right now! Instead: (1) Pay at least ₹${inrFormatter.format(Math.round(price * 0.4))} as down payment, OR (2) Choose a <strong>12-month tenure</strong> to drop the EMI down to ~₹${inrFormatter.format(Math.round(principal / 12))}/mo.`;
+      }
     }
 
     function listenToTransactions(uid) {
@@ -1886,7 +2400,6 @@
       document.getElementById('insightProjectedSurplus').textContent = '₹' + inrFormatter.format(projectedSurplus);
       document.getElementById('insightCycleProgress').textContent = `Day ${cycle.elapsedDays} of ${cycle.totalDays} (${Math.round((cycle.elapsedDays/cycle.totalDays)*100)}%)`;
 
-      // Velocity ratio
       const velocity = dailyCap > 0 ? (avgDaily / dailyCap).toFixed(2) : "1.00";
       const burnEl = document.getElementById('insightBurnVelocity');
       if (velocity <= 0.9) {
@@ -1900,7 +2413,6 @@
         burnEl.style.color = 'var(--danger)';
       }
 
-      // Financial Health Score (0 - 100)
       let score = 85;
       if (safePool < userData.salary * 0.2) score -= 25;
       else if (safePool < userData.salary * 0.35) score -= 10;
@@ -1921,10 +2433,9 @@
         descEl.textContent = "Wants expenditure is outpacing cycle days. Dial back by ₹200/day.";
       }
 
-      // Smart Advice text
       const adviceEl = document.getElementById('insightSmartAdvice');
       if (projectedSurplus >= userData.salary * 0.2) {
-        adviceEl.innerHTML = `💡 <strong>Smart Intelligence:</strong> At your current pace of ₹${avgDaily}/day, you will close this cycle with a <strong>₹${inrFormatter.format(projectedSurplus)} surplus</strong>. We recommend locking ₹3,000 into Nifty Alpha Index Fund today.`;
+        adviceEl.innerHTML = `💡 <strong>Smart Intelligence:</strong> At your current pace of ₹${avgDaily}/day, you will close this cycle with an estimated <strong>₹${inrFormatter.format(projectedSurplus)} surplus</strong>.`;
       } else {
         adviceEl.innerHTML = `⚠️ <strong>Pace Advisory:</strong> You have <strong>${cycle.daysLeft} days remaining</strong> until payday. Keeping your daily discretionary spend under ₹${dailyCap} will preserve your SIP savings target.`;
       }
@@ -1944,29 +2455,33 @@
 
     // Tab Router (Web + Mobile)
     function switchTab(tab) {
-      // Hide all views
       document.getElementById('viewTabLedger').classList.add('hidden');
       document.getElementById('viewTabInsights').classList.add('hidden');
+      document.getElementById('viewTabEmi').classList.add('hidden');
       document.getElementById('viewTabInvest').classList.add('hidden');
       document.getElementById('viewTabSettings').classList.add('hidden');
 
-      // Remove active from desktop tabs
       document.getElementById('deskTabLedger').classList.remove('active');
       document.getElementById('deskTabInsights').classList.remove('active');
+      document.getElementById('deskTabEmi').classList.remove('active');
       document.getElementById('deskTabInvest').classList.remove('active');
       document.getElementById('deskTabSettings').classList.remove('active');
 
-      // Remove active from mobile tabs
       document.getElementById('mobTabLedger').classList.remove('active');
       document.getElementById('mobTabInsights').classList.remove('active');
+      document.getElementById('mobTabEmi').classList.remove('active');
       document.getElementById('mobTabInvest').classList.remove('active');
       document.getElementById('mobTabSettings').classList.remove('active');
 
-      // Show selected
       if (tab === 'insights') {
         document.getElementById('viewTabInsights').classList.remove('hidden');
         document.getElementById('deskTabInsights').classList.add('active');
         document.getElementById('mobTabInsights').classList.add('active');
+      } else if (tab === 'emi') {
+        document.getElementById('viewTabEmi').classList.remove('hidden');
+        document.getElementById('deskTabEmi').classList.add('active');
+        document.getElementById('mobTabEmi').classList.add('active');
+        calculateEmiVerdict();
       } else if (tab === 'invest') {
         document.getElementById('viewTabInvest').classList.remove('hidden');
         document.getElementById('deskTabInvest').classList.add('active');
@@ -1975,6 +2490,7 @@
         document.getElementById('viewTabSettings').classList.remove('hidden');
         document.getElementById('deskTabSettings').classList.add('active');
         document.getElementById('mobTabSettings').classList.add('active');
+        syncInputs();
       } else {
         document.getElementById('viewTabLedger').classList.remove('hidden');
         document.getElementById('deskTabLedger').classList.add('active');
@@ -2130,7 +2646,7 @@
       }
     }
 
-    // Simulated Real-Time Market Ticker Updates
+    // Market Ticker Updates
     function tickMarketSimulation() {
       const niftyBase = 25800 + (Math.random() * 60 - 25);
       const sensexBase = 84250 + (Math.random() * 180 - 70);
@@ -2153,35 +2669,6 @@
       navigator.clipboard.writeText(text).then(() => {
         alert('Smart SIP plan copied to clipboard! You can paste it into your broker app (Zerodha, Groww, Kuvera).');
       });
-    }
-
-    // Sliders & Filters
-    async function handleSalarySlider(val) {
-      userData.salary = parseInt(val, 10);
-      document.getElementById('sliderSalaryVal').textContent = '₹' + inrFormatter.format(userData.salary);
-      if (currentUser) {
-        await setDoc(doc(db, "users", currentUser.uid), { salary: userData.salary }, { merge: true });
-      }
-      refreshUI();
-    }
-
-    async function handleRatioSliders() {
-      const needs = parseInt(document.getElementById('needsSlider').value, 10);
-      const wants = parseInt(document.getElementById('wantsSlider').value, 10);
-      let savings = 100 - (needs + wants);
-      if (savings < 0) savings = 0;
-
-      userData.ratios.needs = needs / 100;
-      userData.ratios.wants = wants / 100;
-      userData.ratios.savings = savings / 100;
-
-      document.getElementById('sliderNeedsVal').textContent = needs + '%';
-      document.getElementById('sliderWantsVal').textContent = wants + '%';
-
-      if (currentUser) {
-        await setDoc(doc(db, "users", currentUser.uid), { ratios: userData.ratios }, { merge: true });
-      }
-      refreshUI();
     }
 
     function setLedgerFilter(cat, btn) {
@@ -2362,8 +2849,6 @@
     window.handleLogout = handleLogout;
     window.setLedgerFilter = setLedgerFilter;
     window.updateCapPeriod = updateCapPeriod;
-    window.handleSalarySlider = handleSalarySlider;
-    window.handleRatioSliders = handleRatioSliders;
     window.openQuickLogModal = openQuickLogModal;
     window.closeQuickLogModal = closeQuickLogModal;
     window.handleCurtainClick = handleCurtainClick;
@@ -2386,6 +2871,15 @@
     window.saveManualCap = saveManualCap;
     window.tickMarketSimulation = tickMarketSimulation;
     window.copySIPDistribution = copySIPDistribution;
+    
+    // New bindings for Rupee budget tuner & EMI
+    window.handleSalaryRupeeChange = handleSalaryRupeeChange;
+    window.handleCategoryRupeeInput = handleCategoryRupeeInput;
+    window.handleSliderChange = handleSliderChange;
+    window.autoBalanceBudget = autoBalanceBudget;
+    window.selectEmiTenure = selectEmiTenure;
+    window.fillEmiPreset = fillEmiPreset;
+    window.calculateEmiVerdict = calculateEmiVerdict;
 
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
