@@ -3,91 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <meta name="theme-color" content="#050505">
+  <meta name="theme-color" content="#0B0E14">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Traxpens Web — Intelligent & Modular Salary Tracker (₹ INR)</title>
-
-  <!-- Typography: Outfit for Interface (matching Bucket_List_Maker), JetBrains Mono for Indian Rupee Financials -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Traxpens — Minimal & Lightweight Expense Tracker (₹ INR)</title>
 
   <style>
     /* ==========================================================================
-       1. DESIGN SYSTEM VARIABLES (Ethereal Glass & Double-Bezel Palette)
+       1. ULTRA-LIGHTWEIGHT DESIGN SYSTEM (Zero CPU Blurs · High Performance)
        ========================================================================== */
     :root {
-      /* Dark Theme (Default: Obsidian Vantablack & Emerald Glow) */
-      --bg-deep: #050505;
-      --bg-vantablack: #0A0A0A;
-      --bg-surface: #101217;
-      --bg-surface-elevated: #161922;
-      --bg-subtle: #1C202B;
-      --bg-input: rgba(255, 255, 255, 0.03);
+      /* Dark Theme (Minimal Slate & Emerald Accent) */
+      --bg-canvas: #090C10;
+      --bg-surface: #0E131B;
+      --bg-elevated: #161D29;
+      --bg-input: #0A0D13;
 
-      --text-primary: #FFFFFF;
-      --text-secondary: rgba(255, 255, 255, 0.65);
-      --text-muted: rgba(255, 255, 255, 0.4);
-      --text-inverse: #050505;
+      --text-main: #F0F4F8;
+      --text-muted: #8B98A5;
+      --text-dim: #546272;
 
-      /* Single Calibrated Accent: Precision Emerald Teal */
-      --accent-primary: #14B8A6;
-      --accent-hover: #2DD4BF;
-      --accent-dim: rgba(20, 184, 166, 0.12);
-      --accent-border: rgba(20, 184, 166, 0.35);
-      --accent-contrast: #042F2E;
+      --border-main: #1D2633;
+      --border-subtle: #141A23;
 
-      --success: #10B981;
-      --warning: #F59E0B;
+      --accent: #10B981;
+      --accent-hover: #059669;
+      --accent-soft: rgba(16, 185, 129, 0.12);
+      --accent-contrast: #04241A;
+
+      --cat-needs: #3B82F6;
+      --cat-wants: #F59E0B;
+      --cat-savings: #10B981;
       --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.12);
 
-      /* 50/30/20 Categories */
-      --cat-needs: #3B82F6;       /* Needs 50% */
-      --cat-wants: #F59E0B;       /* Wants 30% */
-      --cat-savings: #10B981;     /* Savings 20% */
-
-      --border-hairline: rgba(255, 255, 255, 0.1);
-      --border-subtle: rgba(255, 255, 255, 0.05);
-
-      --font-display: 'Outfit', sans-serif;
-      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+      --radius: 10px;
+      --radius-sm: 6px;
       --radius-pill: 9999px;
-      --radius-squircle: 2rem;
-
-      --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
-      --ease-heavy: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="light"] {
-      /* Light Theme (Clean Architectural Mist) */
-      --bg-deep: #F5F7FA;
-      --bg-vantablack: #FFFFFF;
+      --bg-canvas: #F4F6F9;
       --bg-surface: #FFFFFF;
-      --bg-surface-elevated: #F8FAFC;
-      --bg-subtle: #E8EEF5;
-      --bg-input: rgba(0, 0, 0, 0.03);
+      --bg-elevated: #F8FAFD;
+      --bg-input: #FFFFFF;
 
-      --text-primary: #0F172A;
-      --text-secondary: rgba(15, 23, 42, 0.7);
-      --text-muted: rgba(15, 23, 42, 0.45);
-      --text-inverse: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --text-dim: #94A3B8;
 
-      --accent-primary: #0D9488;
+      --border-main: #E2E8F0;
+      --border-subtle: #EDF2F7;
+
+      --accent: #0D9488;
       --accent-hover: #0F766E;
-      --accent-dim: rgba(13, 148, 136, 0.12);
-      --accent-border: rgba(13, 148, 136, 0.35);
+      --accent-soft: rgba(13, 148, 136, 0.1);
       --accent-contrast: #FFFFFF;
-
-      --border-hairline: rgba(0, 0, 0, 0.09);
-      --border-subtle: rgba(0, 0, 0, 0.05);
 
       --cat-needs: #2563EB;
       --cat-wants: #D97706;
       --cat-savings: #059669;
+      --danger: #DC2626;
+      --danger-soft: rgba(220, 38, 38, 0.1);
     }
 
     * {
@@ -98,24 +78,12 @@
 
     body {
       font-family: var(--font-sans);
-      background-color: var(--bg-deep);
-      color: var(--text-primary);
-      line-height: 1.6;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      line-height: 1.5;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background-image: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
-      background-attachment: fixed;
       overflow-x: hidden;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-display);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
     }
 
     .font-mono {
@@ -123,1336 +91,836 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Double-Bezel Hardware Architecture (from Bucket_List_Maker) */
-    .bezel-outer {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-hairline);
-      padding: 0.375rem; /* 6px outer bezel */
-      border-radius: var(--radius-squircle);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      transition: transform 0.5s var(--ease-fluid), border-color 0.3s ease;
+    .hidden {
+      display: none !important;
     }
 
-    [data-theme="light"] .bezel-outer {
-      background: rgba(0, 0, 0, 0.02);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    /* Minimal Card Primitive */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius);
+      padding: 1.25rem;
     }
 
-    .bezel-inner {
-      background: var(--bg-vantablack);
-      border-radius: calc(var(--radius-squircle) - 0.375rem);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
-      overflow: hidden;
-      height: 100%;
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s, border-color 0.15s;
     }
 
-    [data-theme="light"] .bezel-inner {
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 2px 8px rgba(0,0,0,0.03);
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    /* Fluid Animations */
-    @keyframes fluidEntry {
-      from { 
-        opacity: 0; 
-        transform: translateY(28px); 
-        filter: blur(8px);
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0); 
-        filter: blur(0);
-      }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-contrast);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
     }
 
-    .animate-entry {
-      animation: fluidEntry 0.8s var(--ease-heavy) forwards;
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-main);
+      color: var(--text-main);
+    }
+    .btn-outline:hover:not(:disabled) {
+      background: var(--bg-elevated);
+      border-color: var(--text-dim);
+    }
+
+    .btn-danger-outline {
+      background: transparent;
+      border-color: var(--border-main);
+      color: var(--danger);
+    }
+    .btn-danger-outline:hover:not(:disabled) {
+      background: var(--danger-soft);
+      border-color: var(--danger);
+    }
+
+    .btn-google {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-main);
+      color: var(--text-main);
+      width: 100%;
+      padding: 0.75rem;
+    }
+    .btn-google:hover:not(:disabled) {
+      border-color: var(--text-dim);
+    }
+
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0;
+    }
+    .btn-text:hover {
+      text-decoration: underline;
+    }
+
+    /* Inputs */
+    .input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .input:focus {
+      border-color: var(--accent);
     }
 
     /* ==========================================================================
-       2. AUTHENTICATION OVERLAY & MODAL (MATCHING BUCKET_LIST_MAKER)
+       2. AUTH OVERLAY & MODAL (Fast, Blur-free)
        ========================================================================== */
     .auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(5, 5, 5, 0.88);
-      backdrop-filter: blur(48px);
-      -webkit-backdrop-filter: blur(48px);
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1.25rem;
       z-index: 999;
       overflow-y: auto;
-      transition: opacity 0.3s ease;
     }
 
-    .auth-wrapper {
+    .auth-box {
       width: 100%;
-      max-width: 440px;
-      margin: auto;
+      max-width: 400px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem;
     }
 
-    .auth-content {
-      padding: 3rem 2.5rem;
-      text-align: left;
-    }
-
-    .modal-eyebrow {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 700;
-      color: var(--accent-primary);
-      margin-bottom: 0.5rem;
-    }
-
-    .auth-content h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .auth-content .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      line-height: 1.5;
-    }
-
-    .error-box {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: var(--danger);
-      padding: 0.875rem 1.25rem;
-      border-radius: 1rem;
-      font-size: 0.875rem;
+    .auth-header {
       margin-bottom: 1.5rem;
-      line-height: 1.4;
+    }
+    .auth-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .auth-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
     }
 
-    .setup-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
+    .auth-error {
+      background: var(--danger-soft);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      margin-bottom: 1.25rem;
     }
 
     .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
-
-    .form-group label {
+    .form-label {
+      display: block;
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
     }
 
-    /* Premium Inputs */
-    .input-premium {
-      width: 100%;
-      padding: 0.95rem 1.25rem;
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      border-radius: 1rem;
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      font-size: 1rem;
-      transition: all 0.4s var(--ease-fluid);
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
-    }
-
-    .input-premium:focus {
-      outline: none;
-      background: rgba(255, 255, 255, 0.06);
-      border-color: var(--accent-primary);
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--accent-dim);
-    }
-
-    .input-premium::placeholder {
+    .auth-toggle-row {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
 
-    /* Button-in-Button CTA */
-    .btn-premium {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 0.75rem 0.75rem 1.5rem;
-      border-radius: var(--radius-pill);
-      background: var(--text-primary);
-      color: var(--text-inverse);
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.4s var(--ease-fluid);
-      gap: 1rem;
-      font-family: var(--font-sans);
-    }
-
-    .btn-premium:hover {
-      transform: scale(0.98);
-      opacity: 0.95;
-    }
-
-    .btn-premium .icon-wrapper {
-      width: 2rem;
-      height: 2rem;
-      border-radius: var(--radius-pill);
-      background: rgba(0, 0, 0, 0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.4s var(--ease-fluid);
-    }
-
-    [data-theme="light"] .btn-premium .icon-wrapper {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-premium:hover .icon-wrapper {
-      transform: translateX(4px) scale(1.05);
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    /* Google Button (Matching Bucket_List_Maker) */
-    .btn-google-premium {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.85rem 1.5rem;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-primary);
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: 1px solid var(--border-subtle);
-      cursor: pointer;
-      transition: all 0.4s var(--ease-fluid);
-      gap: 0.75rem;
-      font-family: var(--font-sans);
-    }
-
-    [data-theme="light"] .btn-google-premium {
-      background: #FFFFFF;
-      border: 1px solid var(--border-hairline);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .btn-google-premium:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: scale(0.98);
-    }
-
-    .btn-google-premium:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .auth-toggle {
-      margin-top: 1.75rem;
-      text-align: center;
-      font-size: 0.875rem;
-    }
-
-    .btn-text {
-      background: transparent;
-      color: var(--accent-primary);
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.875rem;
-      font-family: var(--font-sans);
-      transition: all 0.3s var(--ease-fluid);
-      padding: 0.25rem 0.5rem;
-    }
-
-    .btn-text:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-    }
-
-    .btn-danger-premium {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--danger);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.875rem;
-      font-weight: 600;
-      font-family: var(--font-sans);
-      transition: all 0.3s var(--ease-fluid);
-      cursor: pointer;
-    }
-
-    .btn-danger-premium:hover {
-      background: rgba(239, 68, 68, 0.2);
-      transform: scale(0.96);
-    }
-
     /* ==========================================================================
-       3. RESPONSIVE APP SHELL LAYOUT (MATCHING BUCKET_LIST_MAKER APP-CONTAINER)
+       3. APP SHELL & LAYOUT
        ========================================================================== */
-    .app-container {
-      max-width: 1400px;
+    .app-shell {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 3.5rem 2rem 8rem;
+      padding: 1.5rem 1rem 5rem;
     }
 
-    /* Responsive App Header */
-    .app-header {
+    /* Minimal Header */
+    .header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 3.5rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border-subtle);
-      animation: fluidEntry 1s var(--ease-heavy) forwards;
-      gap: 1.5rem;
-    }
-
-    .brand-group h1 {
-      font-size: 3.5rem;
-      letter-spacing: -0.04em;
-    }
-
-    .brand-group h1 span {
-      color: var(--accent-primary);
-    }
-
-    .user-meta-strip {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .badge-cycle {
-      font-size: 0.75rem;
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      padding: 0.2rem 0.65rem;
-      border-radius: var(--radius-pill);
-      color: var(--accent-primary);
-      font-weight: 600;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
       gap: 1rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-main);
       flex-wrap: wrap;
     }
 
-    /* 4. DASHBOARD STATS AUTO-FIT GRID (MATCHING BUCKET_LIST_MAKER) */
-    .dashboard-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    .stat-wrapper {
-      transition: transform 0.5s var(--ease-fluid);
-    }
-
-    .stat-wrapper:hover {
-      transform: translateY(-4px);
-    }
-
-    .stat-card {
-      display: flex;
-      flex-direction: column;
-      padding: 2rem;
-      height: 100%;
-      justify-content: space-between;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .stat-value {
-      font-size: 2.5rem;
+    .brand-title {
+      font-size: 1.35rem;
       font-weight: 700;
-      line-height: 1.1;
       letter-spacing: -0.02em;
       display: flex;
-      align-items: baseline;
-      gap: 0.25rem;
+      align-items: center;
+      gap: 0.5rem;
     }
-
-    .curr-sign {
-      font-size: 1.75rem;
-      color: var(--text-muted);
+    .brand-badge {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--radius-pill);
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-family: var(--font-mono);
       font-weight: 600;
     }
 
-    .stat-sub {
+    .header-user-info {
       font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 0.85rem;
+      margin-top: 0.2rem;
     }
 
-    .text-primary { color: var(--text-primary); }
-    .text-secondary { color: var(--text-secondary); }
-    .text-success { color: var(--success); }
-    .text-danger { color: var(--danger); }
-    .bg-primary { background: var(--accent-primary); }
-    .bg-danger { background: var(--danger); }
-
-    .stat-header-flex {
+    .header-controls {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.75rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
-    .stat-label.mb-0 {
-      margin-bottom: 0;
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .period-dropdown {
-      background: var(--bg-surface-elevated);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-family: var(--font-sans);
+    .stat-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       font-size: 0.75rem;
       font-weight: 600;
-      padding: 0.35rem 0.75rem;
-      border-radius: var(--radius-pill);
-      outline: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
     }
 
-    .period-dropdown:focus {
-      border-color: var(--accent-primary);
-    }
-
-    /* Progress Exposure Meter (Matching Bucket_List_Maker) */
-    .progress-bar-bg {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-pill);
-      overflow: hidden;
-      margin-top: 0.75rem;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      border-radius: var(--radius-pill);
-      transition: width 0.8s var(--ease-fluid), background 0.4s ease;
-    }
-
-    .cap-footer-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-top: 0.6rem;
-    }
-
-    .composite-split-bar {
-      display: flex;
-      height: 10px;
-      border-radius: var(--radius-pill);
-      overflow: hidden;
-      gap: 3px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .split-slice {
-      height: 100%;
-      transition: width 0.4s ease;
-    }
-
-    .slice-needs { background: var(--cat-needs); }
-    .slice-wants { background: var(--cat-wants); }
-    .slice-savings { background: var(--cat-savings); }
-
-    .split-legend-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      margin-top: 0.5rem;
-    }
-
-    /* ==========================================================================
-       5. CONTENT GRID (DESKTOP: 420px + 1fr; MOBILE: 1 COLUMN FLEX)
-       ========================================================================== */
-    .content-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-
-    .section-card {
-      padding: 2.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .section-title {
-      font-size: 1.25rem;
+    .stat-number {
+      font-size: 1.85rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .stat-footer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    /* 50/30/20 Categories Stack */
-    .category-cards-stack {
+    /* Simple Progress Bars */
+    .progress-track {
+      height: 6px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-top: 0.6rem;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .stacked-bar {
+      display: flex;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin: 0.75rem 0 0.5rem;
+      background: var(--bg-elevated);
+      gap: 2px;
+    }
+    .bar-slice {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    /* Main 2-Column Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 900px) {
+      .content-grid {
+        grid-template-columns: 380px 1fr;
+      }
+    }
+
+    /* Category List Items */
+    .cat-stack {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      margin-top: 1rem;
     }
 
-    .category-item-card {
+    .cat-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 1.25rem;
-      background: var(--bg-input);
+      padding: 0.75rem;
+      background: var(--bg-elevated);
       border: 1px solid var(--border-subtle);
-      border-radius: 1rem;
-      transition: all 0.3s ease;
+      border-radius: var(--radius-sm);
     }
-
-    .category-item-card:hover {
-      border-color: var(--border-hairline);
-      background: rgba(255, 255, 255, 0.05);
+    .cat-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.6rem;
+      flex-shrink: 0;
     }
-
-    .cat-left-info {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .cat-color-chip {
-      width: 12px;
-      height: 12px;
-      border-radius: 4px;
-    }
-
-    .cat-title-text {
+    .cat-name {
+      font-size: 0.85rem;
       font-weight: 600;
-      font-size: 0.95rem;
     }
-
-    .cat-subtitle {
+    .cat-sub {
       font-size: 0.75rem;
       color: var(--text-muted);
     }
-
-    .cat-numbers-right {
+    .cat-amt {
       text-align: right;
     }
-
-    .cat-budget-rupees {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .cat-spent-ratio {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-    }
-
-    /* Expandable Slider Tuner */
-    .slider-tuner-panel {
-      background: var(--bg-surface-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: 1rem;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .range-control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .range-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .range-slider {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 6px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      outline: none;
-    }
-
-    .range-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--text-primary);
-      cursor: pointer;
-      border: 2px solid var(--accent-primary);
-    }
-
-    /* Transaction Ledger */
-    .ledger-controls-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .filter-pills-cluster {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      padding-bottom: 2px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .filter-btn {
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      padding: 0.4rem 0.85rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.3s var(--ease-fluid);
-      white-space: nowrap;
-      font-family: var(--font-sans);
-    }
-
-    .filter-btn.active {
-      background: var(--accent-dim);
-      color: var(--accent-primary);
-      border-color: var(--accent-border);
-    }
-
-    .ledger-table-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-
-    .ledger-row-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.25rem;
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      border-radius: 1rem;
-      transition: all 0.3s var(--ease-fluid);
-      gap: 1rem;
-    }
-
-    .ledger-row-card:hover {
-      border-color: var(--border-hairline);
-      transform: translateY(-1px);
-    }
-
-    .tx-primary-cell {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      min-width: 0;
-      flex: 1;
-    }
-
-    .tx-icon-tray {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--text-primary);
-    }
-
-    /* Macroeconomic Guides */
-    .guides-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .guide-card-item {
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      border-left: 3px solid var(--accent-primary);
-      border-radius: 1rem;
-      padding: 1.15rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      transition: all 0.3s ease;
-    }
-
-    .guide-card-item:hover {
-      border-color: var(--border-hairline);
-      border-left-color: var(--accent-primary);
-    }
-
-    .guide-eyebrow {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-primary);
-    }
-
-    .guide-headline {
+    .cat-rupee {
       font-size: 0.95rem;
       font-weight: 700;
-      color: var(--text-primary);
+    }
+    .cat-spent {
+      font-size: 0.75rem;
+      color: var(--text-dim);
     }
 
-    .guide-body-copy {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
+    /* Ledger & Filters */
+    .ledger-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    /* Quick Log Modal */
-    .modal-curtain {
+    .filters-wrap {
+      display: flex;
+      gap: 0.35rem;
+      background: var(--bg-elevated);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+    .filter-btn {
+      padding: 0.3rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-main);
+    }
+
+    .tx-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tx-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0.85rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      transition: border-color 0.15s;
+    }
+    .tx-item:hover {
+      border-color: var(--border-main);
+    }
+    .tx-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      border: 1px solid currentColor;
+      margin-right: 0.4rem;
+    }
+    .tx-delete-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      margin-left: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tx-delete-btn:hover {
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    /* Modal (Blur-free, Snappy) */
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(5, 5, 5, 0.85);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: rgba(0, 0, 0, 0.75);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 500;
-      opacity: 0;
-      pointer-events: none;
       padding: 1rem;
-      transition: opacity 0.3s ease;
     }
-
-    .modal-curtain.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-dialog-wrapper {
+    .modal-card {
       width: 100%;
-      max-width: 460px;
+      max-width: 440px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius);
+      padding: 1.5rem;
     }
 
-    .quick-preset-chips {
+    .quick-chips {
       display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      -webkit-overflow-scrolling: touch;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin: 0.5rem 0 1rem;
     }
-
-    .preset-chip-btn {
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      padding: 0.35rem 0.75rem;
-      border-radius: var(--radius-pill);
+    .chip {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-main);
+      color: var(--text-muted);
+      padding: 0.25rem 0.6rem;
       font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
+      border-radius: var(--radius-pill);
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
+    }
+    .chip:hover {
+      color: var(--text-main);
+      border-color: var(--accent);
     }
 
-    .preset-chip-btn:hover {
-      color: var(--text-primary);
-      border-color: var(--accent-primary);
-    }
-
-    .category-pick-grid {
+    .cat-selector-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.5rem;
+      margin-bottom: 1.25rem;
     }
-
-    .cat-btn-pill {
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      border-radius: 0.85rem;
-      padding: 0.75rem 0.5rem;
+    .cat-select-btn {
+      padding: 0.6rem 0.4rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-main);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
       font-size: 0.8rem;
       font-weight: 600;
-      color: var(--text-secondary);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.35rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .cat-select-btn.selected {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
-    .cat-btn-pill.selected {
-      background: var(--accent-dim);
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-    }
-
-    /* Floating Action Button for Mobile */
-    .mobile-fab-btn {
+    /* Mobile Quick Log FAB */
+    .mobile-fab {
       display: none;
       position: fixed;
       bottom: 1.5rem;
       right: 1.5rem;
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      background: var(--accent-primary);
+      background: var(--accent);
       color: var(--accent-contrast);
       border: none;
-      box-shadow: 0 8px 30px rgba(20, 184, 166, 0.45);
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
       z-index: 100;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: transform 0.3s var(--ease-fluid);
-    }
-
-    .mobile-fab-btn:active {
-      transform: scale(0.92);
-    }
-
-    /* ==========================================================================
-       6. SEPARATE RESPONSIVE VIEWS FOR WEB & MOBILE (MATCHING BUCKET_LIST_MAKER)
-       ========================================================================== */
-    @media (min-width: 1024px) {
-      .app-container {
-        padding: 4rem 3rem 8rem;
-      }
-
-      .content-grid {
-        display: grid;
-        grid-template-columns: 420px 1fr;
-        align-items: start;
-        gap: 3rem;
-      }
-
-      .form-section {
-        position: sticky;
-        top: 3rem;
-      }
     }
 
     @media (max-width: 768px) {
-      .app-container {
-        padding: 1.5rem 1rem 6rem;
-      }
-
-      .app-header {
-        flex-direction: column;
-        gap: 1.25rem;
-        text-align: left;
-        align-items: flex-start;
-        margin-bottom: 2rem;
-      }
-
-      .brand-group h1 {
-        font-size: 2.5rem;
-      }
-
-      .header-actions {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .header-actions .btn-premium {
-        flex: 1;
-      }
-
-      .dashboard-stats {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-        margin-bottom: 2rem;
-      }
-
-      .stat-card {
-        padding: 1.5rem;
-      }
-
-      .section-card {
-        padding: 1.5rem;
-      }
-
-      .auth-content {
-        padding: 2.25rem 1.5rem;
-      }
-
-      .auth-content h2 {
-        font-size: 1.75rem;
-      }
-
-      .mobile-fab-btn {
+      .mobile-fab {
         display: flex;
       }
+      .header-controls .hide-on-mobile {
+        display: none;
+      }
+      .app-shell {
+        padding: 1rem 0.75rem 5rem;
+      }
     }
-
-    /* Utility */
-    .hidden { display: none !important; }
-    .mb-6 { margin-bottom: 1.5rem; }
-    .ml-2 { margin-left: 0.5rem; }
-    .text-sm { font-size: 0.85rem; }
   </style>
 </head>
 <body>
 
   <!-- ==========================================================================
-       AUTHENTICATION OVERLAY (MATCHING BUCKET_LIST_MAKER AUTH.JSX / AUTH.CSS)
+       1. AUTH GATEWAY MODAL
        ========================================================================== -->
-  <div class="auth-overlay" id="authGateOverlay">
-    <div class="bezel-outer animate-entry auth-wrapper">
-      <div class="bezel-inner auth-content">
-        <div class="modal-eyebrow">Authentication</div>
-        <h2 id="authHeading">Access Ledger</h2>
-        <p class="subtitle" id="authSubtitle">
-          Secure your session to access your allocations.
-        </p>
+  <div class="auth-overlay hidden" id="authGateOverlay">
+    <div class="auth-box">
+      <div class="auth-header">
+        <div class="auth-tag">Authentication</div>
+        <h2 class="auth-title" id="authHeading">Access Ledger</h2>
+        <p class="auth-subtitle" id="authSubtitle">Sign in to manage your modular allocations.</p>
+      </div>
 
-        <div id="authErrorMessage" class="error-box hidden"></div>
+      <div id="authErrorMessage" class="auth-error hidden"></div>
 
-        <form id="authForm" onsubmit="handleAuthSubmit(event)" class="setup-form">
-          <div class="form-group">
-            <label>Credentials (Email)</label>
-            <input 
-              type="email" 
-              id="authEmailInput" 
-              placeholder="identity@domain.com" 
-              class="input-premium" 
-              required 
-              autocomplete="email"
-              autofocus 
-            />
-          </div>
+      <!-- Google Sign In -->
+      <button type="button" class="btn btn-google" id="googleAuthBtn" onclick="handleGoogleAuth()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
 
-          <div class="form-group">
-            <label>Security Key (Password)</label>
-            <input 
-              type="password" 
-              id="authPasswordInput" 
-              placeholder="••••••••" 
-              class="input-premium" 
-              minlength="6" 
-              required 
-              autocomplete="current-password"
-            />
-          </div>
+      <div style="text-align: center; margin: 1.25rem 0; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">
+        or with email
+      </div>
 
-          <!-- Primary Submit Button-in-Button -->
-          <button type="submit" class="btn-premium submit-btn" id="authSubmitBtn" style="width: 100%; margin-top: 0.5rem;">
-            <span id="authSubmitBtnText">Authenticate</span>
-            <div class="icon-wrapper">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
-          </button>
-
-          <!-- Google Sign-In (Matching Bucket_List_Maker) -->
-          <button 
-            type="button" 
-            class="btn-google-premium submit-btn" 
-            id="googleAuthBtn" 
-            onclick="handleGoogleAuth()"
-            style="width: 100%;"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z"/>
-            </svg>
-            <span>Continue with Google</span>
-          </button>
-        </form>
-
-        <!-- Toggle (Matching Bucket_List_Maker Auth Toggle) -->
-        <div class="auth-toggle">
-          <span class="text-secondary" id="authToggleQuestion">No identity established?</span>
-          <button class="btn-text ml-2" id="authToggleBtn" onclick="toggleAuthMode()">Initialize Here</button>
+      <!-- Email / Password Form -->
+      <form onsubmit="handleAuthSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="authEmailInput" class="input" placeholder="user@domain.com" required autocomplete="email" />
         </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="authPasswordInput" class="input" placeholder="••••••••" minlength="6" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="authSubmitBtn" style="width: 100%; margin-top: 0.5rem; padding: 0.75rem;">
+          <span id="authSubmitBtnText">Authenticate</span>
+        </button>
+      </form>
+
+      <div class="auth-toggle-row">
+        <span id="authToggleQuestion">No account yet?</span>
+        <button class="btn-text" style="margin-left: 0.4rem;" id="authToggleBtn" onclick="toggleAuthMode()">Initialize Here</button>
       </div>
     </div>
   </div>
 
   <!-- ==========================================================================
-       APPLICATION ROOT CONTAINER (MATCHING BUCKET_LIST_MAKER APP-CONTAINER)
+       2. MAIN APPLICATION WORKSPACE
        ========================================================================== -->
-  <div class="app-container" id="appMainShell">
+  <div class="app-shell" id="appMainShell">
     
-    <!-- Application Header (Fluid Responsive for Web & Mobile) -->
-    <header class="app-header">
-      <div class="brand-group">
-        <h1>Traxpens <span>Web</span></h1>
-        <div class="user-meta-strip">
-          <span class="user-email text-secondary text-sm" id="headerEmailDisplay">user@domain.com</span>
-          <span class="badge-cycle font-mono">30-Day Payday Cycle · ₹ INR</span>
+    <!-- Top Nav -->
+    <header class="header">
+      <div>
+        <div class="brand-title">
+          <span>Traxpens</span>
+          <span class="brand-badge">₹ INR</span>
+        </div>
+        <div class="header-user-info">
+          <span id="headerEmailDisplay">Connecting...</span> · 30-Day Payday Cycle
         </div>
       </div>
 
-      <div class="header-actions">
-        <button class="btn-premium" onclick="openQuickLogModal()">
-          <span>Record Expense</span>
-          <div class="icon-wrapper">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14" /></svg>
-          </div>
+      <div class="header-controls">
+        <button class="btn btn-primary hide-on-mobile" onclick="openQuickLogModal()">
+          <span>+ Record Expense</span>
         </button>
-
-        <button class="btn-text" onclick="toggleTheme()" title="Toggle Theme">
-          <span id="themeBtnText">Toggle Theme</span>
+        <button class="btn btn-outline" onclick="toggleTheme()" title="Toggle Theme">
+          <span id="themeBtnText">Theme</span>
         </button>
-
-        <button class="btn-danger-premium" onclick="handleLogout()" title="Log out and switch account">
+        <button class="btn btn-danger-outline" onclick="handleLogout()" title="Sign Out">
           Disconnect
         </button>
       </div>
     </header>
 
-    <main class="app-main">
+    <!-- Top KPI Cards -->
+    <div class="stats-grid">
       
-      <!-- TOP KPI STATS (Auto-fit Grid: 3 on Desktop, Stacks on Mobile) -->
-      <div class="dashboard-stats animate-entry">
+      <!-- Card 1: Net Salary & Pool -->
+      <div class="card">
+        <div class="stat-label-row">
+          <span>Monthly Net Paycheck</span>
+          <button class="btn-text" onclick="toggleSalaryTuner()" id="tunerToggleText" style="font-size:0.75rem;">Edit</button>
+        </div>
+        <div class="stat-number font-mono">
+          <span>₹</span><span id="salaryDisplayVal">75,000</span>
+        </div>
+        <div class="stat-footer font-mono">
+          <span>Remaining Safe Pool:</span>
+          <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">34,250</span></strong>
+        </div>
+      </div>
+
+      <!-- Card 2: Daily Spending Cap -->
+      <div class="card">
+        <div class="stat-label-row">
+          <span>Daily Spending Cap</span>
+          <select id="capPeriodSelect" onchange="updateCapPeriod()" style="background:var(--bg-elevated); border:1px solid var(--border-main); color:var(--text-muted); font-size:0.75rem; border-radius:4px; padding:2px 6px; outline:none;">
+            <option value="today">Standard (Today)</option>
+            <option value="weekend">Weekend Surge (1.5x)</option>
+            <option value="rolling7">7-Day Rolling</option>
+            <option value="trip3">3-Day Vacation</option>
+          </select>
+        </div>
+        <div class="stat-number font-mono" id="dailyCapDisplayVal">₹850</div>
         
-        <!-- STAT 1: MONTHLY NET PAYCHECK & SAFE POOL -->
-        <div class="bezel-outer stat-wrapper">
-          <div class="bezel-inner stat-card">
-            <span class="stat-label">Monthly Net Paycheck</span>
-            <span class="stat-value text-primary font-mono">
-              <span class="curr-sign">₹</span><span id="salaryDisplayVal">75,000</span>
-            </span>
-            <span class="stat-sub text-success font-mono">
-              Remaining Safe Pool: ₹<span id="safePoolDisplayVal">34,250</span> (+12% Pace)
-            </span>
-          </div>
+        <div class="progress-track">
+          <div class="progress-bar" id="capBarFill" style="width: 32%;"></div>
         </div>
 
-        <!-- STAT 2: DYNAMIC DAILY SPENDING CAP & PROGRESS -->
-        <div class="bezel-outer stat-wrapper">
-          <div class="bezel-inner stat-card">
-            <div class="stat-header-flex">
-              <span class="stat-label mb-0">Daily Spending Cap</span>
-              <select class="period-dropdown" id="capPeriodSelect" onchange="updateCapPeriod()">
-                <option value="today">Standard (Today)</option>
-                <option value="weekend">Weekend Surge (1.5x)</option>
-                <option value="rolling7">7-Day Rolling Baseline</option>
-                <option value="trip3">3-Day Vacation Window</option>
-              </select>
-            </div>
+        <div class="stat-footer font-mono">
+          <span>Spent: <strong id="spentTodayDisplayVal">₹270</strong></span>
+          <span>Left: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹580</strong></span>
+        </div>
+      </div>
+
+      <!-- Card 3: 50/30/20 Allocation -->
+      <div class="card">
+        <div class="stat-label-row">
+          <span>50/30/20 Rule Ratio</span>
+          <span class="font-mono" style="font-size:0.75rem; color:var(--text-dim);">Auto Allocated</span>
+        </div>
+        
+        <div class="stacked-bar">
+          <div class="bar-slice" id="sliceNeedsBar" style="width: 50%; background: var(--cat-needs);" title="Needs"></div>
+          <div class="bar-slice" id="sliceWantsBar" style="width: 30%; background: var(--cat-wants);" title="Wants"></div>
+          <div class="bar-slice" id="sliceSavingsBar" style="width: 20%; background: var(--cat-savings);" title="Savings"></div>
+        </div>
+
+        <div class="stat-footer font-mono" style="margin-top:0.4rem;">
+          <span style="color:var(--cat-needs);">Needs: <strong id="pctNeedsLabel">50%</strong></span>
+          <span style="color:var(--cat-wants);">Wants: <strong id="pctWantsLabel">30%</strong></span>
+          <span style="color:var(--cat-savings);">Savings: <strong id="pctSavingsLabel">20%</strong></span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modular Salary Tuner Box (Expandable) -->
+    <div id="salaryTunerBox" class="card hidden" style="margin-bottom: 1.5rem; background: var(--bg-elevated);">
+      <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 1rem;">Modular Budget Configuration</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+        <div>
+          <label class="form-label">Monthly Take-Home: <span id="sliderSalaryVal" class="font-mono">₹75,000</span></label>
+          <input type="range" id="salarySlider" min="15000" max="500000" step="1000" value="75000" oninput="handleSalarySlider(this.value)" style="width:100%;">
+        </div>
+        <div>
+          <label class="form-label">Needs Target: <span id="sliderNeedsVal" class="font-mono">50%</span></label>
+          <input type="range" id="needsSlider" min="20" max="70" step="5" value="50" oninput="handleRatioSliders()" style="width:100%;">
+        </div>
+        <div>
+          <label class="form-label">Wants Target: <span id="sliderWantsVal" class="font-mono">30%</span></label>
+          <input type="range" id="wantsSlider" min="10" max="50" step="5" value="30" oninput="handleRatioSliders()" style="width:100%;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="content-grid">
+      
+      <!-- Left Column: Allocations & Guidelines -->
+      <div>
+        <div class="card">
+          <div style="font-weight: 700; font-size: 0.95rem;">Modular Paycheck Buckets</div>
+          <div class="cat-stack">
             
-            <span class="stat-value font-mono" id="dailyCapDisplayVal">₹850</span>
-
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill bg-primary" id="capBarFill" style="width: 32%;"></div>
+            <div class="cat-row">
+              <div style="display: flex; align-items: center;">
+                <div class="cat-dot" style="background: var(--cat-needs);"></div>
+                <div>
+                  <div class="cat-name">Needs (<span id="catNeedsPct">50%</span>)</div>
+                  <div class="cat-sub">Rent, bills, groceries, commute</div>
+                </div>
+              </div>
+              <div class="cat-amt">
+                <div class="cat-rupee font-mono" id="budgetNeedsRupees">₹37,500</div>
+                <div class="cat-spent font-mono" id="spentNeedsRatio">Spent ₹0 (0%)</div>
+              </div>
             </div>
 
-            <div class="cap-footer-meta font-mono">
-              <span>Spent Today: <strong id="spentTodayDisplayVal">₹270</strong></span>
-              <span>Left Today: <strong class="text-success" id="leftTodayDisplayVal">₹580</strong></span>
+            <div class="cat-row">
+              <div style="display: flex; align-items: center;">
+                <div class="cat-dot" style="background: var(--cat-wants);"></div>
+                <div>
+                  <div class="cat-name">Wants (<span id="catWantsPct">30%</span>)</div>
+                  <div class="cat-sub">Dining, Swiggy, leisure, shopping</div>
+                </div>
+              </div>
+              <div class="cat-amt">
+                <div class="cat-rupee font-mono" id="budgetWantsRupees">₹22,500</div>
+                <div class="cat-spent font-mono" id="spentWantsRatio">Spent ₹0 (0%)</div>
+              </div>
             </div>
+
+            <div class="cat-row">
+              <div style="display: flex; align-items: center;">
+                <div class="cat-dot" style="background: var(--cat-savings);"></div>
+                <div>
+                  <div class="cat-name">Savings & SIP (<span id="catSavingsPct">20%</span>)</div>
+                  <div class="cat-sub">Emergency fund, Mutual funds, PPF</div>
+                </div>
+              </div>
+              <div class="cat-amt">
+                <div class="cat-rupee font-mono" id="budgetSavingsRupees">₹15,000</div>
+                <div class="cat-spent font-mono" style="color:var(--accent);">Protected Capital</div>
+              </div>
+            </div>
+
           </div>
         </div>
-
-        <!-- STAT 3: 50/30/20 ALLOCATION SPLIT & TUNER -->
-        <div class="bezel-outer stat-wrapper">
-          <div class="bezel-inner stat-card">
-            <div class="stat-header-flex">
-              <span class="stat-label mb-0">50/30/20 Allocation</span>
-              <button class="btn-text text-sm" onclick="toggleSalaryTuner()" id="tunerToggleText">Customize Proportions</button>
-            </div>
-
-            <div class="composite-split-bar" style="margin: 0.75rem 0;">
-              <div class="split-slice slice-needs" id="sliceNeedsBar" style="width: 50%;" title="Needs 50%"></div>
-              <div class="split-slice slice-wants" id="sliceWantsBar" style="width: 30%;" title="Wants 30%"></div>
-              <div class="split-slice slice-savings" id="sliceSavingsBar" style="width: 20%;" title="Savings 20%"></div>
-            </div>
-
-            <div class="split-legend-row font-mono">
-              <span style="color:var(--cat-needs);">Needs <strong id="pctNeedsLabel">50%</strong></span>
-              <span style="color:var(--cat-wants);">Wants <strong id="pctWantsLabel">30%</strong></span>
-              <span style="color:var(--cat-savings);">Savings <strong id="pctSavingsLabel">20%</strong></span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- MAIN CONTENT GRID (Desktop: 420px + 1fr; Mobile: 1 Column Flex) -->
-      <div class="content-grid">
-        
-        <!-- LEFT COLUMN: 50/30/20 BUCKETS & MACROECONOMIC GUIDES -->
-        <div class="form-section">
-          
-          <!-- ALLOCATION CARDS -->
-          <div class="bezel-outer mb-6">
-            <div class="bezel-inner section-card">
-              <div class="section-title">
-                <span>Modular Paycheck Buckets</span>
-                <span class="badge-cycle font-mono" style="font-size:0.7rem;">Automated Split</span>
-              </div>
-
-              <!-- Category Cards -->
-              <div class="category-cards-stack">
-                <!-- Needs 50% -->
-                <div class="category-item-card">
-                  <div class="cat-left-info">
-                    <div class="cat-color-chip" style="background:var(--cat-needs);"></div>
-                    <div>
-                      <div class="cat-title-text">Needs (<span id="catNeedsPct">50%</span>)</div>
-                      <div class="cat-subtitle">Rent, Electricity, Groceries, Transit</div>
-                    </div>
-                  </div>
-                  <div class="cat-numbers-right">
-                    <div class="cat-budget-rupees font-mono" id="budgetNeedsRupees">₹37,500</div>
-                    <div class="cat-spent-ratio font-mono" id="spentNeedsRatio">Spent ₹0 (0%)</div>
-                  </div>
-                </div>
-
-                <!-- Wants 30% -->
-                <div class="category-item-card">
-                  <div class="cat-left-info">
-                    <div class="cat-color-chip" style="background:var(--cat-wants);"></div>
-                    <div>
-                      <div class="cat-title-text">Wants (<span id="catWantsPct">30%</span>)</div>
-                      <div class="cat-subtitle">Dining, Swiggy, Streaming, Leisure</div>
-                    </div>
-                  </div>
-                  <div class="cat-numbers-right">
-                    <div class="cat-budget-rupees font-mono" id="budgetWantsRupees">₹22,500</div>
-                    <div class="cat-spent-ratio font-mono" id="spentWantsRatio">Spent ₹0 (0%)</div>
-                  </div>
-                </div>
-
-                <!-- Savings 20% -->
-                <div class="category-item-card">
-                  <div class="cat-left-info">
-                    <div class="cat-color-chip" style="background:var(--cat-savings);"></div>
-                    <div>
-                      <div class="cat-title-text">Savings (<span id="catSavingsPct">20%</span>)</div>
-                      <div class="cat-subtitle">Emergency Cushion, Index SIP</div>
-                    </div>
-                  </div>
-                  <div class="cat-numbers-right">
-                    <div class="cat-budget-rupees font-mono" id="budgetSavingsRupees">₹15,000</div>
-                    <div class="cat-spent-ratio font-mono text-success" id="spentSavingsRatio">Locked 100%</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Tuner Sliders Panel (Expandable) -->
-              <div class="slider-tuner-panel hidden" id="salaryTunerBox">
-                <span style="font-size:0.85rem; font-weight:700;">Tuner: Adjust Paycheck & Ratios</span>
-                
-                <div class="range-control-group">
-                  <div class="range-label-row">
-                    <span>Monthly Salary (₹)</span>
-                    <span class="font-mono" id="sliderSalaryVal">₹75,000</span>
-                  </div>
-                  <input type="range" class="range-slider" min="20000" max="300000" step="5000" value="75000" id="salarySlider" oninput="handleSalarySlider(this.value)">
-                </div>
-
-                <div class="range-control-group">
-                  <div class="range-label-row">
-                    <span>Needs %</span>
-                    <span class="font-mono" id="sliderNeedsVal">50%</span>
-                  </div>
-                  <input type="range" class="range-slider" min="30" max="70" step="5" value="50" id="needsSlider" oninput="handleRatioSliders()">
-                </div>
-
-                <div class="range-control-group">
-                  <div class="range-label-row">
-                    <span>Wants %</span>
-                    <span class="font-mono" id="sliderWantsVal">30%</span>
-                  </div>
-                  <input type="range" class="range-slider" min="10" max="50" step="5" value="30" id="wantsSlider" oninput="handleRatioSliders()">
-                </div>
-              </div>
+      <!-- Right Column: Ledger -->
+      <div>
+        <div class="card">
+          <div class="ledger-top">
+            <div style="font-weight: 700; font-size: 0.95rem;">Transaction Ledger</div>
+            
+            <div class="filters-wrap">
+              <button class="filter-btn active" onclick="setLedgerFilter('all', this)">All</button>
+              <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Needs</button>
+              <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Wants</button>
+              <button class="filter-btn" onclick="setLedgerFilter('savings', this)">Savings</button>
             </div>
           </div>
 
-          <!-- MACROECONOMIC GUIDES -->
-          <div class="bezel-outer">
-            <div class="bezel-inner section-card">
-              <div class="section-title">
-                <span>Wealth & Reality Guides</span>
-                <span class="badge-cycle font-mono" style="font-size:0.7rem;">RBI Oct 2026</span>
-              </div>
-
-              <div class="guides-stack">
-                <div class="guide-card-item">
-                  <div class="guide-eyebrow">
-                    <span>Liquidity Engine</span>
-                    <span>Capital Safety</span>
-                  </div>
-                  <div class="guide-headline">6.5%+ Arbitrage/Liquid Yield vs Index SIP</div>
-                  <div class="guide-body-copy">
-                    Maintain exactly 3 months of essential Needs (₹1,12,500) in high-liquidity yield instruments. Route monthly savings into broad Index SIPs (Nifty 50) on payday.
-                  </div>
-                </div>
-
-                <div class="guide-card-item" style="border-left-color: var(--cat-wants);">
-                  <div class="guide-eyebrow" style="color:var(--cat-wants);">
-                    <span>Micro-Friction Audit</span>
-                    <span>High Impact</span>
-                  </div>
-                  <div class="guide-headline">Silent UPI Micro-Transactions Leak</div>
-                  <div class="guide-body-copy">
-                    Frictionless UPI quick-scans (₹40 chai, ₹120 snacks, ₹250 fast delivery) aggregate to over ₹4,200/month in your ledger. Log every scan to restore mindful spending.
-                  </div>
-                </div>
-
-                <div class="guide-card-item" style="border-left-color: var(--cat-savings);">
-                  <div class="guide-eyebrow" style="color:var(--cat-savings);">
-                    <span>Credit Optimization</span>
-                    <span>Zero-Interest Float</span>
-                  </div>
-                  <div class="guide-headline">Align Statement Due Date with Paycheck</div>
-                  <div class="guide-body-copy">
-                    Set credit card statement due dates to 5 days after your salary credit for automatic full repayment without dipping into emergency reserves.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- RIGHT COLUMN: FULL TRANSACTION LEDGER -->
-        <div class="list-section">
-          <div class="bezel-outer">
-            <div class="bezel-inner section-card">
-              
-              <div class="ledger-controls-row">
-                <div class="section-title" style="margin-bottom:0;">
-                  <span>Transaction Ledger</span>
-                </div>
-
-                <div class="filter-pills-cluster">
-                  <button class="filter-btn active" onclick="setLedgerFilter('all', this)">All</button>
-                  <button class="filter-btn" onclick="setLedgerFilter('needs', this)">Needs (50%)</button>
-                  <button class="filter-btn" onclick="setLedgerFilter('wants', this)">Wants (30%)</button>
-                  <button class="filter-btn" onclick="setLedgerFilter('savings', this)">Savings (20%)</button>
-                </div>
-              </div>
-
-              <!-- Dynamic Ledger Rows -->
-              <div class="ledger-table-wrap" id="ledgerRowsContainer">
-                <!-- Populated via JS -->
-              </div>
-
+          <div class="tx-list" id="ledgerRowsContainer">
+            <div style="padding: 2rem 1rem; text-align: center; color: var(--text-dim); font-size: 0.85rem;">
+              No transactions recorded yet. Tap "+ Record Expense" to add your first expense.
             </div>
           </div>
         </div>
-
       </div>
 
-    </main>
+    </div>
 
   </div>
 
-  <!-- Mobile Floating Action Button (1-Tap Expense Entry) -->
-  <button class="mobile-fab-btn" onclick="openQuickLogModal()" title="Record Expense" aria-label="Record Expense">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14" /></svg>
-  </button>
+  <!-- Mobile Floating Action Button -->
+  <button class="mobile-fab" onclick="openQuickLogModal()" title="Record Expense">+</button>
 
   <!-- ==========================================================================
-       QUICK LOG EXPENSE MODAL (DOUBLE-BEZEL GLASS DIALOG)
+       3. MODULAR RECORD EXPENSE MODAL
        ========================================================================== -->
-  <div class="modal-curtain" id="quickLogModal" onclick="handleCurtainClick(event)">
-    <div class="bezel-outer modal-dialog-wrapper animate-entry">
-      <div class="bezel-inner section-card" style="padding: 2.25rem 2rem;">
-        <div class="section-title">
-          <span>Record Expense (₹ INR)</span>
-          <button class="btn-text" onclick="closeQuickLogModal()" style="font-size:1.25rem; padding:0;">✕</button>
-        </div>
+  <div class="modal-backdrop hidden" id="quickLogModal" onclick="handleCurtainClick(event)">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Record Transaction</h3>
+        <button class="btn-text" onclick="closeQuickLogModal()" style="font-size: 1.25rem; line-height: 1;">✕</button>
+      </div>
 
-        <!-- Large Rupee Input -->
-        <div style="display:flex; align-items:center; justify-content:center; gap:0.5rem; padding: 1rem 0;">
-          <span style="font-size:2.25rem; font-weight:700; color:var(--text-muted);">₹</span>
-          <input 
-            type="number" 
-            step="1" 
-            id="txAmountInput" 
-            placeholder="0" 
-            class="input-premium font-mono" 
-            style="font-size:2.5rem; font-weight:700; width:220px; text-align:left; padding: 0.5rem 1rem;" 
-            autofocus 
-          />
-        </div>
+      <div class="form-group">
+        <label class="form-label">Rupee Amount (₹)</label>
+        <input type="number" id="txAmountInput" class="input font-mono" style="font-size: 1.25rem; font-weight: 700;" placeholder="₹ 0" min="1" step="any" autofocus />
+      </div>
 
-        <!-- Expense Name & Presets -->
-        <div class="form-group">
-          <label>Expense Name</label>
-          <input type="text" id="txNameInput" placeholder="e.g. Swiggy Lunch, Auto Fare, DMart" class="input-premium" />
-          
-          <div class="quick-preset-chips" style="margin-top:0.5rem;">
-            <span class="preset-chip-btn" onclick="fillRupeePreset('Filter Coffee & Samosa', 120, 'wants')">☕ Chai/Coffee (₹120)</span>
-            <span class="preset-chip-btn" onclick="fillRupeePreset('Supermarket Groceries', 1450, 'needs')">🛒 Groceries (₹1,450)</span>
-            <span class="preset-chip-btn" onclick="fillRupeePreset('Metro / Auto Commute', 180, 'needs')">🛺 Transit (₹180)</span>
-            <span class="preset-chip-btn" onclick="fillRupeePreset('Swiggy / Zomato Dinner', 480, 'wants')">🍽️ Dining (₹480)</span>
-            <span class="preset-chip-btn" onclick="fillRupeePreset('Nifty 50 Index Fund SIP', 5000, 'savings')">📈 Index SIP (₹5,000)</span>
-          </div>
-        </div>
+      <!-- Quick Preset Chips -->
+      <div class="quick-chips">
+        <span class="chip" onclick="fillRupeePreset('Coffee / Tea', 40, 'wants')">+ ₹40 Chai</span>
+        <span class="chip" onclick="fillRupeePreset('Lunch / Meal', 150, 'needs')">+ ₹150 Lunch</span>
+        <span class="chip" onclick="fillRupeePreset('Groceries / Milk', 350, 'needs')">+ ₹350 Grocery</span>
+        <span class="chip" onclick="fillRupeePreset('Cab / Auto', 120, 'needs')">+ ₹120 Auto</span>
+        <span class="chip" onclick="fillRupeePreset('Dining Out', 800, 'wants')">+ ₹800 Dinner</span>
+      </div>
 
-        <!-- Category Pick Grid -->
-        <div class="form-group">
-          <label>Assign to Category</label>
-          <div class="category-pick-grid">
-            <div class="cat-btn-pill selected" id="pickNeedsBtn" onclick="selectModalCat('needs')">
-              <span style="font-size:1.25rem;">🏠</span>
-              <span>Needs (50%)</span>
-            </div>
-            <div class="cat-btn-pill" id="pickWantsBtn" onclick="selectModalCat('wants')">
-              <span style="font-size:1.25rem;">✨</span>
-              <span>Wants (30%)</span>
-            </div>
-            <div class="cat-btn-pill" id="pickSavingsBtn" onclick="selectModalCat('savings')">
-              <span style="font-size:1.25rem;">📈</span>
-              <span>Savings (20%)</span>
-            </div>
-          </div>
-        </div>
+      <div class="form-group">
+        <label class="form-label">Description / Merchant</label>
+        <input type="text" id="txNameInput" class="input" placeholder="e.g. Swiggy, Zepto, Metro, Petrol" />
+      </div>
 
-        <button class="btn-premium" onclick="submitRecord()" style="width: 100%; margin-top: 0.5rem;">
-          <span>Log to Ledger</span>
-          <div class="icon-wrapper">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </div>
-        </button>
+      <div class="form-group">
+        <label class="form-label">Budget Bucket</label>
+        <div class="cat-selector-grid">
+          <button type="button" class="cat-select-btn selected" id="pickNeedsBtn" onclick="selectModalCat('needs')">
+            Needs (50%)
+          </button>
+          <button type="button" class="cat-select-btn" id="pickWantsBtn" onclick="selectModalCat('wants')">
+            Wants (30%)
+          </button>
+          <button type="button" class="cat-select-btn" id="pickSavingsBtn" onclick="selectModalCat('savings')">
+            Savings (20%)
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+        <button type="button" class="btn btn-outline" onclick="closeQuickLogModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="submitRecord()">Save Transaction</button>
       </div>
     </div>
   </div>
 
   <!-- ==========================================================================
-       FIREBASE v10 APPLICATION ENGINE (MATCHING BUCKET_LIST_MAKER FIREBASE/AUTH)
+       4. FIREBASE SCRIPT & LIGHTWEIGHT LOGIC
        ========================================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -1472,6 +940,7 @@
       doc, 
       setDoc, 
       getDoc, 
+      deleteDoc,
       collection, 
       addDoc, 
       query, 
@@ -1480,7 +949,6 @@
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // 1. Live Firebase Project Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAGIjxmE5ii0pgsbdAFE2gXsKAza3EXqm8",
       authDomain: "traxpens.firebaseapp.com",
@@ -1495,31 +963,20 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Mobile Redirect Auth Check
+    // Redirect result listener
     getRedirectResult(auth).catch((err) => {
       if (err && err.code && err.code !== 'auth/redirect-cancelled-by-user') {
         showAuthError(getFriendlyErrorMessage(err));
       }
     });
 
-    const inrFormatter = new Intl.NumberFormat('en-IN', {
-      maximumFractionDigits: 0
-    });
+    const inrFormatter = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
 
     const defaultData = {
       salary: 75000,
-      daysInCycle: 30,
       daysLeft: 18,
-      ratios: {
-        needs: 0.50,
-        wants: 0.30,
-        savings: 0.20
-      },
-      spent: {
-        needs: 0,
-        wants: 0,
-        savings: 0
-      },
+      ratios: { needs: 0.50, wants: 0.30, savings: 0.20 },
+      spent: { needs: 0, wants: 0, savings: 0 },
       spentToday: 0,
       capMode: 'today',
       filter: 'all',
@@ -1531,7 +988,7 @@
     let userData = JSON.parse(JSON.stringify(defaultData));
     let unsubscribeTx = null;
 
-    // 2. Auth State Change Listener
+    // Auth state observer
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUser = user;
@@ -1540,8 +997,8 @@
         document.getElementById('authGateOverlay').classList.add('hidden');
         clearAuthError();
 
-        await loadUserDataFromFirestore(user.uid, displayEmail);
-        listenToUserTransactions(user.uid);
+        await loadUserData(user.uid, displayEmail);
+        listenToTransactions(user.uid);
       } else {
         currentUser = null;
         userData = JSON.parse(JSON.stringify(defaultData));
@@ -1550,19 +1007,17 @@
       }
     });
 
-    // 3. Cloud Data Synchronization
-    async function loadUserDataFromFirestore(uid, email) {
+    async function loadUserData(uid, email) {
       try {
-        const userDocRef = doc(db, "users", uid);
-        const userSnap = await getDoc(userDocRef);
-
-        if (userSnap.exists()) {
-          const cloudData = userSnap.data();
-          userData.salary = cloudData.salary || 75000;
-          userData.ratios = cloudData.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 };
-          userData.capMode = cloudData.capMode || 'today';
+        const docRef = doc(db, "users", uid);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          const d = snap.data();
+          userData.salary = d.salary || 75000;
+          userData.ratios = d.ratios || { needs: 0.5, wants: 0.3, savings: 0.2 };
+          userData.capMode = d.capMode || 'today';
         } else {
-          await setDoc(userDocRef, {
+          await setDoc(docRef, {
             email: email,
             salary: 75000,
             ratios: { needs: 0.5, wants: 0.3, savings: 0.2 },
@@ -1570,78 +1025,76 @@
             createdAt: serverTimestamp()
           });
         }
+        syncInputsWithData();
         refreshUI();
       } catch (err) {
-        console.warn("Firestore access notice (local cache):", err);
+        console.warn("Firestore notice:", err);
         refreshUI();
       }
     }
 
-    function listenToUserTransactions(uid) {
-      if (unsubscribeTx) unsubscribeTx();
+    function syncInputsWithData() {
+      document.getElementById('salarySlider').value = userData.salary;
+      document.getElementById('sliderSalaryVal').textContent = '₹' + inrFormatter.format(userData.salary);
+      const needsPct = Math.round(userData.ratios.needs * 100);
+      const wantsPct = Math.round(userData.ratios.wants * 100);
+      document.getElementById('needsSlider').value = needsPct;
+      document.getElementById('wantsSlider').value = wantsPct;
+      document.getElementById('sliderNeedsVal').textContent = needsPct + '%';
+      document.getElementById('sliderWantsVal').textContent = wantsPct + '%';
+      document.getElementById('capPeriodSelect').value = userData.capMode;
+    }
 
-      const txRef = collection(db, "users", uid, "transactions");
-      const q = query(txRef, orderBy("createdAt", "desc"));
+    function listenToTransactions(uid) {
+      if (unsubscribeTx) unsubscribeTx();
+      const q = query(collection(db, "users", uid, "transactions"), orderBy("createdAt", "desc"));
 
       unsubscribeTx = onSnapshot(q, (snapshot) => {
         userData.transactions = [];
         userData.spent = { needs: 0, wants: 0, savings: 0 };
         userData.spentToday = 0;
 
+        const now = new Date();
+        const isTodayDate = (d) => d && d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+
         snapshot.forEach((docItem) => {
           const item = docItem.data();
           const amt = parseFloat(item.amount) || 0;
           const cat = item.cat || 'needs';
+          const jsDate = item.createdAt ? item.createdAt.toDate() : new Date();
 
           userData.transactions.push({
             id: docItem.id,
             name: item.name || 'Expense',
             amount: amt,
             cat: cat,
-            time: item.createdAt ? new Date(item.createdAt.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'
+            time: jsDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           });
 
           if (userData.spent[cat] !== undefined) {
             userData.spent[cat] += amt;
           }
-          userData.spentToday += amt;
+          if (isTodayDate(jsDate)) {
+            userData.spentToday += amt;
+          }
         });
 
         refreshUI();
-      }, (err) => {
-        console.warn("Transactions snapshot notice:", err);
-      });
+      }, (err) => console.warn("Snapshot error:", err));
     }
 
-    // 4. Auth Controls (Matching Bucket_List_Maker Auth.jsx)
+    // Auth toggles
     let isLogin = true;
-
     function toggleAuthMode() {
       isLogin = !isLogin;
       clearAuthError();
-
-      const heading = document.getElementById('authHeading');
-      const subtitle = document.getElementById('authSubtitle');
-      const submitBtnText = document.getElementById('authSubmitBtnText');
-      const toggleQuestion = document.getElementById('authToggleQuestion');
-      const toggleBtn = document.getElementById('authToggleBtn');
-
-      if (isLogin) {
-        heading.textContent = "Access Ledger";
-        subtitle.textContent = "Secure your session to access your allocations.";
-        submitBtnText.textContent = "Authenticate";
-        toggleQuestion.textContent = "No identity established?";
-        toggleBtn.textContent = "Initialize Here";
-      } else {
-        heading.textContent = "Initialize Identity";
-        subtitle.textContent = "Create your secure vault to track allocations.";
-        submitBtnText.textContent = "Initialize";
-        toggleQuestion.textContent = "Already have a secure vault?";
-        toggleBtn.textContent = "Authenticate";
-      }
+      document.getElementById('authHeading').textContent = isLogin ? "Access Ledger" : "Initialize Identity";
+      document.getElementById('authSubtitle').textContent = isLogin ? "Sign in to manage your modular allocations." : "Create your account to start tracking.";
+      document.getElementById('authSubmitBtnText').textContent = isLogin ? "Authenticate" : "Initialize";
+      document.getElementById('authToggleQuestion').textContent = isLogin ? "No account yet?" : "Already have an account?";
+      document.getElementById('authToggleBtn').textContent = isLogin ? "Initialize Here" : "Authenticate";
     }
 
-    // Google Sign-In with Firebase Provider
     async function handleGoogleAuth() {
       clearAuthError();
       const provider = new GoogleAuthProvider();
@@ -1667,7 +1120,6 @@
       }
     }
 
-    // Email/Password Submit Handler
     async function handleAuthSubmit(e) {
       e.preventDefault();
       clearAuthError();
@@ -1678,10 +1130,9 @@
       const submitBtnText = document.getElementById('authSubmitBtnText');
 
       if (!email || !password) return;
-
       submitBtn.disabled = true;
-      const originalText = submitBtnText.textContent;
-      submitBtnText.textContent = isLogin ? "Authenticating..." : "Initializing...";
+      const original = submitBtnText.textContent;
+      submitBtnText.textContent = "Processing...";
 
       try {
         if (isLogin) {
@@ -1693,7 +1144,7 @@
         showAuthError(getFriendlyErrorMessage(err));
       } finally {
         submitBtn.disabled = false;
-        submitBtnText.textContent = originalText;
+        submitBtnText.textContent = original;
       }
     }
 
@@ -1711,29 +1162,13 @@
 
     function getFriendlyErrorMessage(err) {
       if (!err) return "An unexpected error occurred.";
-      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-        return isLogin ? "Incorrect credentials. Please verify your email and password." : "Invalid credentials provided.";
-      }
-      if (err.code === 'auth/user-not-found') {
-        return "No identity established with this email. Click 'Initialize Here' below.";
-      }
-      if (err.code === 'auth/email-already-in-use') {
-        return "An account already exists with this email. Click 'Authenticate' below.";
-      }
-      if (err.code === 'auth/weak-password') {
-        return "Security key must be at least 6 characters long.";
-      }
-      if (err.code === 'auth/invalid-email') {
-        return "Please specify a valid email address.";
-      }
-      if (err.code === 'auth/network-request-failed') {
-        return "Network latency detected. Check your internet connection.";
-      }
-      if (err.code === 'auth/popup-closed-by-user') {
-        return "Google sign-in was cancelled.";
-      }
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') return "Incorrect email or password.";
+      if (err.code === 'auth/user-not-found') return "No account found with this email. Click 'Initialize Here' below.";
+      if (err.code === 'auth/email-already-in-use') return "An account already exists with this email. Click 'Authenticate'.";
+      if (err.code === 'auth/weak-password') return "Password must be at least 6 characters.";
+      if (err.code === 'auth/invalid-email') return "Please enter a valid email address.";
       if (err.code === 'auth/unauthorized-domain') {
-        return `Domain "${window.location.hostname}" is not authorized. Add "${window.location.hostname}" to Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
+        return `Domain "${window.location.hostname}" is not authorized. Add it to Firebase Console -> Authentication -> Settings -> Authorized Domains.`;
       }
       return err.message || "Authentication error. Please try again.";
     }
@@ -1746,27 +1181,20 @@
       clearAuthError();
     }
 
-    // 5. Dynamic Daily Cap Calculation
+    // Calculations
     function getDailyCap() {
       const wantsBudget = userData.salary * userData.ratios.wants;
       const remainingWants = Math.max(0, wantsBudget - userData.spent.wants);
       let baseDaily = remainingWants / userData.daysLeft;
 
-      if (userData.capMode === 'weekend') {
-        baseDaily = baseDaily * 1.5;
-      } else if (userData.capMode === 'trip3') {
-        baseDaily = (remainingWants * 0.25) / 3;
-      } else if (userData.capMode === 'rolling7') {
-        baseDaily = baseDaily * 1.05;
-      }
+      if (userData.capMode === 'weekend') baseDaily *= 1.5;
+      else if (userData.capMode === 'trip3') baseDaily = (remainingWants * 0.25) / 3;
+      else if (userData.capMode === 'rolling7') baseDaily *= 1.05;
 
       return Math.round(baseDaily);
     }
 
-    // 6. UI Synchronization
     function refreshUI() {
-      if (!userData) return;
-
       const needsBudget = userData.salary * userData.ratios.needs;
       const wantsBudget = userData.salary * userData.ratios.wants;
       const savingsBudget = userData.salary * userData.ratios.savings;
@@ -1779,14 +1207,13 @@
       document.getElementById('budgetWantsRupees').textContent = '₹' + inrFormatter.format(wantsBudget);
       document.getElementById('budgetSavingsRupees').textContent = '₹' + inrFormatter.format(savingsBudget);
 
-      const needsPct = (userData.ratios.needs * 100).toFixed(0);
-      const wantsPct = (userData.ratios.wants * 100).toFixed(0);
-      const savingsPct = (userData.ratios.savings * 100).toFixed(0);
+      const needsPct = Math.round(userData.ratios.needs * 100);
+      const wantsPct = Math.round(userData.ratios.wants * 100);
+      const savingsPct = Math.round(userData.ratios.savings * 100);
 
       document.getElementById('pctNeedsLabel').textContent = needsPct + '%';
       document.getElementById('pctWantsLabel').textContent = wantsPct + '%';
       document.getElementById('pctSavingsLabel').textContent = savingsPct + '%';
-
       document.getElementById('catNeedsPct').textContent = needsPct + '%';
       document.getElementById('catWantsPct').textContent = wantsPct + '%';
       document.getElementById('catSavingsPct').textContent = savingsPct + '%';
@@ -1797,7 +1224,6 @@
 
       const needsSpentPct = Math.round((userData.spent.needs / Math.max(1, needsBudget)) * 100);
       const wantsSpentPct = Math.round((userData.spent.wants / Math.max(1, wantsBudget)) * 100);
-
       document.getElementById('spentNeedsRatio').textContent = `Spent ₹${inrFormatter.format(userData.spent.needs)} (${needsSpentPct}%)`;
       document.getElementById('spentWantsRatio').textContent = `Spent ₹${inrFormatter.format(userData.spent.wants)} (${wantsSpentPct}%)`;
 
@@ -1813,16 +1239,9 @@
       const capBar = document.getElementById('capBarFill');
       capBar.style.width = capProgress + '%';
 
-      if (capProgress > 90) {
-        capBar.style.backgroundColor = 'var(--danger)';
-        leftEl.className = 'text-danger';
-      } else if (capProgress > 70) {
-        capBar.style.backgroundColor = 'var(--warning)';
-        leftEl.className = '';
-      } else {
-        capBar.style.backgroundColor = 'var(--accent-primary)';
-        leftEl.className = 'text-success';
-      }
+      if (capProgress > 90) capBar.style.backgroundColor = 'var(--danger)';
+      else if (capProgress > 70) capBar.style.backgroundColor = 'var(--cat-wants)';
+      else capBar.style.backgroundColor = 'var(--accent)';
 
       renderLedger();
     }
@@ -1837,43 +1256,50 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="padding:2.5rem 1rem; text-align:center; color:var(--text-muted); font-size:0.9rem;">No transactions recorded in this partition yet. Click Record Expense to add one!</div>';
+        container.innerHTML = '<div style="padding:2rem 1rem; text-align:center; color:var(--text-dim); font-size:0.85rem;">No transactions in this category. Tap "+ Record Expense" to log one.</div>';
         return;
       }
 
       filtered.forEach(tx => {
-        const row = document.createElement('div');
-        row.className = 'ledger-row-card';
+        const item = document.createElement('div');
+        item.className = 'tx-item';
 
-        let color = 'var(--cat-needs)';
-        let label = 'Needs (50%)';
+        let catColor = 'var(--cat-needs)';
+        let catLabel = 'Needs';
         if (tx.cat === 'wants') {
-          color = 'var(--cat-wants)';
-          label = 'Wants (30%)';
+          catColor = 'var(--cat-wants)';
+          catLabel = 'Wants';
         } else if (tx.cat === 'savings') {
-          color = 'var(--cat-savings)';
-          label = 'Savings (20%)';
+          catColor = 'var(--cat-savings)';
+          catLabel = 'Savings';
         }
 
-        row.innerHTML = `
-          <div class="tx-primary-cell">
-            <div class="tx-icon-tray">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-            </div>
-            <div style="min-width:0;">
-              <div style="font-weight:600; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(tx.name)}</div>
-              <div style="display:flex; align-items:center; gap:6px; margin-top:2px; flex-wrap:wrap;">
-                <span style="font-size:0.7rem; font-weight:600; color:${color}; background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:var(--radius-pill); border:1px solid var(--border-subtle);">${label}</span>
-                <span style="font-size:0.75rem; color:var(--text-muted);">${tx.time}</span>
+        item.innerHTML = `
+          <div style="min-width:0; display:flex; align-items:center; gap:0.5rem;">
+            <div>
+              <div style="font-weight:600; font-size:0.9rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(tx.name)}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+                <span class="tx-tag font-mono" style="color:${catColor};">${catLabel}</span>
+                <span>${tx.time}</span>
               </div>
             </div>
           </div>
-          <div style="text-align:right; flex-shrink:0;">
-            <span class="font-mono" style="font-size:1rem; font-weight:700; color:var(--text-primary);">-₹${inrFormatter.format(tx.amount)}</span>
+          <div style="display:flex; align-items:center; flex-shrink:0;">
+            <span class="font-mono" style="font-weight:700; font-size:0.95rem;">-₹${inrFormatter.format(tx.amount)}</span>
+            <button class="tx-delete-btn" onclick="deleteTransaction('${tx.id}')" title="Delete record">✕</button>
           </div>
         `;
-        container.appendChild(row);
+        container.appendChild(item);
       });
+    }
+
+    async function deleteTransaction(txId) {
+      if (!currentUser || !txId) return;
+      try {
+        await deleteDoc(doc(db, "users", currentUser.uid, "transactions", txId));
+      } catch (err) {
+        console.error("Error deleting transaction:", err);
+      }
     }
 
     function setLedgerFilter(cat, btn) {
@@ -1896,10 +1322,10 @@
       const text = document.getElementById('tunerToggleText');
       if (box.classList.contains('hidden')) {
         box.classList.remove('hidden');
-        text.textContent = 'Hide Tuner';
+        text.textContent = 'Close';
       } else {
         box.classList.add('hidden');
-        text.textContent = 'Customize Proportions';
+        text.textContent = 'Edit';
       }
     }
 
@@ -1931,23 +1357,21 @@
       refreshUI();
     }
 
-    // 7. Modal Handlers
+    // Modal controls
     function openQuickLogModal() {
-      document.getElementById('quickLogModal').classList.add('active');
-      const amt = document.getElementById('txAmountInput');
-      amt.value = '';
+      document.getElementById('quickLogModal').classList.remove('hidden');
+      const input = document.getElementById('txAmountInput');
+      input.value = '';
       document.getElementById('txNameInput').value = '';
-      setTimeout(() => amt.focus(), 150);
+      setTimeout(() => input.focus(), 80);
     }
 
     function closeQuickLogModal() {
-      document.getElementById('quickLogModal').classList.remove('active');
+      document.getElementById('quickLogModal').classList.add('hidden');
     }
 
     function handleCurtainClick(e) {
-      if (e.target.id === 'quickLogModal') {
-        closeQuickLogModal();
-      }
+      if (e.target.id === 'quickLogModal') closeQuickLogModal();
     }
 
     function selectModalCat(cat) {
@@ -1968,7 +1392,7 @@
       const name = document.getElementById('txNameInput').value.trim() || 'Quick Expense';
 
       if (!amt || isNaN(amt) || amt <= 0) {
-        alert('Please specify a valid Rupee amount.');
+        alert('Please enter a valid Rupee amount.');
         return;
       }
 
@@ -1976,8 +1400,7 @@
 
       if (currentUser) {
         try {
-          const txCollection = collection(db, "users", currentUser.uid, "transactions");
-          await addDoc(txCollection, {
+          await addDoc(collection(db, "users", currentUser.uid, "transactions"), {
             name: name,
             amount: amt,
             cat: userData.chosenCat,
@@ -1993,14 +1416,14 @@
       const html = document.documentElement;
       const target = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', target);
-      document.getElementById('themeBtnText').textContent = target === 'dark' ? 'Light Mode' : 'Dark Mode';
+      document.getElementById('themeBtnText').textContent = target === 'dark' ? 'Light' : 'Dark';
     }
 
     function escapeHtml(str) {
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Window Bindings
+    // Window attachments
     window.toggleAuthMode = toggleAuthMode;
     window.handleGoogleAuth = handleGoogleAuth;
     window.handleAuthSubmit = handleAuthSubmit;
@@ -2017,16 +1440,14 @@
     window.fillRupeePreset = fillRupeePreset;
     window.submitRecord = submitRecord;
     window.toggleTheme = toggleTheme;
+    window.deleteTransaction = deleteTransaction;
 
-    // Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
         e.preventDefault();
         openQuickLogModal();
       }
-      if (e.key === 'Escape') {
-        closeQuickLogModal();
-      }
+      if (e.key === 'Escape') closeQuickLogModal();
     });
   </script>
 </body>
