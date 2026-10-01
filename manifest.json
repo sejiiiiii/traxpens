@@ -1,0 +1,62 @@
+{
+  "name": "Traxpens — Smart Expense & Investment Hub",
+  "short_name": "Traxpens",
+  "description": "Smart, modular and lightweight personal finance tracker, real-time rupee budget tuner, EMI affordability simulator and investment hub.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#090C10",
+  "theme_color": "#090C10",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Expense",
+      "short_name": "Add Expense",
+      "description": "Quickly record a new transaction",
+      "url": "/#add",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "EMI Verdict",
+      "short_name": "EMI Verdict",
+      "description": "Check gadget loan affordability",
+      "url": "/#emi",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Smart Investments",
+      "short_name": "Investments",
+      "description": "View live high-yield investment options",
+      "url": "/#invest",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

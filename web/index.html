@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0B0E14">
+  <meta name="theme-color" content="#090C10">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Traxpens">
+  <meta name="application-name" content="Traxpens">
   <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
   <title>Traxpens — Smart, Modular & Lightweight Expense, EMI & Investment Hub (₹ INR)</title>
 
   <style>
@@ -964,6 +970,13 @@
         <span id="authToggleQuestion">No account yet?</span>
         <button class="btn-text" style="margin-left: 0.4rem;" id="authToggleBtn" onclick="toggleAuthMode()">Initialize Here</button>
       </div>
+
+      <div style="margin-top: 1rem; text-align: center;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="triggerPwaInstall()" style="font-size:0.75rem; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:0.4rem; color:var(--accent); border-color:var(--border-main);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>📲 Install & Create App Shortcut</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -980,8 +993,8 @@
           <span class="brand-badge">₹ INR</span>
         </div>
         <div class="cycle-badge">
-          <span id="headerEmailDisplay">Connecting...</span> ·
-          <span id="cycleStatusBadge">Day 1 of 30</span> ·
+          <span id="headerEmailDisplay">Connecting...</span> •
+          <span id="cycleStatusBadge">Day 1 of 30</span> •
           <span class="payday-tag" onclick="openPaydayModal()" title="Click to customize payday date">Payday: <strong id="paydayBadgeDate">28th</strong> ✎</span>
         </div>
       </div>
@@ -1011,6 +1024,10 @@
       </nav>
 
       <div class="header-actions">
+        <button class="btn btn-outline pwa-install-trigger" id="headerInstallBtn" onclick="triggerPwaInstall()" title="Install Traxpens App on your PC or Phone" style="display:inline-flex; align-items:center; gap:0.35rem; color:var(--accent); border-color:var(--accent-soft);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span class="hide-mobile">Install App</span>
+        </button>
         <button class="btn btn-primary hide-mobile" onclick="openQuickLogModal()">
           <span>+ Record Expense</span>
         </button>
@@ -1677,6 +1694,24 @@
           </div>
         </div>
 
+        <!-- PWA Installation & Shortcut Card -->
+        <div class="card" style="margin-top: 1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <div style="font-weight:700; font-size:1rem; display:flex; align-items:center; gap:0.5rem;">
+              <span>📱 Desktop & Phone App Shortcut</span>
+              <span id="pwaStatusTag" class="badge-neutral" style="font-size:0.7rem;">PWA Ready</span>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="triggerPwaInstall()">Install</button>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.85rem;">
+            Install Traxpens directly onto your Windows PC desktop, Mac dock, or Android/iPhone home screen for instant standalone launch without browser borders or clutter.
+          </p>
+          <button class="btn btn-primary" onclick="triggerPwaInstall()" style="width:100%; justify-content:center; gap:0.5rem;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>📲 Install App & Create Shortcut</span>
+          </button>
+        </div>
+
       </div>
 
     </div>
@@ -1815,6 +1850,60 @@
       <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
         <button type="button" class="btn btn-outline" onclick="closeCapEditModal()">Cancel</button>
         <button type="button" class="btn btn-primary" onclick="saveCapFromModal()">Apply Cap</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA Install Modal -->
+  <div class="modal-backdrop hidden" id="pwaInstallModal" onclick="handlePwaModalCurtainClick(event)">
+    <div class="modal-card" style="max-width: 460px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <img src="/icon-192.png" width="32" height="32" style="border-radius: 6px;" alt="Traxpens" />
+          <h3 style="font-size: 1.15rem; font-weight: 700;">Install Traxpens App</h3>
+        </div>
+        <button class="btn-text" onclick="closePwaInstallModal()" style="font-size: 1.25rem;">✕</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Install Traxpens directly to your desktop or mobile home screen. It runs like a native app with offline capability, fast startup, and no browser address bar clutter.
+      </p>
+
+      <div id="pwaDirectInstallBox" class="hidden" style="margin-bottom: 1.25rem;">
+        <button type="button" class="btn btn-primary" onclick="executePwaInstallPrompt()" style="width: 100%; padding: 0.75rem; justify-content: center; font-size: 0.95rem; font-weight: 700;">
+          📲 Click to Install Now
+        </button>
+      </div>
+
+      <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+        Browser-specific installation:
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.82rem;">
+        <div style="background: var(--bg-elevated); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-weight: 600; color: var(--accent); margin-bottom: 0.25rem;">💻 Chrome / Edge / Brave (PC & Mac)</div>
+          <div style="color: var(--text-muted); line-height: 1.4;">
+            Look at the right end of the URL address bar and click the <strong>Install icon (💻 or ➕)</strong>, or open the browser menu <strong>(⋮) → "Save and share" → "Install Traxpens"</strong> (or "Create shortcut" with <em>Open as window</em> checked).
+          </div>
+        </div>
+
+        <div style="background: var(--bg-elevated); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-weight: 600; color: var(--accent); margin-bottom: 0.25rem;">📱 Android (Chrome)</div>
+          <div style="color: var(--text-muted); line-height: 1.4;">
+            Tap the three dots <strong>(⋮)</strong> at the top right of Chrome, then tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.
+          </div>
+        </div>
+
+        <div style="background: var(--bg-elevated); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-weight: 600; color: var(--accent); margin-bottom: 0.25rem;">🍏 iPhone & iPad (Safari)</div>
+          <div style="color: var(--text-muted); line-height: 1.4;">
+            Tap the <strong>Share</strong> button (box with upward arrow) in the Safari bottom bar, scroll down the actions, and select <strong>"Add to Home Screen"</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
+        <button type="button" class="btn btn-outline" onclick="closePwaInstallModal()">Close</button>
       </div>
     </div>
   </div>
@@ -2872,7 +2961,115 @@
     window.tickMarketSimulation = tickMarketSimulation;
     window.copySIPDistribution = copySIPDistribution;
     
-    // New bindings for Rupee budget tuner & EMI
+    // ========================================================================
+    // PROGRESSIVE WEB APP (PWA) & SERVICE WORKER LIFECYCLE
+    // ========================================================================
+    let deferredInstallPrompt = null;
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then((registration) => {
+            console.log('Traxpens SW registered successfully:', registration.scope);
+          })
+          .catch((err) => {
+            console.warn('Traxpens SW registration failed:', err);
+          });
+      });
+    }
+
+    // Capture the beforeinstallprompt event from Chromium
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      console.log('Traxpens PWA install prompt ready');
+      
+      const directBox = document.getElementById('pwaDirectInstallBox');
+      if (directBox) directBox.classList.remove('hidden');
+
+      const statusTag = document.getElementById('pwaStatusTag');
+      if (statusTag) {
+        statusTag.textContent = 'Install Ready';
+        statusTag.className = 'badge-success';
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      console.log('Traxpens PWA installed successfully');
+      const statusTag = document.getElementById('pwaStatusTag');
+      if (statusTag) {
+        statusTag.textContent = 'Installed';
+        statusTag.className = 'badge-success';
+      }
+      const directBox = document.getElementById('pwaDirectInstallBox');
+      if (directBox) directBox.classList.add('hidden');
+    });
+
+    function checkIsStandalone() {
+      return (
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true ||
+        document.referrer.includes('android-app://')
+      );
+    }
+
+    function triggerPwaInstall() {
+      if (checkIsStandalone()) {
+        alert('Traxpens is already running in standalone installed app mode!');
+        return;
+      }
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted PWA installation');
+          }
+          deferredInstallPrompt = null;
+        });
+      } else {
+        openPwaInstallModal();
+      }
+    }
+
+    function executePwaInstallPrompt() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted PWA installation');
+            closePwaInstallModal();
+          }
+          deferredInstallPrompt = null;
+        });
+      }
+    }
+
+    function openPwaInstallModal() {
+      const modal = document.getElementById('pwaInstallModal');
+      const directBox = document.getElementById('pwaDirectInstallBox');
+      if (directBox) {
+        if (deferredInstallPrompt) {
+          directBox.classList.remove('hidden');
+        } else {
+          directBox.classList.add('hidden');
+        }
+      }
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closePwaInstallModal() {
+      const modal = document.getElementById('pwaInstallModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handlePwaModalCurtainClick(e) {
+      if (e.target.id === 'pwaInstallModal') {
+        closePwaInstallModal();
+      }
+    }
+
+    // New bindings for Rupee budget tuner & EMI & PWA
     window.handleSalaryRupeeChange = handleSalaryRupeeChange;
     window.handleCategoryRupeeInput = handleCategoryRupeeInput;
     window.handleSliderChange = handleSliderChange;
@@ -2880,6 +3077,11 @@
     window.selectEmiTenure = selectEmiTenure;
     window.fillEmiPreset = fillEmiPreset;
     window.calculateEmiVerdict = calculateEmiVerdict;
+    window.triggerPwaInstall = triggerPwaInstall;
+    window.executePwaInstallPrompt = executePwaInstallPrompt;
+    window.openPwaInstallModal = openPwaInstallModal;
+    window.closePwaInstallModal = closePwaInstallModal;
+    window.handlePwaModalCurtainClick = handlePwaModalCurtainClick;
 
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
@@ -2890,6 +3092,7 @@
         closeQuickLogModal();
         closePaydayModal();
         closeCapEditModal();
+        closePwaInstallModal();
       }
     });
   </script>
