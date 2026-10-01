@@ -1777,6 +1777,9 @@
         <button class="btn btn-primary hide-mobile" onclick="openQuickLogModal()">
           <span>+ Add Expense</span>
         </button>
+        <button class="btn btn-outline" onclick="resetAppAndReplayOnboarding()" title="Reset data and replay onboarding tutorial">
+          <span>Tutorial</span>
+        </button>
         <button class="btn btn-outline" onclick="toggleTheme()" title="Toggle Theme">
           <span id="themeBtnText">Theme</span>
         </button>
@@ -2509,6 +2512,21 @@
           </button>
         </div>
 
+        <!-- Reset Data & Replay Tutorial Card -->
+        <div class="card" style="margin-top: 1rem; border-color: var(--danger-soft);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <div style="font-weight:700; font-size:1rem; color:var(--text-main);">
+              <span>🔄 Reset App &amp; Replay Tutorial</span>
+            </div>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.85rem;">
+            Clear all cached budget data and walk through the initial onboarding setup again from scratch.
+          </p>
+          <button class="btn btn-danger-outline" onclick="resetAppAndReplayOnboarding()" style="width:100%; justify-content:center; gap:0.5rem;">
+            <span>Reset App &amp; Start Tutorial</span>
+          </button>
+        </div>
+
       </div>
 
     </div>
@@ -2953,20 +2971,43 @@
       } catch (e) {}
     }
 
-    // Fresh Start Data Reset (User request: "completely reset the app data and start from beginning")
+    // Fresh Start Data Reset (User request: "reset the app and let me go through the onboarding process once again")
     function checkAppReset() {
       try {
-        if (localStorage.getItem('traxpens_reset_v3') !== 'true') {
+        if (localStorage.getItem('traxpens_reset_v4') !== 'true') {
           localStorage.removeItem('traxpens_user_data');
           localStorage.removeItem('traxpens_payday_custom');
           localStorage.removeItem('traxpens_walkthrough_completed_v3');
-          localStorage.setItem('traxpens_reset_v3', 'true');
+          localStorage.removeItem('traxpens_walkthrough_completed_v4');
+          localStorage.setItem('traxpens_reset_v4', 'true');
           userData = JSON.parse(JSON.stringify(defaultData));
           saveLocalState();
         }
       } catch (e) {}
     }
     checkAppReset();
+
+    function resetAppAndReplayOnboarding() {
+      try {
+        localStorage.removeItem('traxpens_user_data');
+        localStorage.removeItem('traxpens_payday_custom');
+        localStorage.removeItem('traxpens_walkthrough_completed_v3');
+        localStorage.removeItem('traxpens_walkthrough_completed_v4');
+        localStorage.removeItem('traxpens_reset_v3');
+        localStorage.removeItem('traxpens_reset_v4');
+      } catch (e) {}
+      userData = JSON.parse(JSON.stringify(defaultData));
+      saveLocalState();
+      syncInputs();
+      refreshUI();
+      const input = document.getElementById('onboSalaryInput');
+      if (input) input.value = userData.salary || 50000;
+      updateOnboSplitDisplay();
+      showOnboardingStep(0);
+      const overlay = document.getElementById('onboardingOverlay');
+      if (overlay) overlay.classList.remove('hidden');
+    }
+    window.resetAppAndReplayOnboarding = resetAppAndReplayOnboarding;
 
     // Immediately restore cached local state on boot
     loadLocalState();
@@ -4616,7 +4657,7 @@
       const overlay = document.getElementById('onboardingOverlay');
       if (overlay) overlay.classList.add('hidden');
       try {
-        localStorage.setItem('traxpens_walkthrough_completed_v3', 'true');
+        localStorage.setItem('traxpens_walkthrough_completed_v4', 'true');
       } catch (e) {}
       syncInputs();
       refreshUI();
@@ -4625,7 +4666,7 @@
     function checkAndTriggerOnboarding() {
       let isDone = false;
       try {
-        isDone = localStorage.getItem('traxpens_walkthrough_completed_v3') === 'true';
+        isDone = localStorage.getItem('traxpens_walkthrough_completed_v4') === 'true';
       } catch (e) {}
 
       const overlay = document.getElementById('onboardingOverlay');
