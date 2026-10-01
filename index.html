@@ -1306,9 +1306,9 @@
           <span class="brand-badge">₹ INR</span>
         </div>
         <div class="cycle-badge">
-          <span id="headerEmailDisplay">Connecting...</span> •
-          <span id="cycleStatusBadge">Syncing cycle...</span> •
-          <span class="payday-tag" onclick="openPaydayModal()" title="Click to customize payday date (IST)">Payday: <strong id="paydayBadgeDate">—</strong> ✎</span>
+          <span id="headerEmailDisplay">My Account</span> •
+          <span id="cycleStatusBadge">Day 1 of 31</span> •
+          <span class="payday-tag" onclick="openPaydayModal()" title="Click to customize payday date (IST)">Payday: <strong id="paydayBadgeDate">1st</strong> ✎</span>
         </div>
       </div>
 
@@ -1368,11 +1368,11 @@
             <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Edit in ₹</button>
           </div>
           <div class="stat-number font-mono">
-            <span>₹</span><span id="salaryDisplayVal">—</span>
+            <span>₹</span><span id="salaryDisplayVal">50,000</span>
           </div>
           <div class="stat-footer font-mono">
             <span>Remaining Safe Pool:</span>
-            <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">—</span></strong>
+            <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">25,000</span></strong>
           </div>
         </div>
 
@@ -1394,7 +1394,7 @@
             </div>
           </div>
           
-          <div class="stat-number font-mono" id="dailyCapDisplayVal">—</div>
+          <div class="stat-number font-mono" id="dailyCapDisplayVal">₹500</div>
           
           <div class="progress-track">
             <div class="progress-bar" id="capBarFill" style="width: 0%;"></div>
@@ -1402,7 +1402,7 @@
 
           <div class="stat-footer font-mono">
             <span>Spent Today: <strong id="spentTodayDisplayVal">₹0</strong></span>
-            <span>Left Today: <strong id="leftTodayDisplayVal" style="color:var(--accent);">—</strong></span>
+            <span>Left Today: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹500</strong></span>
           </div>
         </div>
 
@@ -1544,7 +1544,7 @@
             <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
               <button class="btn btn-outline btn-sm" onclick="jumpCalendarToday()">Jump to Today</button>
               <span id="calActivePaydayBadge" class="cal-payday-tag" style="display:inline-flex; align-items:center; gap:3px;">
-                💰 Payday: <strong id="calPaydayNumber">28th</strong>
+                💰 Payday: <strong id="calPaydayNumber">1st</strong>
               </span>
             </div>
           </div>
@@ -2461,7 +2461,7 @@
     const inrFormatter = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
 
     const defaultData = {
-      salary: 0,
+      salary: 50000,
       paydayDay: 1, // Default to 1st of month (IST)
       ratios: { needs: 0.50, wants: 0.30, savings: 0.20 },
       spent: { needs: 0, wants: 0, savings: 0 },
@@ -2513,6 +2513,11 @@
             if (typeof parsed.manualCapAmount === 'number') userData.manualCapAmount = parsed.manualCapAmount;
           }
         }
+        const customPayday = localStorage.getItem('traxpens_payday_custom');
+        if (customPayday) {
+          const cpd = parseInt(customPayday, 10);
+          if (cpd >= 1 && cpd <= 31) userData.paydayDay = cpd;
+        }
       } catch (e) {}
     }
 
@@ -2531,7 +2536,7 @@
         istDate = now;
       }
 
-      const pDay = Math.min(31, Math.max(1, parseInt(paydayDay, 10) || 28));
+      const pDay = Math.min(31, Math.max(1, parseInt(paydayDay, 10) || 1));
       const currentYear = istDate.getFullYear();
       const currentMonth = istDate.getMonth(); // 0 = Jan, 9 = Oct
       const currentDay = istDate.getDate();
@@ -2614,24 +2619,27 @@
         const snap = await getDoc(docRef);
         if (snap.exists()) {
           const d = snap.data();
-          if (d.salary) userData.salary = d.salary;
-          if (d.paydayDay !== undefined) {
-            // Protect local customizations from being overwritten by stale cloud cache
-            let localCustomized = false;
-            try {
-              const localCached = localStorage.getItem('traxpens_user_data');
-              if (localCached) {
-                const parsed = JSON.parse(localCached);
-                if (parsed && parsed.paydayDay && parsed.paydayDay !== d.paydayDay) {
-                  userData.paydayDay = parsed.paydayDay;
-                  localCustomized = true;
-                  setDoc(docRef, { paydayDay: parsed.paydayDay }, { merge: true }).catch(() => {});
-                }
-              }
-            } catch (e) {}
-            if (!localCustomized) {
-              userData.paydayDay = d.paydayDay;
+          if (typeof d.salary === 'number' && d.salary > 0) userData.salary = d.salary;
+          
+          let customPayday = null;
+          try {
+            const savedCustom = localStorage.getItem('traxpens_payday_custom');
+            if (savedCustom) {
+              const cp = parseInt(savedCustom, 10);
+              if (cp >= 1 && cp <= 31) customPayday = cp;
             }
+          } catch (e) {}
+
+          if (customPayday) {
+            userData.paydayDay = customPayday;
+            if (d.paydayDay !== customPayday) {
+              setDoc(docRef, { paydayDay: customPayday }, { merge: true }).catch(() => {});
+            }
+          } else if (d.paydayDay !== undefined) {
+            const pd = parseInt(d.paydayDay, 10);
+            if (pd >= 1 && pd <= 31) userData.paydayDay = pd;
+          } else {
+            userData.paydayDay = 1;
           }
           if (d.ratios) userData.ratios = d.ratios;
           if (d.capMode) userData.capMode = d.capMode;
@@ -3019,33 +3027,27 @@
 
     // Main UI Synchronization
     function refreshUI() {
-      if (!userData.salary || userData.salary <= 0) {
-        document.getElementById('salaryDisplayVal').textContent = '—';
-        document.getElementById('safePoolDisplayVal').textContent = '—';
-        document.getElementById('dailyCapDisplayVal').textContent = '—';
-        document.getElementById('budgetNeedsRupees').textContent = '—';
-        document.getElementById('budgetWantsRupees').textContent = '—';
-        document.getElementById('budgetSavingsRupees').textContent = '—';
-        document.getElementById('cycleStatusBadge').textContent = 'Connecting...';
-        document.getElementById('paydayBadgeDate').textContent = '—';
-        return;
-      }
-
-      const cycle = getCycleDates(userData.paydayDay);
+      const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
+      const cycle = getCycleDates(userData.paydayDay || 1);
 
       // 1. Cycle badges
-      document.getElementById('cycleStatusBadge').textContent = `Day ${cycle.elapsedDays} of ${cycle.totalDays}`;
-      document.getElementById('paydayBadgeDate').textContent = getOrdinal(userData.paydayDay);
-      document.getElementById('cycleDaysLeftLabel').textContent = `${cycle.daysLeft} days until payday`;
+      const cycleBadge = document.getElementById('cycleStatusBadge');
+      if (cycleBadge) cycleBadge.textContent = `Day ${cycle.elapsedDays} of ${cycle.totalDays}`;
+      const paydayBadge = document.getElementById('paydayBadgeDate');
+      if (paydayBadge) paydayBadge.textContent = getOrdinal(userData.paydayDay || 1);
+      const cycleDaysLeft = document.getElementById('cycleDaysLeftLabel');
+      if (cycleDaysLeft) cycleDaysLeft.textContent = `${cycle.daysLeft} days until payday`;
 
       // 2. Budget numbers
-      const needsBudget = userData.salary * userData.ratios.needs;
-      const wantsBudget = userData.salary * userData.ratios.wants;
-      const savingsBudget = userData.salary * userData.ratios.savings;
-      const safePool = userData.salary - (userData.spent.needs + userData.spent.wants);
+      const needsBudget = effSalary * userData.ratios.needs;
+      const wantsBudget = effSalary * userData.ratios.wants;
+      const savingsBudget = effSalary * userData.ratios.savings;
+      const safePool = effSalary - (userData.spent.needs + userData.spent.wants);
 
-      document.getElementById('salaryDisplayVal').textContent = inrFormatter.format(userData.salary);
-      document.getElementById('safePoolDisplayVal').textContent = inrFormatter.format(safePool);
+      const salaryDisplay = document.getElementById('salaryDisplayVal');
+      if (salaryDisplay) salaryDisplay.textContent = inrFormatter.format(effSalary);
+      const safePoolDisplay = document.getElementById('safePoolDisplayVal');
+      if (safePoolDisplay) safePoolDisplay.textContent = inrFormatter.format(safePool);
 
       document.getElementById('budgetNeedsRupees').textContent = '₹' + inrFormatter.format(needsBudget);
       document.getElementById('budgetWantsRupees').textContent = '₹' + inrFormatter.format(wantsBudget);
@@ -3750,6 +3752,9 @@
       const val = parseInt(document.getElementById('modalPaydayInput').value, 10);
       if (val >= 1 && val <= 31) {
         userData.paydayDay = val;
+        try {
+          localStorage.setItem('traxpens_payday_custom', val.toString());
+        } catch (e) {}
         saveLocalState();
         closePaydayModal();
         syncInputs();
@@ -3769,6 +3774,9 @@
       const val = parseInt(document.getElementById('paydayDateInput').value, 10);
       if (val >= 1 && val <= 31) {
         userData.paydayDay = val;
+        try {
+          localStorage.setItem('traxpens_payday_custom', val.toString());
+        } catch (e) {}
         saveLocalState();
         syncInputs();
         refreshUI();
@@ -3777,6 +3785,8 @@
             await setDoc(doc(db, "users", currentUser.uid), { paydayDay: val }, { merge: true });
           } catch (err) {
             console.warn("Firestore payday sync deferred:", err);
+          }
+        }
         const cycle = getCycleDates(val);
         alert(`Paycheck date updated to ${getOrdinal(val)}. Cycle recalculated (IST): Day ${cycle.elapsedDays} of ${cycle.totalDays}!`);
       }
@@ -4212,6 +4222,10 @@
         closeDayInspectModal();
       }
     });
+
+    // Immediate 0ms boot render: paints complete dashboard instantly before auth resolves
+    syncInputs();
+    refreshUI();
   </script>
 </body>
 </html>
