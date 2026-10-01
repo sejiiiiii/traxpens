@@ -10,9 +10,11 @@
   <meta name="application-name" content="Traxpens">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <title>Traxpens — Smart, Modular & Lightweight Expense, EMI & Investment Hub (₹ INR)</title>
 
   <!-- Client-Side E-Passbook PDF Engine (100% Free & Local) -->
@@ -236,6 +238,27 @@
       margin-bottom: 1.25rem;
       border-bottom: 1px solid var(--border-main);
       flex-wrap: wrap;
+    }
+
+    .traxpens-brand-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .traxpens-brand-logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .logo-stem {
+      fill: var(--text-main);
+      transition: fill 0.2s ease;
+    }
+    .logo-bar {
+      fill: var(--accent);
     }
 
     .brand-title {
@@ -1194,11 +1217,24 @@
        ========================================================================== -->
   <div class="auth-overlay hidden" id="authGateOverlay">
     <div class="auth-box">
-      <div style="margin-bottom: 1.5rem;">
-        <div style="font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.35rem;">
-          Authentication
+      <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem;">
+        <div style="width:42px; height:42px; padding:6px; background:var(--bg-elevated); border:1px solid var(--border-main); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg viewBox="0 0 1080 1080" style="width:100%; height:100%;">
+            <path class="logo-stem" d="M592.6,917.44c-41.99,0-71.76-15.39-91.93-32.63-21.51-18.39-38.24-44.58-49.73-77.84-9.87-28.56-16.14-63.17-18.64-102.85-4.09-65.02,1.7-145.36,17.22-238.8,26.19-157.74,71.88-301.32,72.34-302.75l45.71,14.63c-.45,1.4-45.19,142.1-70.78,296.47-14.88,89.75-20.45,166.34-16.57,227.65,4.57,72.16,21.94,121.62,51.64,147,16.6,14.19,36.99,21.28,61.02,21.28,27.53,0,59.84-9.3,96.71-27.9,55.7-28.1,99.56-67.02,100-67.41l31.98,35.8c-1.97,1.76-49.07,43.56-110.36,74.47-47.43,23.92-86.58,32.88-118.62,32.88Z"/>
+            <g class="logo-bar">
+              <rect x="253.52" y="463.32" width="467.4" height="48" transform="translate(-132.09 185.13) rotate(-19)"/>
+              <rect x="258.55" y="559.19" width="467.4" height="48" transform="translate(-163.02 191.98) rotate(-19)"/>
+            </g>
+          </svg>
         </div>
-        <h2 style="font-size:1.5rem; font-weight:700;" id="authHeading">Access Ledger</h2>
+        <div>
+          <div style="font-size:1.35rem; font-weight:800; letter-spacing:-0.02em;">Traxpens</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Smart Expense, EMI & Investment Hub</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.25rem;">
+        <h2 style="font-size:1.25rem; font-weight:700;" id="authHeading">Access Ledger</h2>
         <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;" id="authSubtitle">
           Sign in to view your salary allocations, EMI planner and live investments.
         </p>
@@ -1257,6 +1293,15 @@
     <header class="header">
       <div>
         <div class="brand-title">
+          <div class="traxpens-brand-logo" title="Traxpens">
+            <svg viewBox="0 0 1080 1080" aria-label="Traxpens Logo">
+              <path class="logo-stem" d="M592.6,917.44c-41.99,0-71.76-15.39-91.93-32.63-21.51-18.39-38.24-44.58-49.73-77.84-9.87-28.56-16.14-63.17-18.64-102.85-4.09-65.02,1.7-145.36,17.22-238.8,26.19-157.74,71.88-301.32,72.34-302.75l45.71,14.63c-.45,1.4-45.19,142.1-70.78,296.47-14.88,89.75-20.45,166.34-16.57,227.65,4.57,72.16,21.94,121.62,51.64,147,16.6,14.19,36.99,21.28,61.02,21.28,27.53,0,59.84-9.3,96.71-27.9,55.7-28.1,99.56-67.02,100-67.41l31.98,35.8c-1.97,1.76-49.07,43.56-110.36,74.47-47.43,23.92-86.58,32.88-118.62,32.88Z"/>
+              <g class="logo-bar">
+                <rect x="253.52" y="463.32" width="467.4" height="48" transform="translate(-132.09 185.13) rotate(-19)"/>
+                <rect x="258.55" y="559.19" width="467.4" height="48" transform="translate(-163.02 191.98) rotate(-19)"/>
+              </g>
+            </svg>
+          </div>
           <span>Traxpens</span>
           <span class="brand-badge">₹ INR</span>
         </div>
@@ -2229,16 +2274,27 @@
       
       <!-- Passbook / Bank Statement Style Header -->
       <div class="passbook-header-bank">
-        <div>
-          <div style="font-size:0.7rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; display:flex; align-items:center; gap:0.4rem;">
-            <span>TRAXPENS DIGITAL E-PASSBOOK</span>
-            <span style="background:var(--accent-soft); color:var(--accent); padding:1px 5px; border-radius:3px; font-size:0.65rem;">VERIFIED FREE</span>
+        <div style="display:flex; align-items:flex-start; gap:0.75rem;">
+          <div style="width:36px; height:36px; padding:4px; background:var(--bg-elevated); border:1px solid var(--border-main); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">
+            <svg viewBox="0 0 1080 1080" style="width:100%; height:100%;">
+              <path class="logo-stem" d="M592.6,917.44c-41.99,0-71.76-15.39-91.93-32.63-21.51-18.39-38.24-44.58-49.73-77.84-9.87-28.56-16.14-63.17-18.64-102.85-4.09-65.02,1.7-145.36,17.22-238.8,26.19-157.74,71.88-301.32,72.34-302.75l45.71,14.63c-.45,1.4-45.19,142.1-70.78,296.47-14.88,89.75-20.45,166.34-16.57,227.65,4.57,72.16,21.94,121.62,51.64,147,16.6,14.19,36.99,21.28,61.02,21.28,27.53,0,59.84-9.3,96.71-27.9,55.7-28.1,99.56-67.02,100-67.41l31.98,35.8c-1.97,1.76-49.07,43.56-110.36,74.47-47.43,23.92-86.58,32.88-118.62,32.88Z"/>
+              <g class="logo-bar">
+                <rect x="253.52" y="463.32" width="467.4" height="48" transform="translate(-132.09 185.13) rotate(-19)"/>
+                <rect x="258.55" y="559.19" width="467.4" height="48" transform="translate(-163.02 191.98) rotate(-19)"/>
+              </g>
+            </svg>
           </div>
-          <h2 style="font-size:1.25rem; font-weight:700; margin-top:2px;" id="inspectModalDateTitle">
-            Thursday, 01 Oct 2026
-          </h2>
-          <div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;" id="inspectModalPaydaySubtitle">
-            Account: <span id="inspectModalAccountEmail" class="font-mono">user@traxpens.app</span>
+          <div>
+            <div style="font-size:0.7rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; display:flex; align-items:center; gap:0.4rem;">
+              <span>TRAXPENS DIGITAL E-PASSBOOK</span>
+              <span style="background:var(--accent-soft); color:var(--accent); padding:1px 5px; border-radius:3px; font-size:0.65rem;">VERIFIED FREE</span>
+            </div>
+            <h2 style="font-size:1.2rem; font-weight:700; margin-top:2px;" id="inspectModalDateTitle">
+              Thursday, 01 Oct 2026
+            </h2>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;" id="inspectModalPaydaySubtitle">
+              Account: <span id="inspectModalAccountEmail" class="font-mono">user@traxpens.app</span>
+            </div>
           </div>
         </div>
 
@@ -3293,13 +3349,17 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-      // Brand Top Banner
+      // Brand Top Banner with Logo
+      const traxpensLogoImg = "data:image/png;base64,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";
       doc.setFillColor(16, 185, 129);
-      doc.rect(0, 0, 210, 15, 'F');
+      doc.rect(0, 0, 210, 16, 'F');
+      try {
+        doc.addImage(traxpensLogoImg, 'PNG', 14, 2.5, 11, 11);
+      } catch(e) {}
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(13);
       doc.setFont('helvetica', 'bold');
-      doc.text('TRAXPENS DIGITAL E-PASSBOOK', 14, 10);
+      doc.text('TRAXPENS DIGITAL E-PASSBOOK', 28, 10.5);
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
       doc.text('Verified Daily Statement • Zero Cost', 145, 10);
@@ -3423,9 +3483,12 @@
       printContainer.innerHTML = `
         <div style="font-family:sans-serif; max-width:800px; margin:0 auto; padding:20px;">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #10b981; padding-bottom:10px; margin-bottom:16px;">
-            <div>
-              <h1 style="margin:0; font-size:20px; color:#111827;">TRAXPENS DIGITAL E-PASSBOOK</h1>
-              <div style="font-size:12px; color:#6b7280;">Certified Daily Transaction Statement • Free of Cost</div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="/icon-192.png" width="38" height="38" style="border-radius:8px; display:block;" alt="Traxpens Logo" />
+              <div>
+                <h1 style="margin:0; font-size:20px; color:#111827;">TRAXPENS DIGITAL E-PASSBOOK</h1>
+                <div style="font-size:12px; color:#6b7280;">Certified Daily Transaction Statement • Free of Cost</div>
+              </div>
             </div>
             <div style="text-align:right; font-size:12px;">
               <div><strong>Date:</strong> ${formattedDate}</div>

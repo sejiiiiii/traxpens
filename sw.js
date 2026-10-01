@@ -1,14 +1,16 @@
 // Traxpens Service Worker (PWA)
-const CACHE_NAME = 'traxpens-cache-v1';
+const CACHE_NAME = 'traxpens-cache-v2';
 const CORE_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/favicon.svg',
+  '/favicon.png',
+  '/apple-touch-icon.png',
   '/icon-192.png',
   '/icon-512.png',
   '/icon-maskable-192.png',
-  '/icon-maskable-512.png',
-  '/favicon.png'
+  '/icon-maskable-512.png'
 ];
 
 // Install: Cache core application shell
