@@ -9,12 +9,12 @@
   <meta name="apple-mobile-web-app-title" content="Traxpens">
   <meta name="application-name" content="Traxpens">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="/manifest.json?v=6">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=6">
-  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png?v=6">
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=6">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=6">
+  <link rel="manifest" href="/manifest.json?v=7">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=7">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=7">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png?v=7">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=7">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=7">
   <title>Traxpens — Smart, Modular & Lightweight Expense, EMI & Investment Hub (₹ INR)</title>
 
   <!-- Client-Side E-Passbook PDF Engine (100% Free & Local) -->
@@ -1560,6 +1560,143 @@
       display: flex;
       gap: 0.4rem;
     }
+
+    /* ==========================================================================
+       SURPLUS & CAPITAL INFLOW INJECTION ENGINE (Linear-Tier Finish)
+       ========================================================================== */
+    .surplus-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .surplus-pill:hover {
+      background: rgba(16, 185, 129, 0.22);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .cat-surplus-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      margin-top: 2px;
+      display: inline-block;
+    }
+    .surplus-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.05));
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .surplus-entry-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      transition: border-color 0.15s;
+    }
+    .surplus-entry-card:hover {
+      border-color: var(--border-main);
+    }
+    .source-chip {
+      padding: 0.4rem 0.7rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-main);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .source-chip:hover {
+      border-color: var(--text-muted);
+      color: var(--text-main);
+    }
+    .source-chip.selected {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .alloc-preset-chip {
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius-pill);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .alloc-preset-chip:hover {
+      border-color: var(--text-muted);
+      color: var(--text-main);
+    }
+    .alloc-preset-chip.selected {
+      background: var(--accent);
+      color: var(--accent-contrast);
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+    .surplus-badge-needs {
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: var(--cat-needs);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .surplus-badge-wants {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: var(--cat-wants);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .surplus-badge-savings {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--cat-savings);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -1908,6 +2045,21 @@
          ======================================================================== -->
     <div id="viewTabLedger">
       
+      <!-- Leftover Rollover Helper Banner -->
+      <div id="rolloverPromptBanner" class="surplus-banner hidden">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <span style="font-size:1.25rem;">💰</span>
+          <div>
+            <div style="font-weight:700; font-size:0.85rem;">Leftover cash from previous salary?</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Pump leftover previous month salary or freelance earnings into this month's spending pool or savings.</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.4rem; align-items:center;">
+          <button type="button" class="btn btn-primary btn-xs font-mono" onclick="openSurplusModal('rollover')">Pump Leftover →</button>
+          <button type="button" class="btn-text" onclick="dismissRolloverBanner()" style="font-size:0.75rem; color:var(--text-dim); padding:4px;">✕</button>
+        </div>
+      </div>
+
       <!-- Top 3 KPI Cards -->
       <div class="stats-grid">
         
@@ -1915,14 +2067,35 @@
         <div class="card" id="tourCardIncome">
           <div class="stat-label-row">
             <span>Monthly Income</span>
-            <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Change</button>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <button class="btn-text" onclick="switchTab('settings')" style="font-size:0.75rem;">Change</button>
+            </div>
           </div>
-          <div class="stat-number font-mono">
-            <span>₹</span><span id="salaryDisplayVal">50,000</span>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:0.4rem;">
+            <div class="stat-number font-mono">
+              <span>₹</span><span id="salaryDisplayVal">50,000</span>
+            </div>
+            <div id="surplusBadgeContainer" class="hidden">
+              <span class="surplus-pill" onclick="openSurplusManagerModal()" title="View and edit surplus injections">
+                ⚡ +₹<span id="surplusDisplayVal">0</span> Pumped
+              </span>
+            </div>
           </div>
           <div class="stat-footer font-mono">
             <span>Safe to spend:</span>
             <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">25,000</span></strong>
+          </div>
+          <div id="totalPoolDisplayRow" class="hidden" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem; display:flex; justify-content:space-between;">
+            <span>Total Active Pool:</span>
+            <strong class="font-mono" style="color:var(--text-main);">₹<span id="totalPoolDisplayVal">50,000</span></strong>
+          </div>
+          <div style="margin-top:0.75rem; padding-top:0.65rem; border-top:1px solid var(--border-subtle); display:flex; gap:0.4rem; align-items:center;">
+            <button type="button" class="btn btn-outline btn-xs font-mono" onclick="openSurplusModal('rollover')" style="flex:1; justify-content:center; padding:5px 8px; color:var(--accent); border-color:var(--accent-soft); font-size:0.75rem; font-weight:700;">
+              + Pump Extra Money
+            </button>
+            <button type="button" class="btn btn-outline btn-xs font-mono hidden" id="btnManageSurplusCard" onclick="openSurplusManagerModal()" style="padding:5px 8px; font-size:0.75rem;" title="Manage active surplus allocations">
+              ⚙️
+            </button>
           </div>
         </div>
 
@@ -1953,6 +2126,9 @@
           <div class="stat-footer font-mono">
             <span>Spent: <strong id="spentTodayDisplayVal">₹0</strong></span>
             <span>Remaining: <strong id="leftTodayDisplayVal" style="color:var(--accent);">₹500</strong></span>
+          </div>
+          <div id="surplusDailyBoostRow" class="hidden" style="font-size:0.72rem; color:var(--accent); margin-top:0.35rem; display:flex; align-items:center; gap:0.3rem; font-weight:600;">
+            <span>⚡ +₹<span id="surplusDailyBoostVal">0</span>/day boost from surplus</span>
           </div>
         </div>
 
@@ -2020,6 +2196,7 @@
                 </div>
                 <div class="cat-amt">
                   <div class="cat-rupee font-mono" id="budgetNeedsRupees">₹37,500</div>
+                  <div id="surplusTagNeeds" class="cat-surplus-tag hidden">+₹0 boost</div>
                   <div class="cat-spent font-mono" id="spentNeedsRatio">Spent ₹0 (0%)</div>
                 </div>
               </div>
@@ -2034,6 +2211,7 @@
                 </div>
                 <div class="cat-amt">
                   <div class="cat-rupee font-mono" id="budgetWantsRupees">₹22,500</div>
+                  <div id="surplusTagWants" class="cat-surplus-tag hidden">+₹0 boost</div>
                   <div class="cat-spent font-mono" id="spentWantsRatio">Spent ₹0 (0%)</div>
                 </div>
               </div>
@@ -2048,9 +2226,17 @@
                 </div>
                 <div class="cat-amt">
                   <div class="cat-rupee font-mono" id="budgetSavingsRupees">₹15,000</div>
+                  <div id="surplusTagSavings" class="cat-surplus-tag hidden">+₹0 boost</div>
                   <button class="btn-text font-mono" onclick="switchTab('invest')" style="font-size:0.75rem;">Where to invest →</button>
                 </div>
               </div>
+            </div>
+
+            <div style="margin-top:0.85rem; padding-top:0.75rem; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.75rem; color:var(--text-muted);">Have freelance or leftover cash?</span>
+              <button type="button" class="btn-text font-mono" onclick="openSurplusModal('rollover')" style="font-size:0.75rem; font-weight:700; color:var(--accent);">
+                + Pump Surplus →
+              </button>
             </div>
           </div>
         </div>
@@ -2643,6 +2829,28 @@
 
       </div>
 
+      <!-- Full-Width Bottom Card: Active Surplus & Capital Inflows Manager in Settings -->
+      <div class="card" style="margin-top: 1.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.65rem;">
+          <div>
+            <div style="font-weight:700; font-size:1.05rem; display:flex; align-items:center; gap:0.5rem;">
+              <span>⚡ Active Surplus &amp; Inflow Boosters</span>
+              <span id="settingsSurplusTotalBadge" class="surplus-pill" onclick="openSurplusManagerModal()">₹0 Pumped</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">
+              Manage money injected into the current monthly cycle from previous month leftover salary, freelance gigs, or gifts.
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm font-mono" onclick="openSurplusModal('rollover')">
+            + Pump Extra Money
+          </button>
+        </div>
+
+        <div id="settingsSurplusListContainer">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -2969,6 +3177,232 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       SURPLUS & INFLOW INJECTION MODALS
+       ========================================================================== -->
+  <!-- 1. Pump Extra Money / Surplus Modal -->
+  <div class="modal-backdrop hidden" id="surplusModal" onclick="handleSurplusModalCurtainClick(event)">
+    <div class="modal-card" style="max-width: 480px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">⚡</span>
+          <h3 style="font-size: 1.15rem; font-weight: 700;" id="surplusModalTitle">Pump Extra Money onto Budget</h3>
+        </div>
+        <button class="btn-text" onclick="closeSurplusModal()" style="font-size: 1.25rem; line-height: 1;">✕</button>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.15rem; line-height: 1.4;">
+        Inject leftover previous month salary, freelance payments, or family gifts directly into your current month's spending pool or savings.
+      </p>
+
+      <!-- Source Selection Chips -->
+      <div class="form-group">
+        <label class="form-label">Where is this money coming from?</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          <div class="source-chip selected" data-source="rollover" onclick="selectSurplusSource('rollover')">
+            <span>🔄 Previous Leftover</span>
+          </div>
+          <div class="source-chip" data-source="freelance" onclick="selectSurplusSource('freelance')">
+            <span>💻 Freelance Work</span>
+          </div>
+          <div class="source-chip" data-source="gift" onclick="selectSurplusSource('gift')">
+            <span>🎁 Family / Gift</span>
+          </div>
+          <div class="source-chip" data-source="bonus" onclick="selectSurplusSource('bonus')">
+            <span>⚡ Windfall / Bonus</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description / Source Label</label>
+        <input type="text" id="surplusTitleInput" class="input" placeholder="e.g. Oct Leftover Salary, Upwork Gig, Diwali Gift" value="Previous Month Leftover" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Total Amount to Pump (₹)</label>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="font-mono" style="font-weight: 700; font-size: 1.25rem;">₹</span>
+          <input type="number" id="surplusAmountInput" class="input font-mono" style="font-size: 1.25rem; font-weight: 700;" placeholder="5000" min="1" step="any" oninput="onSurplusAmountInput(this.value)" autofocus />
+        </div>
+      </div>
+
+      <!-- Allocation Routing Quick Presets -->
+      <div class="form-group" style="margin-top: 1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.4rem;">
+          <label class="form-label" style="margin-bottom:0;">Choose Where to Route This Money:</label>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.85rem;">
+          <button type="button" class="alloc-preset-chip selected" data-preset="wants" onclick="selectSurplusPreset('wants')">
+            100% Fun (Wants) → Boost Daily Cap
+          </button>
+          <button type="button" class="alloc-preset-chip" data-preset="savings" onclick="selectSurplusPreset('savings')">
+            100% Savings / SIP
+          </button>
+          <button type="button" class="alloc-preset-chip" data-preset="needs" onclick="selectSurplusPreset('needs')">
+            100% Bills (Needs)
+          </button>
+          <button type="button" class="alloc-preset-chip" data-preset="split" onclick="selectSurplusPreset('split')">
+            50/30/20 Proportional
+          </button>
+          <button type="button" class="alloc-preset-chip" data-preset="custom" onclick="selectSurplusPreset('custom')">
+            Custom Split
+          </button>
+        </div>
+
+        <!-- Rupee Distribution Breakdown -->
+        <div style="background: var(--bg-canvas); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            
+            <!-- Wants -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--cat-wants);">Fun &amp; Personal (Wants)</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">Directly boosts your daily allowance</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.3rem;">
+                <span class="font-mono text-dim" style="font-size: 0.85rem;">₹</span>
+                <input type="number" id="surplusWantsInput" class="input font-mono" style="width: 110px; padding: 4px 8px; font-size: 0.88rem; font-weight: 700;" value="0" min="0" step="100" oninput="updateSurplusAllocBalance(); selectSurplusPreset('custom');" />
+              </div>
+            </div>
+
+            <!-- Needs -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; padding-top: 0.45rem; border-top: 1px solid var(--border-subtle);">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--cat-needs);">Bills &amp; Essentials (Needs)</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">Rent cushion, groceries, utilities</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.3rem;">
+                <span class="font-mono text-dim" style="font-size: 0.85rem;">₹</span>
+                <input type="number" id="surplusNeedsInput" class="input font-mono" style="width: 110px; padding: 4px 8px; font-size: 0.88rem; font-weight: 700;" value="0" min="0" step="100" oninput="updateSurplusAllocBalance(); selectSurplusPreset('custom');" />
+              </div>
+            </div>
+
+            <!-- Savings -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; padding-top: 0.45rem; border-top: 1px solid var(--border-subtle);">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--cat-savings);">Savings &amp; Wealth</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">Emergency cushion, Mutual funds</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.3rem;">
+                <span class="font-mono text-dim" style="font-size: 0.85rem;">₹</span>
+                <input type="number" id="surplusSavingsInput" class="input font-mono" style="width: 110px; padding: 4px 8px; font-size: 0.88rem; font-weight: 700;" value="0" min="0" step="100" oninput="updateSurplusAllocBalance(); selectSurplusPreset('custom');" />
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Visual Distribution Track -->
+          <div class="stacked-bar" style="height: 8px; margin-top: 0.85rem;">
+            <div id="surplusAllocBarNeeds" class="bar-slice" style="width: 0%; background: var(--cat-needs);" title="Needs"></div>
+            <div id="surplusAllocBarWants" class="bar-slice" style="width: 100%; background: var(--cat-wants);" title="Wants"></div>
+            <div id="surplusAllocBarSavings" class="bar-slice" style="width: 0%; background: var(--cat-savings);" title="Savings"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.4rem; font-size: 0.75rem;">
+            <span id="surplusAllocStatusText" class="font-mono" style="color: var(--accent); font-weight: 600;">₹0 Balanced (100%)</span>
+            <button type="button" class="btn-text font-mono hidden" id="surplusAutofillBtn" onclick="autoBalanceSurplusTo('wants')" style="color: var(--cat-wants); font-size: 0.75rem;">
+              Fill Remaining into Fun →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pacing Mode for Discretionary (Wants): Daily Cap vs Sinking Fund -->
+      <div class="form-group" style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle);">
+        <label class="form-label">How should the Fun (Wants) pool be paced?</label>
+        <div style="display:flex; flex-direction:column; gap:0.45rem; font-size:0.82rem;">
+          <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;">
+            <input type="radio" name="surplusPacingRadio" id="radioPacingDaily" value="daily" checked onchange="toggleSurplusEventLock(false)" style="margin-top:2px;" />
+            <div>
+              <strong>🔄 Expand Daily Allowance</strong>
+              <div style="font-size:0.72rem; color:var(--text-muted);">Spreads the extra fun money evenly across remaining days until payday.</div>
+            </div>
+          </label>
+          <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;">
+            <input type="radio" name="surplusPacingRadio" id="radioPacingEvent" value="event" onchange="toggleSurplusEventLock(true)" style="margin-top:2px;" />
+            <div>
+              <strong>🎯 Event Lock / Sinking Fund</strong>
+              <div style="font-size:0.72rem; color:var(--text-muted);">Reserve this money for a specific trip or weekend without affecting ordinary daily allowance.</div>
+            </div>
+          </label>
+        </div>
+        <div id="surplusEventLockNameWrap" class="hidden" style="margin-top:0.6rem;">
+          <input type="text" id="surplusEventLockName" class="input" placeholder="Event / Trip Name (e.g. Goa Trip, Weekend Outing)" />
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.25rem;">
+        <button type="button" class="btn btn-outline" onclick="closeSurplusModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" id="surplusModalSubmitBtn" onclick="saveSurplusEntry()">
+          Pump to Budget
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Active Surplus & Inflows Manager Modal -->
+  <div class="modal-backdrop hidden" id="surplusManagerModal" onclick="handleSurplusManagerCurtainClick(event)">
+    <div class="modal-card" style="max-width: 560px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">⚡</span>
+          <h3 style="font-size: 1.15rem; font-weight: 700;">Active Surplus &amp; Inflows</h3>
+        </div>
+        <button class="btn-text" onclick="closeSurplusManagerModal()" style="font-size: 1.25rem;">✕</button>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Review and edit all extra money injected into your current spending cycle.
+      </p>
+
+      <!-- Summary Stat Ribbon -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.5rem; margin-bottom: 1.15rem;">
+        <div style="background: var(--bg-elevated); padding: 0.65rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">Total Extra</div>
+          <div class="font-mono" style="font-size: 1.05rem; font-weight: 700; color: var(--accent); margin-top: 2px;" id="mgrTotalSurplus">₹0</div>
+        </div>
+        <div style="background: var(--bg-elevated); padding: 0.65rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">To Fun (Wants)</div>
+          <div class="font-mono" style="font-size: 1.05rem; font-weight: 700; color: var(--cat-wants); margin-top: 2px;" id="mgrSurplusWants">₹0</div>
+        </div>
+        <div style="background: var(--bg-elevated); padding: 0.65rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">To Bills (Needs)</div>
+          <div class="font-mono" style="font-size: 1.05rem; font-weight: 700; color: var(--cat-needs); margin-top: 2px;" id="mgrSurplusNeeds">₹0</div>
+        </div>
+        <div style="background: var(--bg-elevated); padding: 0.65rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">To Savings</div>
+          <div class="font-mono" style="font-size: 1.05rem; font-weight: 700; color: var(--cat-savings); margin-top: 2px;" id="mgrSurplusSavings">₹0</div>
+        </div>
+      </div>
+
+      <!-- Itemized Inflow List -->
+      <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <span>Pumped Inflows (<span id="mgrInflowCount">0</span>)</span>
+        <button type="button" class="btn-text font-mono" onclick="closeSurplusManagerModal(); openSurplusModal('rollover');" style="color: var(--accent); font-size: 0.75rem;">
+          + Pump More Money
+        </button>
+      </div>
+
+      <div id="mgrInflowListContainer" style="max-height: 280px; overflow-y: auto;">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div id="mgrEmptyNotice" class="hidden" style="padding: 2rem 1rem; text-align: center; color: var(--text-dim); font-size: 0.85rem; background: var(--bg-canvas); border-radius: var(--radius-sm); border: 1px dashed var(--border-subtle);">
+        No extra surplus or freelance cash pumped into this cycle yet.
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle);">
+        <button type="button" class="btn btn-outline btn-sm font-mono" onclick="closeSurplusManagerModal(); openSurplusModal('rollover');">
+          + Add Inflow
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="closeSurplusManagerModal()">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden Container for Native Browser Printing Fallback -->
   <div id="printPassbookContainer" class="hidden"></div>
 
@@ -3035,7 +3469,8 @@
       manualCapAmount: 1000,
       filter: 'all',
       chosenCat: 'needs',
-      transactions: []
+      transactions: [],
+      inflows: [] // Active surplus & extra money injections: { id, name, sourceType, amount, allocations: { needs, wants, savings }, cycleKey, createdAt }
     };
 
     let currentUser = null;
@@ -3051,7 +3486,8 @@
           ratios: userData.ratios,
           capMode: userData.capMode,
           useManualCap: userData.useManualCap,
-          manualCapAmount: userData.manualCapAmount
+          manualCapAmount: userData.manualCapAmount,
+          inflows: userData.inflows || []
         }));
       } catch (e) {}
     }
@@ -3075,6 +3511,9 @@
             if (parsed.capMode) userData.capMode = parsed.capMode;
             if (parsed.useManualCap !== undefined) userData.useManualCap = !!parsed.useManualCap;
             if (typeof parsed.manualCapAmount === 'number') userData.manualCapAmount = parsed.manualCapAmount;
+            if (Array.isArray(parsed.inflows)) {
+              userData.inflows = parsed.inflows;
+            }
           }
         }
         const customPayday = localStorage.getItem('traxpens_payday_custom');
@@ -3249,6 +3688,7 @@
           if (d.capMode) userData.capMode = d.capMode;
           if (d.useManualCap !== undefined) userData.useManualCap = !!d.useManualCap;
           if (d.manualCapAmount) userData.manualCapAmount = d.manualCapAmount;
+          if (Array.isArray(d.inflows)) userData.inflows = d.inflows;
           saveLocalState();
         } else {
           // New user initial profile
@@ -3260,6 +3700,7 @@
             capMode: userData.capMode || 'today',
             useManualCap: userData.useManualCap || false,
             manualCapAmount: userData.manualCapAmount || 1000,
+            inflows: userData.inflows || [],
             createdAt: serverTimestamp()
           });
           saveLocalState();
@@ -3460,7 +3901,8 @@
         try {
           await setDoc(doc(db, "users", currentUser.uid), {
             salary: userData.salary,
-            ratios: userData.ratios
+            ratios: userData.ratios,
+            inflows: userData.inflows || []
           }, { merge: true });
         } catch (err) {
           console.error("Save error:", err);
@@ -3626,7 +4068,52 @@
       }, (err) => console.warn("Snapshot error:", err));
     }
 
-    // Dynamic vs Manual Cap Calculation
+    // =========================================================================
+    // SURPLUS & CAPITAL INFLOW INJECTION ENGINE
+    // =========================================================================
+    function getCurrentCycleKey(pDay = userData.paydayDay || 1) {
+      const cycle = getCycleDates(pDay);
+      const start = cycle.cycleStart;
+      return `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-${String(start.getDate()).padStart(2, '0')}`;
+    }
+
+    function getSurplusTotals() {
+      const currentKey = getCurrentCycleKey();
+      let totalSurplus = 0;
+      let surplusNeeds = 0;
+      let surplusWants = 0;
+      let surplusWantsDaily = 0;
+      let surplusWantsEvent = 0;
+      let surplusSavings = 0;
+      const activeInflows = [];
+      const eventLocks = [];
+
+      (userData.inflows || []).forEach(item => {
+        // Active in current cycle
+        if (!item.cycleKey || item.cycleKey === currentKey) {
+          const n = Math.round(parseFloat(item.allocations?.needs) || 0);
+          const w = Math.round(parseFloat(item.allocations?.wants) || 0);
+          const s = Math.round(parseFloat(item.allocations?.savings) || 0);
+          surplusNeeds += n;
+          surplusWants += w;
+          surplusSavings += s;
+
+          if (item.pacingMode === 'event' && w > 0) {
+            surplusWantsEvent += w;
+            eventLocks.push({ name: item.eventLockName || item.name || 'Event Reserve', amount: w });
+          } else {
+            surplusWantsDaily += w;
+          }
+
+          totalSurplus += Math.round(parseFloat(item.amount) || (n + w + s));
+          activeInflows.push(item);
+        }
+      });
+
+      return { totalSurplus, surplusNeeds, surplusWants, surplusWantsDaily, surplusWantsEvent, surplusSavings, activeInflows, eventLocks };
+    }
+
+    // Dynamic vs Manual Cap Calculation (Boosted by Surplus routed to Wants with Daily Pacing)
     function getDailyCap() {
       if (userData.useManualCap && userData.manualCapAmount > 0) {
         let manual = userData.manualCapAmount;
@@ -3636,9 +4123,11 @@
       }
 
       const cycle = getCycleDates(userData.paydayDay);
-      const wantsBudget = userData.salary * userData.ratios.wants;
+      const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
+      const { surplusWantsDaily } = getSurplusTotals();
+      const wantsBudget = (effSalary * userData.ratios.wants) + surplusWantsDaily;
       const remainingWants = Math.max(0, wantsBudget - userData.spent.wants);
-      let baseDaily = remainingWants / cycle.daysLeft;
+      let baseDaily = remainingWants / Math.max(1, cycle.daysLeft);
 
       if (userData.capMode === 'weekend') baseDaily *= 1.5;
       else if (userData.capMode === 'trip3') baseDaily = (remainingWants * 0.25) / 3;
@@ -3651,6 +4140,7 @@
     function refreshUI() {
       const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
       const cycle = getCycleDates(userData.paydayDay || 1);
+      const { totalSurplus, surplusNeeds, surplusWants, surplusWantsDaily, surplusWantsEvent, surplusSavings, activeInflows, eventLocks } = getSurplusTotals();
 
       // 1. Cycle badges
       const cycleBadge = document.getElementById('cycleStatusBadge');
@@ -3660,42 +4150,106 @@
       const cycleDaysLeft = document.getElementById('cycleDaysLeftLabel');
       if (cycleDaysLeft) cycleDaysLeft.textContent = `${cycle.daysLeft} days until payday`;
 
-      // 2. Budget numbers
-      const needsBudget = effSalary * userData.ratios.needs;
-      const wantsBudget = effSalary * userData.ratios.wants;
-      const savingsBudget = effSalary * userData.ratios.savings;
-      const safePool = effSalary - (userData.spent.needs + userData.spent.wants);
+      // 2. Budget numbers with Surplus Booster Partitioning
+      const baseNeedsBudget = Math.round(effSalary * userData.ratios.needs);
+      const baseWantsBudget = Math.round(effSalary * userData.ratios.wants);
+      const baseSavingsBudget = Math.round(effSalary * userData.ratios.savings);
+
+      const effectiveNeedsBudget = baseNeedsBudget + surplusNeeds;
+      const effectiveWantsBudget = baseWantsBudget + surplusWants;
+      const effectiveSavingsBudget = baseSavingsBudget + surplusSavings;
+      const totalAvailablePool = effSalary + totalSurplus;
+
+      const safePool = totalAvailablePool - (userData.spent.needs + userData.spent.wants);
 
       const salaryDisplay = document.getElementById('salaryDisplayVal');
       if (salaryDisplay) salaryDisplay.textContent = inrFormatter.format(effSalary);
       const safePoolDisplay = document.getElementById('safePoolDisplayVal');
       if (safePoolDisplay) safePoolDisplay.textContent = inrFormatter.format(safePool);
 
-      document.getElementById('budgetNeedsRupees').textContent = '₹' + inrFormatter.format(needsBudget);
-      document.getElementById('budgetWantsRupees').textContent = '₹' + inrFormatter.format(wantsBudget);
-      document.getElementById('budgetSavingsRupees').textContent = '₹' + inrFormatter.format(savingsBudget);
+      // Distinctive Surplus Booster Pill on Card 1
+      const badgeWrap = document.getElementById('surplusBadgeContainer');
+      const badgeVal = document.getElementById('surplusDisplayVal');
+      const manageBtn = document.getElementById('btnManageSurplusCard');
+      if (badgeWrap && badgeVal) {
+        if (totalSurplus > 0) {
+          badgeWrap.classList.remove('hidden');
+          badgeVal.textContent = inrFormatter.format(totalSurplus);
+          if (manageBtn) manageBtn.classList.remove('hidden');
+        } else {
+          badgeWrap.classList.add('hidden');
+          if (manageBtn) manageBtn.classList.add('hidden');
+        }
+      }
 
-      const needsPct = Math.round(userData.ratios.needs * 100);
-      const wantsPct = Math.round(userData.ratios.wants * 100);
-      const savingsPct = Math.round(userData.ratios.savings * 100);
+      // Total Active Spending Pool Row
+      const totalPoolRow = document.getElementById('totalPoolDisplayRow');
+      const totalPoolVal = document.getElementById('totalPoolDisplayVal');
+      if (totalPoolRow && totalPoolVal) {
+        if (totalSurplus > 0) {
+          totalPoolRow.classList.remove('hidden');
+          totalPoolVal.textContent = inrFormatter.format(totalAvailablePool);
+        } else {
+          totalPoolRow.classList.add('hidden');
+        }
+      }
+
+      // Budget Buckets Rupee Values
+      document.getElementById('budgetNeedsRupees').textContent = '₹' + inrFormatter.format(effectiveNeedsBudget);
+      document.getElementById('budgetWantsRupees').textContent = '₹' + inrFormatter.format(effectiveWantsBudget);
+      document.getElementById('budgetSavingsRupees').textContent = '₹' + inrFormatter.format(effectiveSavingsBudget);
+
+      // Distinctive Category Surplus Boost Tags
+      const tagNeeds = document.getElementById('surplusTagNeeds');
+      if (tagNeeds) {
+        if (surplusNeeds > 0) {
+          tagNeeds.classList.remove('hidden');
+          tagNeeds.textContent = `+₹${inrFormatter.format(surplusNeeds)} boost`;
+        } else {
+          tagNeeds.classList.add('hidden');
+        }
+      }
+      const tagWants = document.getElementById('surplusTagWants');
+      if (tagWants) {
+        if (surplusWants > 0) {
+          tagWants.classList.remove('hidden');
+          const eventExtra = surplusWantsEvent > 0 ? ` (₹${inrFormatter.format(surplusWantsEvent)} in Sinking Fund)` : '';
+          tagWants.textContent = `+₹${inrFormatter.format(surplusWants)} boost${eventExtra}`;
+        } else {
+          tagWants.classList.add('hidden');
+        }
+      }
+      const tagSavings = document.getElementById('surplusTagSavings');
+      if (tagSavings) {
+        if (surplusSavings > 0) {
+          tagSavings.classList.remove('hidden');
+          tagSavings.textContent = `+₹${inrFormatter.format(surplusSavings)} boost`;
+        } else {
+          tagSavings.classList.add('hidden');
+        }
+      }
+
+      const needsPct = Math.round((effectiveNeedsBudget / Math.max(1, totalAvailablePool)) * 100);
+      const wantsPct = Math.round((effectiveWantsBudget / Math.max(1, totalAvailablePool)) * 100);
+      const savingsPct = Math.max(0, 100 - needsPct - wantsPct);
 
       document.getElementById('pctNeedsLabel').textContent = needsPct + '%';
       document.getElementById('pctWantsLabel').textContent = wantsPct + '%';
       document.getElementById('pctSavingsLabel').textContent = savingsPct + '%';
-      document.getElementById('catNeedsPct').textContent = needsPct + '%';
-      document.getElementById('catWantsPct').textContent = wantsPct + '%';
-      document.getElementById('catSavingsPct').textContent = savingsPct + '%';
+      document.getElementById('catNeedsPct').textContent = Math.round(userData.ratios.needs * 100) + '%';
+      document.getElementById('catWantsPct').textContent = Math.round(userData.ratios.wants * 100) + '%';
+      document.getElementById('catSavingsPct').textContent = Math.round(userData.ratios.savings * 100) + '%';
 
       document.getElementById('sliceNeedsBar').style.width = needsPct + '%';
       document.getElementById('sliceWantsBar').style.width = wantsPct + '%';
       document.getElementById('sliceSavingsBar').style.width = savingsPct + '%';
 
-      const needsSpentPct = Math.round((userData.spent.needs / Math.max(1, needsBudget)) * 100);
-      const wantsSpentPct = Math.round((userData.spent.wants / Math.max(1, wantsBudget)) * 100);
+      const needsSpentPct = Math.round((userData.spent.needs / Math.max(1, effectiveNeedsBudget)) * 100);
+      const wantsSpentPct = Math.round((userData.spent.wants / Math.max(1, effectiveWantsBudget)) * 100);
       document.getElementById('spentNeedsRatio').textContent = `Spent ₹${inrFormatter.format(userData.spent.needs)} (${needsSpentPct}%)`;
       document.getElementById('spentWantsRatio').textContent = `Spent ₹${inrFormatter.format(userData.spent.wants)} (${wantsSpentPct}%)`;
 
-      // 3. Daily Cap & Progress
+      // 3. Daily Cap & Progress (with Daily Boost from Surplus)
       const dailyCap = getDailyCap();
       document.getElementById('dailyCapDisplayVal').textContent = '₹' + inrFormatter.format(dailyCap);
       document.getElementById('capModeBadge').textContent = userData.useManualCap ? 'Manual Fixed' : 'Dynamic Auto';
@@ -3705,6 +4259,17 @@
       const leftEl = document.getElementById('leftTodayDisplayVal');
       leftEl.textContent = '₹' + inrFormatter.format(leftToday);
 
+      const dailyBoostRow = document.getElementById('surplusDailyBoostRow');
+      const dailyBoostVal = document.getElementById('surplusDailyBoostVal');
+      if (dailyBoostRow && dailyBoostVal) {
+        if (surplusWantsDaily > 0 && cycle.daysLeft > 0) {
+          dailyBoostRow.classList.remove('hidden');
+          dailyBoostVal.textContent = inrFormatter.format(Math.round(surplusWantsDaily / Math.max(1, cycle.daysLeft)));
+        } else {
+          dailyBoostRow.classList.add('hidden');
+        }
+      }
+
       const capProgress = Math.min(100, (userData.spentToday / Math.max(1, dailyCap)) * 100);
       const capBar = document.getElementById('capBarFill');
       capBar.style.width = capProgress + '%';
@@ -3713,15 +4278,452 @@
       else if (capProgress > 70) capBar.style.backgroundColor = 'var(--cat-wants)';
       else capBar.style.backgroundColor = 'var(--accent)';
 
-      // 4. Update Insights
-      updateInsightsData(cycle, wantsBudget, safePool, dailyCap);
+      // 4. Update Insights with boosted pool
+      updateInsightsData(cycle, effectiveWantsBudget, safePool, dailyCap, totalAvailablePool);
 
       // 5. Update Smart Investment Allocator
-      updateInvestmentAllocations(savingsBudget);
+      updateInvestmentAllocations(effectiveSavingsBudget);
 
-      // 6. Render Ledger & Calendar
+      // 6. Render Ledger, Calendar & Settings Surplus List
       renderLedger();
       renderCalendar();
+      renderSettingsSurplusList();
+
+      // 7. Check Leftover Rollover Helper Banner
+      const isDismissed = sessionStorage.getItem('traxpens_dismiss_rollover') === 'true';
+      const rolloverBanner = document.getElementById('rolloverPromptBanner');
+      if (rolloverBanner) {
+        if (totalSurplus === 0 && !isDismissed) {
+          rolloverBanner.classList.remove('hidden');
+        } else {
+          rolloverBanner.classList.add('hidden');
+        }
+      }
+    }
+
+    // Helper functions for Surplus Inflow Manager & Controller
+    let editingSurplusId = null;
+    let currentSurplusSource = 'rollover'; // 'rollover' | 'freelance' | 'gift' | 'bonus'
+    let currentSurplusPreset = 'wants'; // 'wants' | 'savings' | 'needs' | 'split' | 'custom'
+
+    function toggleSurplusEventLock(isEvent) {
+      const wrap = document.getElementById('surplusEventLockNameWrap');
+      if (wrap) wrap.classList.toggle('hidden', !isEvent);
+      const nameInput = document.getElementById('surplusEventLockName');
+      if (isEvent && nameInput && !nameInput.value) {
+        nameInput.focus();
+      }
+    }
+
+    function getSourceIcon(src) {
+      if (src === 'rollover') return '🔄';
+      if (src === 'freelance') return '💻';
+      if (src === 'gift') return '🎁';
+      return '⚡';
+    }
+
+    function openSurplusModal(sourceType = 'rollover', editId = null) {
+      editingSurplusId = editId;
+      const modal = document.getElementById('surplusModal');
+      if (!modal) return;
+
+      const titleEl = document.getElementById('surplusModalTitle');
+      const submitBtnEl = document.getElementById('surplusModalSubmitBtn');
+
+      if (editId) {
+        const entry = (userData.inflows || []).find(x => x.id === editId);
+        if (entry) {
+          if (titleEl) titleEl.textContent = 'Edit Extra Money Allocation';
+          if (submitBtnEl) submitBtnEl.textContent = 'Update Allocation';
+          currentSurplusSource = entry.sourceType || 'other';
+          document.getElementById('surplusTitleInput').value = entry.name || '';
+          document.getElementById('surplusAmountInput').value = entry.amount || '';
+          document.getElementById('surplusNeedsInput').value = entry.allocations?.needs || 0;
+          document.getElementById('surplusWantsInput').value = entry.allocations?.wants || 0;
+          document.getElementById('surplusSavingsInput').value = entry.allocations?.savings || 0;
+          selectSurplusSource(currentSurplusSource, false);
+          selectSurplusPreset('custom');
+          
+          const isEvent = entry.pacingMode === 'event';
+          document.getElementById('radioPacingEvent').checked = isEvent;
+          document.getElementById('radioPacingDaily').checked = !isEvent;
+          toggleSurplusEventLock(isEvent);
+          document.getElementById('surplusEventLockName').value = entry.eventLockName || '';
+
+          updateSurplusAllocBalance();
+        }
+      } else {
+        if (titleEl) titleEl.textContent = 'Pump Extra Money onto Budget';
+        if (submitBtnEl) submitBtnEl.textContent = 'Pump to Budget';
+        currentSurplusSource = sourceType || 'rollover';
+        document.getElementById('surplusAmountInput').value = '';
+        document.getElementById('surplusNeedsInput').value = 0;
+        document.getElementById('surplusWantsInput').value = 0;
+        document.getElementById('surplusSavingsInput').value = 0;
+        document.getElementById('radioPacingDaily').checked = true;
+        document.getElementById('radioPacingEvent').checked = false;
+        toggleSurplusEventLock(false);
+        document.getElementById('surplusEventLockName').value = '';
+        selectSurplusSource(currentSurplusSource, true);
+        selectSurplusPreset('wants');
+      }
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        const amtInput = document.getElementById('surplusAmountInput');
+        if (amtInput) amtInput.focus();
+      }, 50);
+    }
+
+    function closeSurplusModal() {
+      const modal = document.getElementById('surplusModal');
+      if (modal) modal.classList.add('hidden');
+      editingSurplusId = null;
+    }
+
+    function handleSurplusModalCurtainClick(e) {
+      if (e.target.id === 'surplusModal') closeSurplusModal();
+    }
+
+    function selectSurplusSource(type, updateTitle = true) {
+      currentSurplusSource = type;
+      document.querySelectorAll('.source-chip').forEach(chip => {
+        chip.classList.toggle('selected', chip.getAttribute('data-source') === type);
+      });
+      if (updateTitle) {
+        const titleInput = document.getElementById('surplusTitleInput');
+        if (titleInput) {
+          if (type === 'rollover') titleInput.value = 'Previous Month Leftover';
+          else if (type === 'freelance') titleInput.value = 'Freelance Project Income';
+          else if (type === 'gift') titleInput.value = 'Family Gift / Support';
+          else titleInput.value = 'Extra Windfall / Bonus';
+        }
+      }
+    }
+
+    function selectSurplusPreset(preset) {
+      currentSurplusPreset = preset;
+      document.querySelectorAll('.alloc-preset-chip').forEach(chip => {
+        chip.classList.toggle('selected', chip.getAttribute('data-preset') === preset);
+      });
+
+      const amt = parseFloat(document.getElementById('surplusAmountInput').value) || 0;
+      const needsInput = document.getElementById('surplusNeedsInput');
+      const wantsInput = document.getElementById('surplusWantsInput');
+      const savingsInput = document.getElementById('surplusSavingsInput');
+
+      if (preset === 'wants') {
+        wantsInput.value = amt;
+        needsInput.value = 0;
+        savingsInput.value = 0;
+      } else if (preset === 'savings') {
+        savingsInput.value = amt;
+        wantsInput.value = 0;
+        needsInput.value = 0;
+      } else if (preset === 'needs') {
+        needsInput.value = amt;
+        wantsInput.value = 0;
+        savingsInput.value = 0;
+      } else if (preset === 'split') {
+        const n = Math.round(amt * (userData.ratios.needs || 0.5));
+        const w = Math.round(amt * (userData.ratios.wants || 0.3));
+        const s = Math.max(0, amt - n - w);
+        needsInput.value = n;
+        wantsInput.value = w;
+        savingsInput.value = s;
+      }
+      updateSurplusAllocBalance();
+    }
+
+    function onSurplusAmountInput(val) {
+      if (currentSurplusPreset !== 'custom') {
+        selectSurplusPreset(currentSurplusPreset);
+      } else {
+        updateSurplusAllocBalance();
+      }
+    }
+
+    function updateSurplusAllocBalance() {
+      const totalAmt = parseFloat(document.getElementById('surplusAmountInput').value) || 0;
+      const n = parseFloat(document.getElementById('surplusNeedsInput').value) || 0;
+      const w = parseFloat(document.getElementById('surplusWantsInput').value) || 0;
+      const s = parseFloat(document.getElementById('surplusSavingsInput').value) || 0;
+
+      const allocated = n + w + s;
+      const diff = totalAmt - allocated;
+
+      const barNeeds = document.getElementById('surplusAllocBarNeeds');
+      const barWants = document.getElementById('surplusAllocBarWants');
+      const barSavings = document.getElementById('surplusAllocBarSavings');
+      const statusEl = document.getElementById('surplusAllocStatusText');
+      const autofillBtn = document.getElementById('surplusAutofillBtn');
+
+      if (totalAmt > 0) {
+        if (barNeeds) barNeeds.style.width = `${Math.min(100, Math.round((n / totalAmt) * 100))}%`;
+        if (barWants) barWants.style.width = `${Math.min(100, Math.round((w / totalAmt) * 100))}%`;
+        if (barSavings) barSavings.style.width = `${Math.min(100, Math.round((s / totalAmt) * 100))}%`;
+      }
+
+      if (Math.abs(diff) <= 1) {
+        if (statusEl) {
+          statusEl.textContent = `₹${inrFormatter.format(totalAmt)} Balanced (100%)`;
+          statusEl.style.color = 'var(--accent)';
+        }
+        if (autofillBtn) autofillBtn.classList.add('hidden');
+      } else if (diff > 0) {
+        if (statusEl) {
+          statusEl.textContent = `₹${inrFormatter.format(diff)} Unallocated`;
+          statusEl.style.color = 'var(--cat-wants)';
+        }
+        if (autofillBtn) autofillBtn.classList.remove('hidden');
+      } else {
+        if (statusEl) {
+          statusEl.textContent = `Over-allocated by ₹${inrFormatter.format(Math.abs(diff))}`;
+          statusEl.style.color = 'var(--danger)';
+        }
+        if (autofillBtn) autofillBtn.classList.add('hidden');
+      }
+    }
+
+    function autoBalanceSurplusTo(cat = 'wants') {
+      const totalAmt = parseFloat(document.getElementById('surplusAmountInput').value) || 0;
+      let n = parseFloat(document.getElementById('surplusNeedsInput').value) || 0;
+      let w = parseFloat(document.getElementById('surplusWantsInput').value) || 0;
+      let s = parseFloat(document.getElementById('surplusSavingsInput').value) || 0;
+
+      if (cat === 'wants') {
+        const rem = Math.max(0, totalAmt - (n + s));
+        document.getElementById('surplusWantsInput').value = rem;
+      } else if (cat === 'savings') {
+        const rem = Math.max(0, totalAmt - (n + w));
+        document.getElementById('surplusSavingsInput').value = rem;
+      } else {
+        const rem = Math.max(0, totalAmt - (w + s));
+        document.getElementById('surplusNeedsInput').value = rem;
+      }
+      updateSurplusAllocBalance();
+    }
+
+    function saveSurplusEntry() {
+      const amt = parseFloat(document.getElementById('surplusAmountInput').value) || 0;
+      if (!amt || amt <= 0) {
+        alert('Please enter a valid Rupee amount.');
+        return;
+      }
+
+      const name = document.getElementById('surplusTitleInput').value.trim() || 'Extra Surplus';
+      let n = parseFloat(document.getElementById('surplusNeedsInput').value) || 0;
+      let w = parseFloat(document.getElementById('surplusWantsInput').value) || 0;
+      let s = parseFloat(document.getElementById('surplusSavingsInput').value) || 0;
+
+      const isEvent = document.getElementById('radioPacingEvent').checked;
+      const pacingMode = isEvent ? 'event' : 'daily';
+      const eventLockName = isEvent ? (document.getElementById('surplusEventLockName').value.trim() || 'Reserved Event') : null;
+
+      const allocated = n + w + s;
+      if (Math.abs(amt - allocated) > 5) {
+        const diff = amt - allocated;
+        if (diff > 0) {
+          w += diff; // auto-assign unallocated rest to Wants (most common desired behavior)
+        }
+      }
+
+      userData.inflows = userData.inflows || [];
+      const currentKey = getCurrentCycleKey();
+
+      if (editingSurplusId) {
+        const idx = userData.inflows.findIndex(x => x.id === editingSurplusId);
+        if (idx !== -1) {
+          userData.inflows[idx] = {
+            ...userData.inflows[idx],
+            name: name,
+            sourceType: currentSurplusSource,
+            amount: amt,
+            pacingMode: pacingMode,
+            eventLockName: eventLockName,
+            allocations: { needs: n, wants: w, savings: s },
+            updatedAt: new Date().toISOString()
+          };
+        }
+      } else {
+        const newEntry = {
+          id: 'inf_' + Date.now(),
+          name: name,
+          sourceType: currentSurplusSource,
+          amount: amt,
+          pacingMode: pacingMode,
+          eventLockName: eventLockName,
+          allocations: { needs: n, wants: w, savings: s },
+          createdAt: new Date().toISOString(),
+          cycleKey: currentKey
+        };
+        userData.inflows.unshift(newEntry);
+      }
+
+      closeSurplusModal();
+      saveLocalState();
+      saveBudgetData();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    function deleteSurplusEntry(id) {
+      if (!confirm('Are you sure you want to remove this surplus injection? Your budgets and daily cap will immediately recalculate.')) return;
+      userData.inflows = (userData.inflows || []).filter(x => x.id !== id);
+      saveLocalState();
+      saveBudgetData();
+      refreshUI();
+      calculateEmiVerdict();
+      renderSurplusManagerModal();
+    }
+
+    function openSurplusManagerModal() {
+      renderSurplusManagerModal();
+      const modal = document.getElementById('surplusManagerModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeSurplusManagerModal() {
+      const modal = document.getElementById('surplusManagerModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleSurplusManagerCurtainClick(e) {
+      if (e.target.id === 'surplusManagerModal') closeSurplusManagerModal();
+    }
+
+    function renderSettingsSurplusList() {
+      const container = document.getElementById('settingsSurplusListContainer');
+      const totalBadge = document.getElementById('settingsSurplusTotalBadge');
+      if (!container) return;
+
+      const { totalSurplus, surplusNeeds, surplusWants, surplusSavings, activeInflows } = getSurplusTotals();
+      if (totalBadge) totalBadge.textContent = `₹${inrFormatter.format(totalSurplus)} Pumped`;
+
+      if (!activeInflows.length) {
+        container.innerHTML = `
+          <div style="padding: 1.5rem; text-align: center; color: var(--text-dim); font-size: 0.85rem; background: var(--bg-canvas); border-radius: var(--radius-sm); border: 1px dashed var(--border-subtle);">
+            Zero extra surplus or freelance cash pumped into this cycle yet. 
+            <button class="btn-text font-mono" onclick="openSurplusModal('rollover')" style="color:var(--accent); font-weight:700; margin-left:0.35rem;">+ Pump Now</button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '<div style="display:flex; flex-direction:column; gap:0.5rem;">';
+      activeInflows.forEach(item => {
+        const icon = getSourceIcon(item.sourceType);
+        const w = Math.round(item.allocations?.wants || 0);
+        const n = Math.round(item.allocations?.needs || 0);
+        const s = Math.round(item.allocations?.savings || 0);
+
+        html += `
+          <div class="surplus-entry-card">
+            <div style="display:flex; align-items:center; gap:0.65rem; min-width:0;">
+              <span style="font-size:1.25rem; flex-shrink:0;">${icon}</span>
+              <div style="min-width:0;">
+                <div style="font-weight:700; font-size:0.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  ${escapeHtml(item.name || 'Extra Income')}
+                </div>
+                <div style="display:flex; gap:0.35rem; align-items:center; flex-wrap:wrap; margin-top:3px;">
+                  ${w > 0 ? `<span class="surplus-badge-wants">Fun: +₹${inrFormatter.format(w)}</span>` : ''}
+                  ${n > 0 ? `<span class="surplus-badge-needs">Bills: +₹${inrFormatter.format(n)}</span>` : ''}
+                  ${s > 0 ? `<span class="surplus-badge-savings">Savings: +₹${inrFormatter.format(s)}</span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:0.6rem; flex-shrink:0;">
+              <span class="font-mono" style="font-weight:700; font-size:1rem; color:var(--accent);">
+                +₹${inrFormatter.format(item.amount)}
+              </span>
+              <button type="button" class="btn btn-outline btn-xs font-mono" onclick="openSurplusModal('${item.sourceType || 'rollover'}', '${item.id}')" title="Edit allocation">
+                ✎ Edit
+              </button>
+              <button type="button" class="tx-delete-btn" onclick="deleteSurplusEntry('${item.id}')" title="Remove pump">
+                🗑️
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function renderSurplusManagerModal() {
+      const container = document.getElementById('mgrInflowListContainer');
+      const emptyNotice = document.getElementById('mgrEmptyNotice');
+      const countEl = document.getElementById('mgrInflowCount');
+      if (!container) return;
+
+      const { totalSurplus, surplusNeeds, surplusWants, surplusSavings, activeInflows } = getSurplusTotals();
+
+      const elTotal = document.getElementById('mgrTotalSurplus');
+      const elW = document.getElementById('mgrSurplusWants');
+      const elN = document.getElementById('mgrSurplusNeeds');
+      const elS = document.getElementById('mgrSurplusSavings');
+
+      if (elTotal) elTotal.textContent = `₹${inrFormatter.format(totalSurplus)}`;
+      if (elW) elW.textContent = `₹${inrFormatter.format(surplusWants)}`;
+      if (elN) elN.textContent = `₹${inrFormatter.format(surplusNeeds)}`;
+      if (elS) elS.textContent = `₹${inrFormatter.format(surplusSavings)}`;
+      if (countEl) countEl.textContent = activeInflows.length;
+
+      if (!activeInflows.length) {
+        container.innerHTML = '';
+        if (emptyNotice) emptyNotice.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyNotice) emptyNotice.classList.add('hidden');
+      let html = '<div style="display:flex; flex-direction:column; gap:0.5rem;">';
+      activeInflows.forEach(item => {
+        const icon = getSourceIcon(item.sourceType);
+        const w = Math.round(item.allocations?.wants || 0);
+        const n = Math.round(item.allocations?.needs || 0);
+        const s = Math.round(item.allocations?.savings || 0);
+
+        html += `
+          <div class="surplus-entry-card">
+            <div style="display:flex; align-items:center; gap:0.65rem; min-width:0;">
+              <span style="font-size:1.25rem; flex-shrink:0;">${icon}</span>
+              <div style="min-width:0;">
+                <div style="font-weight:700; font-size:0.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  ${escapeHtml(item.name || 'Extra Income')}
+                </div>
+                <div style="display:flex; gap:0.35rem; align-items:center; flex-wrap:wrap; margin-top:3px;">
+                  ${w > 0 ? `<span class="surplus-badge-wants">Fun: +₹${inrFormatter.format(w)}</span>` : ''}
+                  ${n > 0 ? `<span class="surplus-badge-needs">Bills: +₹${inrFormatter.format(n)}</span>` : ''}
+                  ${s > 0 ? `<span class="surplus-badge-savings">Savings: +₹${inrFormatter.format(s)}</span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-shrink:0;">
+              <span class="font-mono" style="font-weight:700; font-size:1rem; color:var(--accent);">
+                +₹${inrFormatter.format(item.amount)}
+              </span>
+              <button type="button" class="btn btn-outline btn-xs font-mono" onclick="closeSurplusManagerModal(); openSurplusModal('${item.sourceType || 'rollover'}', '${item.id}')" title="Edit allocation">
+                ✎ Edit
+              </button>
+              <button type="button" class="tx-delete-btn" onclick="deleteSurplusEntry('${item.id}')" title="Remove pump">
+                🗑️
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function dismissRolloverBanner() {
+      const banner = document.getElementById('rolloverPromptBanner');
+      if (banner) banner.classList.add('hidden');
+      try {
+        sessionStorage.setItem('traxpens_dismiss_rollover', 'true');
+      } catch (e) {}
     }
 
     function updateInsightsData(cycle, wantsBudget, safePool, dailyCap) {
@@ -5162,6 +6164,23 @@
     window.downloadCurrentDayPassbookPdf = downloadCurrentDayPassbookPdf;
     window.printCurrentDayPassbook = printCurrentDayPassbook;
 
+    // Surplus & Capital Inflow Injection bindings
+    window.openSurplusModal = openSurplusModal;
+    window.closeSurplusModal = closeSurplusModal;
+    window.handleSurplusModalCurtainClick = handleSurplusModalCurtainClick;
+    window.selectSurplusSource = selectSurplusSource;
+    window.selectSurplusPreset = selectSurplusPreset;
+    window.onSurplusAmountInput = onSurplusAmountInput;
+    window.updateSurplusAllocBalance = updateSurplusAllocBalance;
+    window.autoBalanceSurplusTo = autoBalanceSurplusTo;
+    window.saveSurplusEntry = saveSurplusEntry;
+    window.deleteSurplusEntry = deleteSurplusEntry;
+    window.openSurplusManagerModal = openSurplusManagerModal;
+    window.closeSurplusManagerModal = closeSurplusManagerModal;
+    window.handleSurplusManagerCurtainClick = handleSurplusManagerCurtainClick;
+    window.dismissRolloverBanner = dismissRolloverBanner;
+    window.toggleSurplusEventLock = toggleSurplusEventLock;
+
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
         e.preventDefault();
@@ -5174,6 +6193,8 @@
         closeCapEditModal();
         closePwaInstallModal();
         closeDayInspectModal();
+        closeSurplusModal();
+        closeSurplusManagerModal();
       }
       if (isTourActive) {
         if (e.key === 'ArrowRight' || e.key === 'Enter') {
