@@ -1697,6 +1697,41 @@
       font-family: var(--font-mono);
       font-weight: 600;
     }
+
+    /* Amount Left Calibration & Payday Reset Styles */
+    .reset-preset-chip {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.35rem 0.65rem;
+      font-size: 0.78rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .reset-preset-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .reset-preset-chip.selected {
+      background: var(--accent-subtle);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .payday-alert-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(59, 130, 246, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
@@ -2045,6 +2080,21 @@
          ======================================================================== -->
     <div id="viewTabLedger">
       
+      <!-- Payday Arrival Notification Banner -->
+      <div id="paydayArrivalBanner" class="payday-alert-banner hidden">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <span style="font-size:1.35rem;">🎉</span>
+          <div>
+            <div style="font-weight:700; font-size:0.85rem;" id="paydayArrivalTitle">New Payday Cycle Active!</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);" id="paydayArrivalSubtitle">Your monthly salary has refreshed. You can calibrate or reset this auto-increment anytime.</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.4rem; align-items:center;">
+          <button type="button" class="btn btn-primary btn-xs font-mono" onclick="openResetAmountModal('payday')">↺ Reset Amount Left</button>
+          <button type="button" class="btn-text" onclick="dismissPaydayBanner()" style="font-size:0.75rem; color:var(--text-dim); padding:4px;" title="Dismiss">✕</button>
+        </div>
+      </div>
+
       <!-- Leftover Rollover Helper Banner -->
       <div id="rolloverPromptBanner" class="surplus-banner hidden">
         <div style="display:flex; align-items:center; gap:0.6rem;">
@@ -2083,15 +2133,31 @@
           </div>
           <div class="stat-footer font-mono">
             <span>Safe to spend:</span>
-            <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">25,000</span></strong>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <strong style="color:var(--accent);">₹<span id="safePoolDisplayVal">25,000</span></strong>
+              <button type="button" class="btn-text" onclick="openResetAmountModal()" style="font-size:0.75rem; color:var(--accent); text-decoration:underline; font-weight:700;" title="Reset or calibrate amount left">↺ Reset</button>
+            </div>
+          </div>
+          <!-- Calibrated Balance Active Badge Row -->
+          <div id="amountResetBadgeRow" class="hidden" style="margin-top:0.4rem; padding:4px 8px; border-radius:var(--radius-sm); background:var(--bg-elevated); border:1px solid rgba(245, 158, 11, 0.3); font-size:0.72rem; display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--cat-wants); font-weight:600;">🎯 <span id="amountResetBadgeText">Calibrated: ₹0 Left</span></span>
+            <button type="button" class="btn-text" onclick="clearAmountReset()" style="font-size:0.7rem; color:var(--text-dim);" title="Revert to app calculation">Revert ✕</button>
+          </div>
+          <!-- Pre-Payday Awaiting Salary Notice -->
+          <div id="prePaydayNoticeRow" class="hidden" style="margin-top:0.45rem; padding:4px 8px; border-radius:var(--radius-sm); background:rgba(37, 99, 235, 0.08); border:1px solid rgba(37, 99, 235, 0.2); font-size:0.72rem; color:var(--cat-needs); display:flex; justify-content:space-between; align-items:center;">
+            <span>⏳ Payday on <strong id="prePaydayNoticeDate">7th</strong> (yet to get salary?)</span>
+            <button type="button" class="btn-text font-mono" onclick="openResetAmountModal('pre_payday')" style="font-weight:700; color:var(--cat-needs); text-decoration:underline; font-size:0.72rem;">Set Cash →</button>
           </div>
           <div id="totalPoolDisplayRow" class="hidden" style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem; display:flex; justify-content:space-between;">
             <span>Total Active Pool:</span>
             <strong class="font-mono" style="color:var(--text-main);">₹<span id="totalPoolDisplayVal">50,000</span></strong>
           </div>
           <div style="margin-top:0.75rem; padding-top:0.65rem; border-top:1px solid var(--border-subtle); display:flex; gap:0.4rem; align-items:center;">
-            <button type="button" class="btn btn-outline btn-xs font-mono" onclick="openSurplusModal('rollover')" style="flex:1; justify-content:center; padding:5px 8px; color:var(--accent); border-color:var(--accent-soft); font-size:0.75rem; font-weight:700;">
-              + Pump Extra Money
+            <button type="button" class="btn btn-outline btn-xs font-mono" onclick="openResetAmountModal()" style="flex:1; justify-content:center; padding:5px 8px; font-size:0.75rem; font-weight:600;" title="Reset amount left or adjust post-payday increment">
+              ↺ Reset Amount Left
+            </button>
+            <button type="button" class="btn btn-outline btn-xs font-mono" onclick="openSurplusModal('rollover')" style="padding:5px 8px; color:var(--accent); border-color:var(--accent-soft); font-size:0.75rem; font-weight:700;" title="Pump extra money or leftover">
+              + Pump Extra
             </button>
             <button type="button" class="btn btn-outline btn-xs font-mono hidden" id="btnManageSurplusCard" onclick="openSurplusManagerModal()" style="padding:5px 8px; font-size:0.75rem;" title="Manage active surplus allocations">
               ⚙️
@@ -2812,6 +2878,46 @@
           </button>
         </div>
 
+        <!-- Amount Left Calibration & Payday Rollover Card -->
+        <div class="card" style="margin-top: 1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <div style="font-weight:700; font-size:1rem; display:flex; align-items:center; gap:0.5rem;">
+              <span>💰 Amount Left &amp; Payday Control</span>
+            </div>
+            <span id="settingsAmountLeftBadge" class="badge-neutral" style="font-size:0.7rem;">Auto Budget</span>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.85rem;">
+            Awaiting salary or want to prevent unspent cash from inflating into next month? Calibrate your amount left anytime, or configure how salary auto-increments when payday arrives.
+          </p>
+          <div style="background:var(--bg-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:0.75rem; margin-bottom:0.85rem;">
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.4rem; font-weight:600;">PAYDAY ROLLOVER RULE</div>
+            <div style="display:flex; flex-direction:column; gap:0.5rem; font-size:0.82rem;">
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;">
+                <input type="radio" name="paydayModeRadio" id="radioPaydayClean" value="clean" checked onchange="setPaydayRolloverMode('clean')" style="margin-top:2px;" />
+                <div>
+                  <strong>Clean Reset on Payday (Recommended)</strong>
+                  <div style="font-size:0.72rem; color:var(--text-muted);">Starts fresh with exactly your monthly salary. Prevents having more than monthly salary.</div>
+                </div>
+              </label>
+              <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;">
+                <input type="radio" name="paydayModeRadio" id="radioPaydayRollover" value="rollover" onchange="setPaydayRolloverMode('rollover')" style="margin-top:2px;" />
+                <div>
+                  <strong>Carry Over Leftover Cash</strong>
+                  <div style="font-size:0.72rem; color:var(--text-muted);">Rolls over unspent cash from previous cycle as extra surplus.</div>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" onclick="openResetAmountModal()" style="flex:1; justify-content:center;">
+              ↺ Reset Amount Left Now
+            </button>
+            <button type="button" class="btn btn-outline hidden" id="settingsBtnRevertReset" onclick="clearAmountReset()" style="font-size:0.75rem;">
+              Revert Auto
+            </button>
+          </div>
+        </div>
+
         <!-- Reset Data & Replay Tutorial Card -->
         <div class="card" style="margin-top: 1rem; border-color: var(--danger-soft);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
@@ -3403,6 +3509,104 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       RESET & CALIBRATE AMOUNT LEFT MODAL
+       ========================================================================== -->
+  <div class="modal-backdrop hidden" id="resetAmountModal" onclick="handleResetModalCurtainClick(event)">
+    <div class="modal-card" style="max-width: 480px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.25rem;">↺</span>
+          <h3 style="font-size: 1.15rem; font-weight: 700;">Reset &amp; Calibrate Amount Left</h3>
+        </div>
+        <button class="btn-text" onclick="closeResetAmountModal()" style="font-size: 1.25rem; line-height: 1;">✕</button>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4;">
+        Calibrate your safe-to-spend pool to what you actually have in hand right now. Useful if you're awaiting salary, want to start at ₹0 until payday, or want to prevent unspent money from compounding on payday.
+      </p>
+
+      <!-- Status Bar -->
+      <div style="background: var(--bg-canvas); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem;">
+        <div>
+          <span class="text-muted">Salary:</span> <strong>₹<span id="resetModalSalaryVal">50,000</span></strong>
+          <span style="margin: 0 4px; color: var(--border-main);">|</span>
+          <span class="text-muted">Payday:</span> <strong><span id="resetModalPaydayDate">7th</span></strong>
+        </div>
+        <div class="font-mono" style="color: var(--accent); font-weight: 600;" id="resetModalCycleStatus">
+          2 days left
+        </div>
+      </div>
+
+      <!-- Quick 1-Tap Presets -->
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.78rem;">Quick 1-Tap Presets:</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.85rem;">
+          <button type="button" class="reset-preset-chip" onclick="selectResetPreset(0)">
+            ₹0 (Waiting for Salary)
+          </button>
+          <button type="button" class="reset-preset-chip" onclick="selectResetPreset(1000)">
+            ₹1,000
+          </button>
+          <button type="button" class="reset-preset-chip" onclick="selectResetPreset(2500)">
+            ₹2,500
+          </button>
+          <button type="button" class="reset-preset-chip" onclick="selectResetPreset(5000)">
+            ₹5,000
+          </button>
+          <button type="button" class="reset-preset-chip" id="btnPresetSalary" onclick="selectResetPreset('salary')">
+            Fresh Salary (₹<span id="resetModalPresetSalaryLabel">50,000</span>)
+          </button>
+        </div>
+      </div>
+
+      <!-- Amount Input -->
+      <div class="form-group">
+        <label class="form-label">Amount Left Available (₹)</label>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="font-mono" style="font-weight: 700; font-size: 1.25rem;">₹</span>
+          <input type="number" id="resetAmountInput" class="input font-mono" style="font-size: 1.25rem; font-weight: 700;" placeholder="0" min="0" step="100" oninput="onResetAmountInput(this.value)" autofocus />
+        </div>
+      </div>
+
+      <!-- Live Dynamic Impact Preview -->
+      <div style="background: var(--bg-canvas); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem; margin-top: 0.85rem;">
+        <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.35rem;">Dynamic Allowance Impact</div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <span style="font-size: 0.85rem;">Calibrated Daily Allowance:</span>
+          <strong class="font-mono" style="font-size: 1.05rem; color: var(--accent);" id="resetModalDailyPreview">₹0 / day</strong>
+        </div>
+        <div style="font-size: 0.73rem; color: var(--text-muted); margin-top: 0.35rem;" id="resetModalPreviewHint">
+          Calculated across the remaining days until your payday.
+        </div>
+      </div>
+
+      <!-- Smart Payday Protection Option -->
+      <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle);">
+        <label style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; cursor: pointer;">
+          <input type="checkbox" id="resetModalAutoFreshOnPayday" checked style="margin-top: 2px;" />
+          <div>
+            <strong>Clean Reset on Payday (Recommended)</strong>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">
+              Automatically reset to your fresh monthly salary on payday, preventing old unspent cash from compounding into more than your monthly salary.
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center; margin-top: 1.25rem;">
+        <button type="button" class="btn-text font-mono hidden" id="resetModalBtnRevert" onclick="clearAmountReset()" style="font-size: 0.75rem; color: var(--danger);">
+          Revert to Auto Budget
+        </button>
+        <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+          <button type="button" class="btn btn-outline" onclick="closeResetAmountModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="applyAmountReset()">Apply Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden Container for Native Browser Printing Fallback -->
   <div id="printPassbookContainer" class="hidden"></div>
 
@@ -3470,7 +3674,12 @@
       filter: 'all',
       chosenCat: 'needs',
       transactions: [],
-      inflows: [] // Active surplus & extra money injections: { id, name, sourceType, amount, allocations: { needs, wants, savings }, cycleKey, createdAt }
+      inflows: [], // Active surplus & extra money injections: { id, name, sourceType, amount, allocations: { needs, wants, savings }, cycleKey, createdAt }
+      amountLeftOverride: null, // Custom amount left calibration (number or null)
+      amountLeftResetAt: null, // Timestamp of when amount was reset
+      amountLeftResetCycle: null, // Cycle key when amount was reset
+      paydayMode: 'clean', // 'clean' (fresh salary reset on payday) | 'rollover' (carryover)
+      lastSeenCycleKey: null // Track payday transitions
     };
 
     let currentUser = null;
@@ -3487,7 +3696,12 @@
           capMode: userData.capMode,
           useManualCap: userData.useManualCap,
           manualCapAmount: userData.manualCapAmount,
-          inflows: userData.inflows || []
+          inflows: userData.inflows || [],
+          amountLeftOverride: userData.amountLeftOverride,
+          amountLeftResetAt: userData.amountLeftResetAt,
+          amountLeftResetCycle: userData.amountLeftResetCycle,
+          paydayMode: userData.paydayMode || 'clean',
+          lastSeenCycleKey: userData.lastSeenCycleKey
         }));
       } catch (e) {}
     }
@@ -3514,6 +3728,11 @@
             if (Array.isArray(parsed.inflows)) {
               userData.inflows = parsed.inflows;
             }
+            if (parsed.amountLeftOverride !== undefined) userData.amountLeftOverride = parsed.amountLeftOverride;
+            if (parsed.amountLeftResetAt) userData.amountLeftResetAt = parsed.amountLeftResetAt;
+            if (parsed.amountLeftResetCycle) userData.amountLeftResetCycle = parsed.amountLeftResetCycle;
+            if (parsed.paydayMode) userData.paydayMode = parsed.paydayMode;
+            if (parsed.lastSeenCycleKey) userData.lastSeenCycleKey = parsed.lastSeenCycleKey;
           }
         }
         const customPayday = localStorage.getItem('traxpens_payday_custom');
@@ -3689,6 +3908,11 @@
           if (d.useManualCap !== undefined) userData.useManualCap = !!d.useManualCap;
           if (d.manualCapAmount) userData.manualCapAmount = d.manualCapAmount;
           if (Array.isArray(d.inflows)) userData.inflows = d.inflows;
+          if (d.amountLeftOverride !== undefined) userData.amountLeftOverride = d.amountLeftOverride;
+          if (d.amountLeftResetAt) userData.amountLeftResetAt = d.amountLeftResetAt;
+          if (d.amountLeftResetCycle) userData.amountLeftResetCycle = d.amountLeftResetCycle;
+          if (d.paydayMode) userData.paydayMode = d.paydayMode;
+          if (d.lastSeenCycleKey) userData.lastSeenCycleKey = d.lastSeenCycleKey;
           saveLocalState();
         } else {
           // New user initial profile
@@ -3701,6 +3925,11 @@
             useManualCap: userData.useManualCap || false,
             manualCapAmount: userData.manualCapAmount || 1000,
             inflows: userData.inflows || [],
+            amountLeftOverride: userData.amountLeftOverride || null,
+            amountLeftResetAt: userData.amountLeftResetAt || null,
+            amountLeftResetCycle: userData.amountLeftResetCycle || null,
+            paydayMode: userData.paydayMode || 'clean',
+            lastSeenCycleKey: userData.lastSeenCycleKey || null,
             createdAt: serverTimestamp()
           });
           saveLocalState();
@@ -3902,7 +4131,12 @@
           await setDoc(doc(db, "users", currentUser.uid), {
             salary: userData.salary,
             ratios: userData.ratios,
-            inflows: userData.inflows || []
+            inflows: userData.inflows || [],
+            amountLeftOverride: userData.amountLeftOverride,
+            amountLeftResetAt: userData.amountLeftResetAt,
+            amountLeftResetCycle: userData.amountLeftResetCycle,
+            paydayMode: userData.paydayMode || 'clean',
+            lastSeenCycleKey: userData.lastSeenCycleKey
           }, { merge: true });
         } catch (err) {
           console.error("Save error:", err);
@@ -4123,10 +4357,25 @@
       }
 
       const cycle = getCycleDates(userData.paydayDay);
-      const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
-      const { surplusWantsDaily } = getSurplusTotals();
-      const wantsBudget = (effSalary * userData.ratios.wants) + surplusWantsDaily;
-      const remainingWants = Math.max(0, wantsBudget - userData.spent.wants);
+      let remainingWants = 0;
+
+      if (userData.amountLeftOverride !== null && userData.amountLeftOverride !== undefined) {
+        const resetTime = userData.amountLeftResetAt ? new Date(userData.amountLeftResetAt).getTime() : 0;
+        const expensesAfterReset = userData.transactions.filter(tx => {
+          const txTime = tx.date instanceof Date ? tx.date.getTime() : new Date(tx.date).getTime();
+          return txTime >= resetTime && tx.cat !== 'savings';
+        }).reduce((sum, tx) => sum + tx.amount, 0);
+
+        const effectivePool = Math.max(0, userData.amountLeftOverride - expensesAfterReset);
+        const wantsShare = userData.ratios.wants / (userData.ratios.needs + userData.ratios.wants || 0.8);
+        remainingWants = Math.max(0, Math.round(effectivePool * wantsShare));
+      } else {
+        const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
+        const { surplusWantsDaily } = getSurplusTotals();
+        const wantsBudget = (effSalary * userData.ratios.wants) + surplusWantsDaily;
+        remainingWants = Math.max(0, wantsBudget - userData.spent.wants);
+      }
+
       let baseDaily = remainingWants / Math.max(1, cycle.daysLeft);
 
       if (userData.capMode === 'weekend') baseDaily *= 1.5;
@@ -4142,6 +4391,30 @@
       const cycle = getCycleDates(userData.paydayDay || 1);
       const { totalSurplus, surplusNeeds, surplusWants, surplusWantsDaily, surplusWantsEvent, surplusSavings, activeInflows, eventLocks } = getSurplusTotals();
 
+      // 0. Payday Cycle Transition & Auto-Increment Protection
+      const currentCycleKey = getCurrentCycleKey();
+      if (userData.lastSeenCycleKey && userData.lastSeenCycleKey !== currentCycleKey) {
+        if (userData.paydayMode === 'clean') {
+          // Clean Payday Reset: clears pre-payday calibration and resets to fresh monthly salary
+          if (userData.amountLeftResetCycle && userData.amountLeftResetCycle !== currentCycleKey) {
+            userData.amountLeftOverride = null;
+            userData.amountLeftResetAt = null;
+            userData.amountLeftResetCycle = null;
+          }
+        }
+        // Show payday arrival banner
+        const isPaydayDismissed = sessionStorage.getItem('traxpens_dismiss_payday_' + currentCycleKey) === 'true';
+        const paydayBanner = document.getElementById('paydayArrivalBanner');
+        if (paydayBanner && !isPaydayDismissed) {
+          paydayBanner.classList.remove('hidden');
+          const pTitle = document.getElementById('paydayArrivalTitle');
+          const pSub = document.getElementById('paydayArrivalSubtitle');
+          if (pTitle) pTitle.textContent = `New Payday Cycle Active (${getOrdinal(userData.paydayDay || 1)})!`;
+          if (pSub) pSub.textContent = `Fresh monthly salary of ₹${inrFormatter.format(effSalary)} loaded. You can calibrate or reset this auto-increment anytime.`;
+        }
+      }
+      userData.lastSeenCycleKey = currentCycleKey;
+
       // 1. Cycle badges
       const cycleBadge = document.getElementById('cycleStatusBadge');
       if (cycleBadge) cycleBadge.textContent = `Day ${cycle.elapsedDays} of ${cycle.totalDays}`;
@@ -4150,7 +4423,7 @@
       const cycleDaysLeft = document.getElementById('cycleDaysLeftLabel');
       if (cycleDaysLeft) cycleDaysLeft.textContent = `${cycle.daysLeft} days until payday`;
 
-      // 2. Budget numbers with Surplus Booster Partitioning
+      // 2. Budget numbers with Surplus Booster Partitioning & Amount Left Calibration
       const baseNeedsBudget = Math.round(effSalary * userData.ratios.needs);
       const baseWantsBudget = Math.round(effSalary * userData.ratios.wants);
       const baseSavingsBudget = Math.round(effSalary * userData.ratios.savings);
@@ -4160,12 +4433,67 @@
       const effectiveSavingsBudget = baseSavingsBudget + surplusSavings;
       const totalAvailablePool = effSalary + totalSurplus;
 
-      const safePool = totalAvailablePool - (userData.spent.needs + userData.spent.wants);
+      let safePool = 0;
+      let isCalibrated = false;
+
+      if (userData.amountLeftOverride !== null && userData.amountLeftOverride !== undefined) {
+        const resetTime = userData.amountLeftResetAt ? new Date(userData.amountLeftResetAt).getTime() : 0;
+        const expensesAfterReset = userData.transactions.filter(tx => {
+          const txTime = tx.date instanceof Date ? tx.date.getTime() : new Date(tx.date).getTime();
+          return txTime >= resetTime && tx.cat !== 'savings';
+        }).reduce((sum, tx) => sum + tx.amount, 0);
+
+        safePool = Math.max(0, userData.amountLeftOverride - expensesAfterReset);
+        isCalibrated = true;
+      } else {
+        safePool = totalAvailablePool - (userData.spent.needs + userData.spent.wants);
+      }
 
       const salaryDisplay = document.getElementById('salaryDisplayVal');
       if (salaryDisplay) salaryDisplay.textContent = inrFormatter.format(effSalary);
       const safePoolDisplay = document.getElementById('safePoolDisplayVal');
       if (safePoolDisplay) safePoolDisplay.textContent = inrFormatter.format(safePool);
+
+      // Calibration badge on Card 1
+      const badgeRow = document.getElementById('amountResetBadgeRow');
+      const badgeText = document.getElementById('amountResetBadgeText');
+      if (badgeRow && badgeText) {
+        if (isCalibrated) {
+          badgeRow.classList.remove('hidden');
+          badgeText.textContent = `Calibrated: ₹${inrFormatter.format(safePool)} Left (Set: ₹${inrFormatter.format(userData.amountLeftOverride)})`;
+        } else {
+          badgeRow.classList.add('hidden');
+        }
+      }
+
+      // Pre-payday notice on Card 1 (when today < payday date)
+      const prePaydayRow = document.getElementById('prePaydayNoticeRow');
+      const prePaydayDate = document.getElementById('prePaydayNoticeDate');
+      if (prePaydayRow && prePaydayDate) {
+        if (cycle.currentDay < cycle.pDay && !isCalibrated) {
+          prePaydayRow.classList.remove('hidden');
+          prePaydayDate.textContent = getOrdinal(userData.paydayDay || 1);
+        } else {
+          prePaydayRow.classList.add('hidden');
+        }
+      }
+
+      // Settings status badge & Revert button
+      const settingsAmountBadge = document.getElementById('settingsAmountLeftBadge');
+      const settingsBtnRevert = document.getElementById('settingsBtnRevertReset');
+      if (settingsAmountBadge) {
+        settingsAmountBadge.textContent = isCalibrated ? `Calibrated: ₹${inrFormatter.format(safePool)}` : 'Auto Budget';
+        settingsAmountBadge.className = isCalibrated ? 'surplus-pill' : 'badge-neutral';
+      }
+      if (settingsBtnRevert) {
+        settingsBtnRevert.classList.toggle('hidden', !isCalibrated);
+      }
+
+      // Radio buttons in Settings
+      const radioClean = document.getElementById('radioPaydayClean');
+      const radioRollover = document.getElementById('radioPaydayRollover');
+      if (radioClean) radioClean.checked = userData.paydayMode !== 'rollover';
+      if (radioRollover) radioRollover.checked = userData.paydayMode === 'rollover';
 
       // Distinctive Surplus Booster Pill on Card 1
       const badgeWrap = document.getElementById('surplusBadgeContainer');
@@ -4299,6 +4627,130 @@
           rolloverBanner.classList.add('hidden');
         }
       }
+    }
+
+    // =========================================================================
+    // AMOUNT LEFT CALIBRATION & PAYDAY AUTO-INCREMENT ENGINE
+    // =========================================================================
+    function openResetAmountModal(context = '') {
+      const modal = document.getElementById('resetAmountModal');
+      if (!modal) return;
+      const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
+      const cycle = getCycleDates(userData.paydayDay || 1);
+
+      document.getElementById('resetModalSalaryVal').textContent = inrFormatter.format(effSalary);
+      document.getElementById('resetModalPaydayDate').textContent = getOrdinal(userData.paydayDay || 1);
+      document.getElementById('resetModalCycleStatus').textContent = `${cycle.daysLeft} days until payday`;
+      document.getElementById('resetModalPresetSalaryLabel').textContent = inrFormatter.format(effSalary);
+
+      const input = document.getElementById('resetAmountInput');
+      const revertBtn = document.getElementById('resetModalBtnRevert');
+
+      if (userData.amountLeftOverride !== null && userData.amountLeftOverride !== undefined) {
+        input.value = userData.amountLeftOverride;
+        if (revertBtn) revertBtn.classList.remove('hidden');
+      } else {
+        if (context === 'pre_payday') {
+          input.value = 0;
+        } else {
+          const totalPool = effSalary + getSurplusTotals().totalSurplus;
+          const currentLeft = Math.max(0, totalPool - (userData.spent.needs + userData.spent.wants));
+          input.value = currentLeft;
+        }
+        if (revertBtn) revertBtn.classList.add('hidden');
+      }
+
+      document.getElementById('resetModalAutoFreshOnPayday').checked = userData.paydayMode !== 'rollover';
+
+      updateResetModalPreview();
+      modal.classList.remove('hidden');
+      setTimeout(() => input.focus(), 60);
+    }
+
+    function closeResetAmountModal() {
+      const modal = document.getElementById('resetAmountModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleResetModalCurtainClick(e) {
+      if (e.target.id === 'resetAmountModal') closeResetAmountModal();
+    }
+
+    function selectResetPreset(amt) {
+      const input = document.getElementById('resetAmountInput');
+      const effSalary = (typeof userData.salary === 'number' && userData.salary > 0) ? userData.salary : 50000;
+      if (amt === 'salary') {
+        input.value = effSalary;
+      } else {
+        input.value = amt;
+      }
+      updateResetModalPreview();
+    }
+
+    function onResetAmountInput(val) {
+      updateResetModalPreview();
+    }
+
+    function updateResetModalPreview() {
+      const input = document.getElementById('resetAmountInput');
+      const previewEl = document.getElementById('resetModalDailyPreview');
+      const hintEl = document.getElementById('resetModalPreviewHint');
+      if (!input || !previewEl) return;
+
+      const amt = parseFloat(input.value) || 0;
+      const cycle = getCycleDates(userData.paydayDay || 1);
+      const wantsShare = userData.ratios.wants / (userData.ratios.needs + userData.ratios.wants || 0.8);
+      const estWants = amt * wantsShare;
+      const dailyCap = Math.round(estWants / Math.max(1, cycle.daysLeft));
+
+      previewEl.textContent = `₹${inrFormatter.format(dailyCap)} / day`;
+      if (hintEl) {
+        hintEl.textContent = `From ₹${inrFormatter.format(amt)} total left: ₹${inrFormatter.format(Math.round(estWants))} for fun/daily across ${cycle.daysLeft} days until ${getOrdinal(userData.paydayDay || 1)}.`;
+      }
+    }
+
+    function applyAmountReset() {
+      const input = document.getElementById('resetAmountInput');
+      if (!input) return;
+      const val = Math.max(0, parseFloat(input.value) || 0);
+
+      const isClean = document.getElementById('resetModalAutoFreshOnPayday').checked;
+      userData.amountLeftOverride = val;
+      userData.amountLeftResetAt = new Date().toISOString();
+      userData.amountLeftResetCycle = getCurrentCycleKey();
+      userData.paydayMode = isClean ? 'clean' : 'rollover';
+
+      saveLocalState();
+      saveBudgetData();
+      closeResetAmountModal();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    function clearAmountReset() {
+      userData.amountLeftOverride = null;
+      userData.amountLeftResetAt = null;
+      userData.amountLeftResetCycle = null;
+
+      saveLocalState();
+      saveBudgetData();
+      closeResetAmountModal();
+      refreshUI();
+      calculateEmiVerdict();
+    }
+
+    function dismissPaydayBanner() {
+      const currentCycleKey = getCurrentCycleKey();
+      sessionStorage.setItem('traxpens_dismiss_payday_' + currentCycleKey, 'true');
+      const banner = document.getElementById('paydayArrivalBanner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    function setPaydayRolloverMode(mode) {
+      userData.paydayMode = mode;
+      saveLocalState();
+      saveBudgetData();
+      refreshUI();
     }
 
     // Helper functions for Surplus Inflow Manager & Controller
@@ -6181,6 +6633,17 @@
     window.dismissRolloverBanner = dismissRolloverBanner;
     window.toggleSurplusEventLock = toggleSurplusEventLock;
 
+    // Amount Left Calibration & Payday Controller bindings
+    window.openResetAmountModal = openResetAmountModal;
+    window.closeResetAmountModal = closeResetAmountModal;
+    window.handleResetModalCurtainClick = handleResetModalCurtainClick;
+    window.selectResetPreset = selectResetPreset;
+    window.onResetAmountInput = onResetAmountInput;
+    window.applyAmountReset = applyAmountReset;
+    window.clearAmountReset = clearAmountReset;
+    window.dismissPaydayBanner = dismissPaydayBanner;
+    window.setPaydayRolloverMode = setPaydayRolloverMode;
+
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea, select')) {
         e.preventDefault();
@@ -6195,6 +6658,7 @@
         closeDayInspectModal();
         closeSurplusModal();
         closeSurplusManagerModal();
+        closeResetAmountModal();
       }
       if (isTourActive) {
         if (e.key === 'ArrowRight' || e.key === 'Enter') {

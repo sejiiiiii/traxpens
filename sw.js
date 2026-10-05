@@ -1,5 +1,5 @@
 // Traxpens Service Worker (PWA)
-const CACHE_NAME = 'traxpens-cache-v7';
+const CACHE_NAME = 'traxpens-cache-v8';
 const CORE_ASSETS = [
   '/',
   '/index.html',

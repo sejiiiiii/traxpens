@@ -1,0 +1,79 @@
+==================================================
+TRAXPENS — WHAT IT IS & ALL FEATURES
+==================================================
+
+WHAT IS TRAXPENS?
+Traxpens is a simple, stress-free personal finance app built for salary earners. Instead of complicated spreadsheets, it divides your monthly paycheck into clear buckets and gives you a dynamic daily spending allowance so you never run out of money before payday.
+
+==================================================
+ALL FEATURES (UPDATED VERSION)
+==================================================
+
+1. PAYCHECK-FIRST BUDGETING
+• Monthly Salary Setup: Enter your take-home pay to anchor your entire month's finances.
+• Custom Payday Cycle: Pick your salary date (1st, 5th, 28th, etc.) with an automatic live countdown of remaining days.
+• 50/30/20 Smart Split: Automatically splits your salary into:
+  - 50% Bills & Essentials (rent, groceries, bills, commute)
+  - 30% Fun & Personal (dining out, shopping, hobbies)
+  - 20% Savings & Investments (emergency fund, SIP, mutual funds)
+• 1-Tap Auto-Balance: Customize category percentage sliders anytime and auto-balance back to 100%.
+
+2. DYNAMIC DAILY SPENDING CAP
+• Auto-Recalculating Allowance: Calculates your daily spending limit every morning (Remaining Fun Money ÷ Days Left).
+• Color-Coded Status: Real-time visual feedback: Green (Safe), Amber (Warning), or Red (Exceeded).
+• Weekend Boost (+50%): Automatically gives you a higher allowance on Friday–Sunday while trimming weekdays.
+• Event & Trip Locking: Set a custom daily budget for vacations or short trips without ruining your monthly plan.
+• Fixed Limit Option: Switch from dynamic auto-cap to a custom fixed daily limit whenever desired.
+
+3. 2-TAP QUICK EXPENSE LOGGING
+• 5-Second Entry: Tap the floating '+' button or hit 'N' on desktop to log expenses instantly.
+• Quick-Add Presets: One-tap quick buttons for common expenses (Chai, Lunch, Groceries, Auto, Dinner).
+• 3 Simple Buckets: Tag transactions as Bills, Fun, or Savings with one tap.
+
+4. EXPENSE FEED & MONTHLY CALENDAR
+• Chronological Feed: Complete list of all transactions with instant category filters (All, Bills, Fun, Savings).
+• Calendar Heatmap: View monthly spending by date with color badges for days you stayed within or went over limit.
+• Digital E-Passbook: Click any date on the calendar to see all transactions, print them, or download an official PDF passbook.
+
+5. SURPLUS & CAPITAL INFLOW ENGINE (NEW)
+• Pump Extra Money: Add non-salary income anytime (freelance, bonuses, gifts, refunds, or previous month's leftover cash).
+• Multi-Bucket Routing: Direct extra money into Bills, Fun, or Savings.
+• Sinking Fund Lock: Lock extra cash for dedicated events (e.g. festivals or travel) so it doesn't inflate your daily spending cap.
+• Inflows Manager: Track, edit, and manage all active extra money boosters in one place.
+
+6. "CAN I AFFORD THIS?" EMI CHECKER
+• Pre-Purchase Calculator: Check if you can safely afford gadgets or big purchases on monthly EMI before buying.
+• Clear Verdict: Instantly gives a Green Light (Safe), Yellow (Caution), or Red (Dangerous) based on your income.
+• Real Budget Impact: Shows the exact monthly installment, interest cost, and how much it reduces your daily spending allowance.
+• Flexible Terms: Supports 0% No-Cost EMI, Pay Later schemes, and standard 3- to 18-month tenures with built-in presets (iPhone, PS5, Laptop).
+
+7. INVESTMENTS & SAVINGS HUB
+• Curated 20% Roadmap: Practical guidance on splitting your savings:
+  - 45% Core Wealth: Nifty 50 Index Fund for low-cost, steady growth.
+  - 35% High Growth: Flexi-Cap mutual funds for capital expansion.
+  - 20% Capital Defense: Sovereign Gold Bonds (SGB) for tax-free inflation safety.
+• 1-Click SIP Copier: Copy your calculated monthly SIP plan to your clipboard with one tap.
+• Live Market Benchmarks: Real-time price tracking for Nifty 50, Sensex, 24K Gold, US S&P 500 ETF, and 10-Year Govt Bonds.
+
+8. SPENDING REPORT & INSIGHTS
+• Pacing Health Score: A 0–100 score showing your monthly spending discipline.
+• Burn Velocity Meter: Tracks how fast you are spending compared to your safe target.
+• Month-End Forecast: Predicts your final balance and checks if your 20% savings will remain 100% untouched.
+
+9. INTERACTIVE ONBOARDING & GUIDED TOUR
+• 5-Step Guided Tour: Interactive spotlight tour explaining core features to first-time users in simple language.
+• Tour Replay & App Reset: Restart the walkthrough or reset app data anytime from settings.
+
+10. APP EXPERIENCE & PRIVACY
+• Progressive Web App (PWA): Install on Android, iOS, Windows, and Mac with an app icon on your home screen or desktop.
+• Offline-First: Works completely without internet; all data is saved securely on your device.
+• Cloud Sync: Optional Google Sign-In to back up and sync your data across devices.
+• Dark & Light Modes: Minimalist OLED dark mode and clean light mode.
+
+11. RESET AMOUNT LEFT & PAYDAY AUTO-INCREMENT ENGINE (NEW)
+• One-Tap Provision to Reset Amount Left: Set your safe spending pool anytime to match your actual cash in hand or bank balance.
+• Pre-Payday Awaiting Salary Mode: If salary hasn't arrived yet before payday (e.g., 5th before 7th), reset amount left to ₹0 or current pocket cash so the app doesn't assume you have money you haven't received yet.
+• Payday Arrival & Auto-Increment Protection: When payday arrives on the 7th, prevents unspent previous cash from auto-incrementing beyond your monthly salary.
+• Clean Payday Reset: Starts each monthly cycle with exactly your 1-month take-home pay, keeping budgets clean and preventing balance inflation.
+• Live Dynamic Recalculation: Instantly recomputes your daily spending allowance across remaining days until payday based on calibrated cash.
+• Revert Anytime: Revert back to automatic budget calculation with one tap whenever desired.
